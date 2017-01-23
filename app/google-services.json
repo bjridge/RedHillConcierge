@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "572213990254",
+    "firebase_url": "https://red-hill-concierge.firebaseio.com",
+    "project_id": "red-hill-concierge",
+    "storage_bucket": "red-hill-concierge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572213990254:android:bbea5a3664c7ddb1",
+        "android_client_info": {
+          "package_name": "com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572213990254-mlkseiv61m15ii01dvr4g1061vu9qeug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAb4zjyqJl8Ea35kvV5J36OCg7USoKdmg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
