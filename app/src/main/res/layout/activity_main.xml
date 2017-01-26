@@ -13,5 +13,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Commit?" />
+        android:text="Commit?"
+        android:id="@+id/testOutput" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/testOutput"
+        android:layout_alignRight="@+id/testOutput"
+        android:layout_alignEnd="@+id/testOutput"
+        android:layout_marginTop="28dp"
+        android:id="@+id/textView" />
 </RelativeLayout>
