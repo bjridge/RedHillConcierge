@@ -13,11 +13,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //connect to database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        TextView editText = (TextView) findViewById(R.id.testOutput);
-        editText.setText("did it work?");
+
+        final TextView testOutput = (TextView) findViewById(R.id.testOutput);
+        testOutput.setText("about to try to fetch data");
+
+        //get database reference
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        testOutput.setText("made it past reference");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User outputUser = dataSnapshot.child("user/0").getValue(User.class);
+                testOutput.setText(outputUser.getFirstName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
 
 
     }
