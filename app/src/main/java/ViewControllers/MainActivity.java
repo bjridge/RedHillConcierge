@@ -1,7 +1,10 @@
-package com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge;
+package ViewControllers;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import DataControllers.User;
 import com.google.firebase.database.*;//FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import android.widget.TextView;

@@ -1,4 +1,4 @@
-package com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge;
+package DataControllers;
 
 public class User {
 
@@ -6,17 +6,26 @@ public class User {
     private String lastName;
     private String type;
 
+    public String getName(){
+        return firstName + " " + lastName;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
     public void setFirstName(String firstName){
         this.firstName = firstName;
+    }
+    public String getLastName(){
+        return lastName;
     }
     public void setLastName(String lastName){
         this.firstName = lastName;
     }
+    public String getType(){
+        return type;
+    }
     public void setType(String type){
         this.type = type;
-    }
-
-    public String getFirstName(){
-        return this.firstName;
     }
 }
