@@ -20,7 +20,7 @@ public class User {
         return lastName;
     }
     public void setLastName(String lastName){
-        this.firstName = lastName;
+        this.lastName = lastName;
     }
     public String getType(){
         return type;

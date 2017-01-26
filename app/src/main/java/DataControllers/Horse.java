@@ -14,15 +14,6 @@ public class Horse {
     private String stallInstructions;
     private int stallNumber;
 
-
-
-
-
-
-
-
-
-
     public String getBreed(){
         return breed;
     }
@@ -86,7 +77,7 @@ public class Horse {
     public int getStallNumber(){
         return stallNumber;
     }
-    public void setStallNumber(){
+    public void setStallNumber(int stallNumber){
         this.stallNumber = stallNumber;
     }
 }
