@@ -18,11 +18,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         final TextView testOutput = (TextView) findViewById(R.id.testOutput);
-        testOutput.setText("about to try to fetch data");
 
         //get database reference
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        testOutput.setText("made it past reference");
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
