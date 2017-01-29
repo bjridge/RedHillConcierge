@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         //how do we separate this task?
 
         final TextView testOutput = (TextView) findViewById(R.id.testOutput);
-
+    //does the thing
         //get database
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference users = database.getReference("user");
