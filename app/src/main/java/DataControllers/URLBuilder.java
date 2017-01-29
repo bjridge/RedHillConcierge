@@ -1,6 +1,6 @@
 package DataControllers;
 
-public class DataURLBuilder {
+public class URLBuilder {
 
     static String base = "https://red-hill-concierge.firebaseio.com/";
 

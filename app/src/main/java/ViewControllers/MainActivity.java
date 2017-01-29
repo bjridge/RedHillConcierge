@@ -9,6 +9,8 @@ import com.google.firebase.database.*;//FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import android.widget.TextView;
 
+import java.util.Iterator;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,16 +19,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
+        //how do we separate this task?
+
         final TextView testOutput = (TextView) findViewById(R.id.testOutput);
 
-        //get database reference
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        //get database
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference users = database.getReference("user");
+        users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User outputUser = dataSnapshot.child("user/0").getValue(User.class);
-                testOutput.setText(outputUser.getFirstName());
+
+                String lastUserID = "";
+                Iterable<DataSnapshot> users = dataSnapshot.getChildren();
+                for (DataSnapshot user: users){
+                    lastUserID = (String) user.getKey();
+                }
+                testOutput.setText(lastUserID);
             }
 
             @Override
@@ -34,15 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
-
     }
+
+    private User buildTestUser(){
+        User u = new User();
+        u.setFirstName("test5");
+        u.setLastName("test6");
+        u.setType("test employee 2");
+        return u;
+    }
+
 
 
 }

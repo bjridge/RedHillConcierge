@@ -6,10 +6,6 @@ public class User {
     private String lastName;
     private String type;
 
-    public String getName(){
-        return firstName + " " + lastName;
-    }
-
     public String getFirstName(){
         return firstName;
     }
