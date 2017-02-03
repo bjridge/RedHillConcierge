@@ -1,14 +1,20 @@
 package ViewControllers;
 
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+
+import DataControllers.DatabaseObject;
 import DataControllers.User;
+import DataControllers.UserController;
+
 import com.google.firebase.database.*;//FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,34 +23,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        System.out.println("do something");
 
+    }
 
-
-
-        //how do we separate this task?
-
+    private void doTheThing(){
+        System.out.println("did the thing");
         final TextView testOutput = (TextView) findViewById(R.id.testOutput);
-    //does the thing
-        //get database
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference users = database.getReference("user");
-        users.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        ArrayList<DatabaseObject> userObjectsOutput = new ArrayList<DatabaseObject>();
+        if (userObjectsOutput.size() == 0){
+            testOutput.setText("nothing yet");
+        }
+        System.out.println("array size:");
+        UserController userController = new UserController();
+        userController.getAllUsers(userObjectsOutput);
+        System.out.println("array size:");
 
-                String lastUserID = "";
-                Iterable<DataSnapshot> users = dataSnapshot.getChildren();
-                for (DataSnapshot user: users){
-                    lastUserID = (String) user.getKey();
-                }
-                testOutput.setText(lastUserID);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        //userObjectsOutput should have been updated by now
+        if (userObjectsOutput.size() == 0){
+            testOutput.setText("shits zero, yo");
+        }else{
+            testOutput.setText(userObjectsOutput.get(0).getName());
+        }
     }
 
     private User buildTestUser(){

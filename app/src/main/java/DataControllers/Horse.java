@@ -1,6 +1,6 @@
 package DataControllers;
 
-public class Horse {
+public class Horse extends DatabaseObject{
 
     //added comment to test pushing
     private String breed;

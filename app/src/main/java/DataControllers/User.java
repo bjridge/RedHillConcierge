@@ -1,10 +1,15 @@
 package DataControllers;
 
-public class User {
+public class User extends DatabaseObject {
 
     private String firstName;
     private String lastName;
     private String type;
+
+    @Override
+    public String getName(){
+        return firstName + " " + lastName;
+    }
 
     public String getFirstName(){
         return firstName;
