@@ -12,12 +12,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+//data controller
 public class UserController {
-
-    // TODO: 2/8/2017 figure out how to send output from this class to a different class (in the UI)
-    // TODO: 2/8/2017 get user by ID 
-    // TODO: 2/8/2017 get user by name 
-    // TODO: 2/8/2017 get user by horse (goes into ownership)
 
     //gets all of any object
     public Task<ArrayList<DatabaseObject>> getAll(String objectTypeRequested){
@@ -39,7 +35,36 @@ public class UserController {
         final TaskCompletionSource<ArrayList<DatabaseObject>> outputTask = new TaskCompletionSource<ArrayList<DatabaseObject>>();
         ValueEventListener newListener = buildListener(outputTask);
         reference.addValueEventListener(newListener);
+        //returns back up the chain to the UI
         return outputTask.getTask();
+    }
+
+
+    private ValueEventListener buildListener(TaskCompletionSource<ArrayList<DatabaseObject>> task){
+        final TaskCompletionSource<ArrayList<DatabaseObject>> outputTask = task;
+        ValueEventListener newListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<DatabaseObject> objects = new ArrayList<>();
+                String dataType = dataSnapshot.getKey();
+                switch (dataType){
+                    case "user":
+                        objects = getUsersFromDataSnapshot(dataSnapshot);
+                        break;
+                    case "horse":
+                        objects = getHorsesFromDataSnapshot(dataSnapshot);
+                        break;
+                    default:
+                        //do something with jobs/tasks
+                        // TODO: 2/9/2017  add task/job objects
+                        break;
+                }
+                outputTask.setResult(objects);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        return newListener;
     }
     private ArrayList<DatabaseObject> getUsersFromDataSnapshot(DataSnapshot dataSnapshot){
         ArrayList<DatabaseObject> users = new ArrayList<>();
@@ -49,22 +74,13 @@ public class UserController {
         }
         return users;
     }
-
-    private ValueEventListener buildListener(TaskCompletionSource<ArrayList<DatabaseObject>> task){
-        final TaskCompletionSource<ArrayList<DatabaseObject>> outputTask = task;
-        ValueEventListener newListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<DatabaseObject> objects = new ArrayList<>();
-                if (dataSnapshot.getKey() == "user"){
-                    objects = getUsersFromDataSnapshot(dataSnapshot);
-                }
-                outputTask.setResult(objects);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-        return newListener;
+    private ArrayList<DatabaseObject> getHorsesFromDataSnapshot(DataSnapshot dataSnapshot){
+        ArrayList<DatabaseObject> horses = new ArrayList<>();
+        for (DataSnapshot horseSnapshot: dataSnapshot.getChildren()){
+            Horse newUser = horseSnapshot.getValue(Horse.class);
+            horses.add(newUser);
+        }
+        return horses;
     }
 
 
