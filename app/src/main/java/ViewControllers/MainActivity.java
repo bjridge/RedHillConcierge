@@ -81,4 +81,15 @@ public class MainActivity extends AppCompatActivity {
         });
         System.out.println("end users: " );
     }
+    private OnCompleteListener<ArrayList<DatabaseObject>> buildTheThing(){
+        return
+                new OnCompleteListener<ArrayList<DatabaseObject>>() {
+            @Override
+            public void onComplete(@NonNull Task<ArrayList<DatabaseObject>> task) {
+                ArrayList<DatabaseObject> users = task.getResult();
+                System.out.println("it is done" + users.size());
+                //listView.setInput(users)
+            }
+        };
+    }
 }
