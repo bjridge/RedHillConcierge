@@ -63,14 +63,6 @@ public class MainActivity extends AppCompatActivity {
         testAddHorse();
     }
 
-    private void testAddHorse(){
-        Horse h = new Horse();
-        DatabaseController controller = new DatabaseController();
-        controller.addObject(h);
-    }
-
-
-
     private void addNewUser(){
         String firstName = firstNameInput.getText().toString();
         String lastName = lastNameInput.getText().toString();
