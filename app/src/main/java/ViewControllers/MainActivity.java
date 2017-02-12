@@ -1,6 +1,5 @@
 package ViewControllers;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import DataControllers.DatabaseObject;
 import DataControllers.Horse;
 import DataControllers.User;
-import DataControllers.UserController;
+import DataControllers.DatabaseController;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,10 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
     EditText firstNameInput;
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void testAddHorse(){
         Horse h = new Horse();
-        UserController controller = new UserController();
+        DatabaseController controller = new DatabaseController();
         controller.addObject(h);
     }
 
@@ -84,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         newUser.setLastName(lastName);
         newUser.setType(type);
 
-        UserController controller = new UserController();
+        DatabaseController controller = new DatabaseController();
         controller.addObject(newUser);
 
         //getLastUserID();
@@ -135,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void doTheThing(){
-        UserController testController = new UserController();
+        DatabaseController testController = new DatabaseController();
         Task<ArrayList<DatabaseObject>> getAllUsersTask = testController.getAll("user");
 
         getAllUsersTask.addOnCompleteListener(new OnCompleteListener<ArrayList<DatabaseObject>>() {

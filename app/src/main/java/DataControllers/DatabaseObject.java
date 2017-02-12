@@ -2,7 +2,7 @@ package DataControllers;
 
 public class DatabaseObject {
 
-    int id = 1000;
+    int id = 0;
 
     public void setID(int id){
         this.id = id;

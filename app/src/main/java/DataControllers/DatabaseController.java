@@ -13,7 +13,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 //data controller
-public class UserController {
+public class DatabaseController {
 
     public void addObject(DatabaseObject object) {
 
@@ -54,9 +54,6 @@ public class UserController {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference(objectType + "/" + objectID);
         reference.setValue(object);
-        System.out.print("object added");
-        // TODO: 2/12/2017 increment object count/ID
-
     }
 
     private String getObjectType(DatabaseObject object){
@@ -71,50 +68,6 @@ public class UserController {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("counts/" + objectType);
         reference.setValue(object.getID());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void addObject(String objectType, DatabaseObject object){
-
-    }
-
-
-
-
-    public User buildTestUser(){
-        User u = new User();
-        u.setFirstName("kelly");
-        u.setLastName("test one last name");
-        u.setType("standard");
-        return u;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 
     //gets all of any object
     public Task<ArrayList<DatabaseObject>> getAll(String objectTypeRequested){
@@ -148,18 +101,8 @@ public class UserController {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<DatabaseObject> objects = new ArrayList<>();
                 String dataType = dataSnapshot.getKey();
-                switch (dataType){
-                    case "user":
-                        objects = getUsersFromDataSnapshot(dataSnapshot);
-                        break;
-                    case "horse":
-                        objects = getHorsesFromDataSnapshot(dataSnapshot);
-                        break;
-                    default:
-                        //do something with jobs/tasks
-                        // TODO: 2/9/2017  add task/job objects
-                        break;
-                }
+                //build a list of objects from the datasnapshot children
+                    //how to get class type?
                 outputTask.setResult(objects);
             }
             @Override
