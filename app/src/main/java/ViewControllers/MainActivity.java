@@ -1,5 +1,6 @@
 package ViewControllers;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import DataControllers.User;
 import DataControllers.DatabaseController;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.*;//FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         initializeEditTexts();
         initializeButton();
-        }
+    }
+
     private void initializeEditTexts(){
         firstNameInput = (EditText) findViewById(R.id.firstNameInput);
         lastNameInput = (EditText) findViewById(R.id.lastNameInput);
@@ -48,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tryAddNewUser();
+                //tryAddNewUser();
+                getAllUsers();
+
             }
         });
     }
@@ -58,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
             firstNameInput.setText("must complete all fields");
             return;
         }
-        System.out.println("about to try to add");
-        //addNewUser();
-        testAddHorse();
+        addNewUser();
     }
 
     private void addNewUser(){
@@ -75,77 +78,21 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseController controller = new DatabaseController();
         controller.addObject(newUser);
-
-        //getLastUserID();
-
     }
 
 
 
 
-
-
-
-
-
-
-
-
-    private void getAUser(){
-        FirebaseDatabase allData = FirebaseDatabase.getInstance();
-        DatabaseReference userData = allData.getReference("user/0");
-        userData.addValueEventListener(new ValueEventListener() {
+    private void getAllUsers() {
+        DatabaseController dataController = new DatabaseController();
+        final Task task = dataController.getAll("user");
+        task.addOnSuccessListener(new OnSuccessListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User newUser = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onSuccess(Object o) {
+                ArrayList<DatabaseObject> output = (ArrayList<DatabaseObject>) task.getResult();
+                System.out.println(output.size() + " users found");
+                // TODO: 2/12/2017 do somethign with output objects
             }
         });
-
-    }
-
-    private void addAUser(){
-        FirebaseDatabase allData = FirebaseDatabase.getInstance();
-        DatabaseReference userData = allData.getReference("user/0");
-    }
-
-
-
-
-
-
-
-
-
-
-
-    private void doTheThing(){
-        DatabaseController testController = new DatabaseController();
-        Task<ArrayList<DatabaseObject>> getAllUsersTask = testController.getAll("user");
-
-        getAllUsersTask.addOnCompleteListener(new OnCompleteListener<ArrayList<DatabaseObject>>() {
-            @Override
-            public void onComplete(@NonNull Task<ArrayList<DatabaseObject>> task) {
-                ArrayList<DatabaseObject> users = task.getResult();
-                System.out.println("it is done" + users.size());
-                //listView.setInput(users)
-            }
-        });
-        System.out.println("end users: " );
-    }
-    private OnCompleteListener<ArrayList<DatabaseObject>> buildTheThing(){
-        return
-                new OnCompleteListener<ArrayList<DatabaseObject>>() {
-            @Override
-            public void onComplete(@NonNull Task<ArrayList<DatabaseObject>> task) {
-                ArrayList<DatabaseObject> users = task.getResult();
-                System.out.println("it is done" + users.size());
-                //listView.setInput(users)
-            }
-        };
     }
 }

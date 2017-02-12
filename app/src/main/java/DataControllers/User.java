@@ -6,8 +6,7 @@ public class User extends DatabaseObject {
     private String lastName;
     private String type;
 
-    @Override
-    public String getName(){
+    public String name(){
         return firstName + " " + lastName;
     }
 

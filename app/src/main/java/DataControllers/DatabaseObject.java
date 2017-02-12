@@ -2,17 +2,14 @@ package DataControllers;
 
 public class DatabaseObject {
 
-    int id = 0;
+    private int key = 0;
 
-    public void setID(int id){
-        this.id = id;
+    public void setKey(int id){
+        this.key = id;
     }
 
-    public int getID(){
-        return id;
+    public int key(){
+        return key;
     }
 
-    public String getName(){
-        return "database object";
-    }
 }

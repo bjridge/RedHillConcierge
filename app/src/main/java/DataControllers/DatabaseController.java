@@ -1,6 +1,8 @@
 package DataControllers;
 
 
+import android.provider.ContactsContract;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +29,7 @@ public class DatabaseController {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int value = dataSnapshot.getValue(int.class);
-                object.setID(value + 1);
+                object.setKey(value + 1);
                 writeToDatabase(object);
                 incrementID(object);
             }
@@ -35,14 +37,12 @@ public class DatabaseController {
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
-
     private void writeToDatabase(DatabaseObject object){
         String objectType = getObjectType(object);
-        int objectID =  object.id;
+        int objectID =  object.key();
         DatabaseReference reference = db.getReference(objectType + "/" + objectID);
         reference.setValue(object);
     }
-
     private String getObjectType(DatabaseObject object){
         String objectType = object.getClass().toString();
         String removableString = "class DataControllers.";
@@ -53,67 +53,59 @@ public class DatabaseController {
     private void incrementID(DatabaseObject object){
         String objectType = getObjectType(object);
         DatabaseReference reference = db.getReference("counts/" + objectType);
-        reference.setValue(object.getID());
+        reference.setValue(object.key());
     }
 
 
 
 
-    //gets all of any object
-    public Task<ArrayList<DatabaseObject>> getAll(String objectType){
-        TaskCompletionSource<ArrayList<DatabaseObject>> resultsLocation = new TaskCompletionSource<ArrayList<DatabaseObject>>();
+    //gets all of any object one time
+    public Task<ArrayList<DatabaseObject>> getAll(final String objectType){
         DatabaseReference reference = db.getReference(objectType);
-        reference.addListenerForSingleValueEvent(buildListener(resultsLocation));
-        return resultsLocation.getTask();
-    }
-
-    private ValueEventListener buildListener(final TaskCompletionSource<ArrayList<DatabaseObject>> task){
-        ValueEventListener newListener = new ValueEventListener() {
+        final TaskCompletionSource<ArrayList<DatabaseObject>> output = new TaskCompletionSource<>();
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot table) {
-                ArrayList<DatabaseObject> objects = new ArrayList<>();
-                String objectType = table.getKey();
-                switch (objectType){
+                switch(objectType){
                     case "user":
-                        buildUsers(table);
+                        output.setResult(buildUsers(table));
                         break;
                     case "horse":
-                        buildHorses(table);
+                        output.setResult(buildHorses(table));
                         break;
                     default:
-                        return;
+                        System.out.println("non type found");
+                        break;
                 }
-                task.setResult(objects);
             }
+
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-        return newListener;
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return output.getTask();
     }
-
-
-
 
 
 
     private ArrayList<DatabaseObject> buildUsers(DataSnapshot table){
-        ArrayList<DatabaseObject> users = new ArrayList<>();
-        for (DataSnapshot userSnapshot: table.getChildren()){
-            User newUser = userSnapshot.getValue(User.class);
-            users.add(newUser);
+        ArrayList<DatabaseObject> newObjects = new ArrayList<DatabaseObject>();
+
+        for (DataSnapshot child: table.getChildren()){
+            User newUser = child.getValue(User.class);
+            newUser.setKey(Integer.parseInt(child.getKey()));
+            newObjects.add(newUser);
         }
-        return users;
+        return newObjects;
     }
     private ArrayList<DatabaseObject> buildHorses(DataSnapshot table){
         ArrayList<DatabaseObject> horses = new ArrayList<>();
         for (DataSnapshot horseSnapshot: table.getChildren()){
             Horse newHorse = horseSnapshot.getValue(Horse.class);
+            newHorse.setKey(Integer.parseInt(horseSnapshot.getKey()));
             horses.add(newHorse);
         }
         return horses;
     }
-
-
-
-
 }
