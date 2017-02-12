@@ -15,6 +15,31 @@ import java.util.ArrayList;
 //data controller
 public class UserController {
 
+    public void addObject(String objectType, DatabaseObject object){
+
+    }
+
+
+    public User buildTestUser(){
+        User u = new User();
+        u.setFirstName("kelly");
+        u.setLastName("test one last name");
+        u.setType("standard");
+        return u;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     //gets all of any object
     public Task<ArrayList<DatabaseObject>> getAll(String objectTypeRequested){
         Task<ArrayList<DatabaseObject>> fetchAllObjectsTask = fetchData(objectTypeRequested);

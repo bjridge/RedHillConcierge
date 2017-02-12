@@ -11,18 +11,67 @@
     tools:context="com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.ViewControllers.MainActivity">
 
     <TextView
+        android:text="First Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Commit?"
-        android:id="@+id/testOutput" />
+        android:layout_alignTop="@+id/firstNameInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/textView5" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/lastNameInput"
+        android:layout_below="@+id/firstNameInput"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/typeInput"
+        android:layout_below="@+id/lastNameInput"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:layout_marginTop="28dp"
+        android:id="@+id/firstNameInput"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="TextView"
+        android:text="Last Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/testOutput"
-        android:layout_alignRight="@+id/testOutput"
-        android:layout_alignEnd="@+id/testOutput"
-        android:layout_marginTop="28dp"
-        android:id="@+id/textView" />
+        android:id="@+id/textView4"
+        android:layout_alignBaseline="@+id/lastNameInput"
+        android:layout_alignBottom="@+id/lastNameInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/First Name"
+        android:layout_alignBaseline="@+id/typeInput"
+        android:layout_alignBottom="@+id/typeInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
