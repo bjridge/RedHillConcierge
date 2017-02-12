@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
 import DataControllers.DatabaseObject;
+import DataControllers.Horse;
 import DataControllers.User;
 import DataControllers.UserController;
 
@@ -61,8 +62,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         System.out.println("about to try to add");
-        addNewUser();
+        //addNewUser();
+        testAddHorse();
     }
+
+    private void testAddHorse(){
+        Horse h = new Horse();
+        UserController controller = new UserController();
+        controller.addObject(h);
+    }
+
+
+
     private void addNewUser(){
         String firstName = firstNameInput.getText().toString();
         String lastName = lastNameInput.getText().toString();
