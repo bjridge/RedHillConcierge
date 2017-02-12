@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             firstNameInput.setText("must complete all fields");
             return;
         }
+        System.out.println("about to try to add");
         addNewUser();
     }
     private void addNewUser(){

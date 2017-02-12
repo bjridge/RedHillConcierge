@@ -17,28 +17,33 @@ public class UserController {
 
     public void addObject(DatabaseObject object) {
 
-        setID(object);
 
-        add(object);
+        System.out.println("about to set ID");
+        setID(object);
+        System.out.println("about to add object");
+        //add(object);
     }
     private void setID(DatabaseObject object){
         final DatabaseObject newObject = object;
         String objectType = getObjectType(object);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         DatabaseReference reference = database.getReference("counts/" + objectType);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int value = dataSnapshot.getValue(int.class);
-                newObject.setID(value + 1);
-            }
+        System.out.println("created reference");
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                int value = dataSnapshot.getValue(int.class);
+//                newObject.setID(value + 1);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     private void add(DatabaseObject object){
@@ -48,6 +53,8 @@ public class UserController {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference(objectType + "/" + objectID);
         reference.setValue(object);
+
+        // TODO: 2/12/2017 increment object count/ID
 
     }
 
