@@ -50,10 +50,36 @@ public class MainActivity extends AppCompatActivity {
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstNameInput.setText("button was clicked");
+                tryAddNewUser();
             }
         });
     }
+
+    private void tryAddNewUser(){
+        if (firstNameInput.getText().equals("") || lastNameInput.getText().equals("") || typeInput.getText().equals("")){
+            firstNameInput.setText("must complete all fields");
+            return;
+        }
+        addNewUser();
+    }
+    private void addNewUser(){
+        String firstName = firstNameInput.getText().toString();
+        String lastName = lastNameInput.getText().toString();
+        String type = typeInput.getText().toString();
+
+        User newUser = new User();
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setType(type);
+
+        UserController controller = new UserController();
+        controller.addObject(newUser);
+
+        //getLastUserID();
+
+    }
+
+
 
 
 
@@ -97,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void doTheThing(){
-        final TextView testOutput = (TextView) findViewById(R.id.testOutput);
         UserController testController = new UserController();
         Task<ArrayList<DatabaseObject>> getAllUsersTask = testController.getAll("user");
 

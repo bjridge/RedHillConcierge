@@ -15,9 +15,53 @@ import java.util.ArrayList;
 //data controller
 public class UserController {
 
+    public void addObject(DatabaseObject object) {
+
+        final DatabaseObject newObject = object;
+        String objectType = newObject.getClass().toString();
+        System.out.println("this is a " + objectType);
+//
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference reference = database.getReference("counts/" + objectType);
+//        int lastID;
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                int value = dataSnapshot.getValue(int.class);
+//                testUser.id = value;
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void addObject(String objectType, DatabaseObject object){
 
     }
+
+
 
 
     public User buildTestUser(){
