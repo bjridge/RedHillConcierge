@@ -15,23 +15,54 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.*;//FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
-    TextView testOutput;
+    EditText firstNameInput;
+    EditText lastNameInput;
+    EditText typeInput;
+    Button addUserButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("do something");
 
-        testOutput = (TextView) findViewById(R.id.testOutput);
-        getAUser();
+        initializeEditTexts();
+        initializeButton();
         }
+    private void initializeEditTexts(){
+        firstNameInput = (EditText) findViewById(R.id.firstNameInput);
+        lastNameInput = (EditText) findViewById(R.id.lastNameInput);
+        typeInput = (EditText) findViewById(R.id.typeInput);
+    }
+    private void initializeButton(){
+        addUserButton = (Button) findViewById(R.id.addUserButton);
+
+        addUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firstNameInput.setText("button was clicked");
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
 
     private void getAUser(){
         FirebaseDatabase allData = FirebaseDatabase.getInstance();
@@ -40,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User newUser = dataSnapshot.getValue(User.class);
-                testOutput.setText("new user: " + newUser.getFirstName());
             }
 
             @Override
