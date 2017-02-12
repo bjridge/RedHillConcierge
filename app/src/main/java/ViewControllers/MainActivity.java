@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object o) {
                 ArrayList<DatabaseObject> output = (ArrayList<DatabaseObject>) task.getResult();
-                System.out.println(output.size() + " users found");
-                // TODO: 2/12/2017 do somethign with output objects
             }
         });
     }

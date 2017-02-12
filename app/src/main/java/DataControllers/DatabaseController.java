@@ -31,7 +31,7 @@ public class DatabaseController {
                 int value = dataSnapshot.getValue(int.class);
                 object.setKey(value + 1);
                 writeToDatabase(object);
-                incrementID(object);
+                incrementCounter(object);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -49,8 +49,7 @@ public class DatabaseController {
         String newString = objectType.replaceAll(removableString, "");
         return newString.toLowerCase();
     }
-
-    private void incrementID(DatabaseObject object){
+    private void incrementCounter(DatabaseObject object){
         String objectType = getObjectType(object);
         DatabaseReference reference = db.getReference("counts/" + objectType);
         reference.setValue(object.key());
@@ -78,17 +77,11 @@ public class DatabaseController {
                         break;
                 }
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
         return output.getTask();
     }
-
-
-
     private ArrayList<DatabaseObject> buildUsers(DataSnapshot table){
         ArrayList<DatabaseObject> newObjects = new ArrayList<DatabaseObject>();
 
