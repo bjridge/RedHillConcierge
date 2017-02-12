@@ -18,32 +18,33 @@ public class UserController {
     public void addObject(DatabaseObject object) {
 
 
-        System.out.println("about to set ID");
+        System.out.println("add object was called");
         setID(object);
         System.out.println("about to add object");
-        //add(object);
     }
-    private void setID(DatabaseObject object){
+    private void setID(final DatabaseObject object){
         final DatabaseObject newObject = object;
         String objectType = getObjectType(object);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference reference = database.getReference("counts/" + objectType);
-        System.out.println("created reference");
 
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                int value = dataSnapshot.getValue(int.class);
-//                newObject.setID(value + 1);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int value = dataSnapshot.getValue(int.class);
+                newObject.setID(value + 1);
+                System.out.println("object id set to:" + newObject.getID());
+                add(newObject);
+                incrementID(object);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void add(DatabaseObject object){
@@ -53,15 +54,22 @@ public class UserController {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference(objectType + "/" + objectID);
         reference.setValue(object);
-
+        System.out.print("object added");
         // TODO: 2/12/2017 increment object count/ID
 
     }
 
     private String getObjectType(DatabaseObject object){
         String objectType = object.getClass().toString();
-        objectType.replace("DataControllers.", "");
-        return objectType;
+        String removableString = "class DataControllers.";
+        String newString = objectType.replaceAll(removableString, "");
+        return newString.toLowerCase();
+    }
+
+    private void incrementID(DatabaseObject object){
+        String objectType = getObjectType(object);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("counts/" + objectType);
+        reference.setValue(object.getID());
     }
 
 
