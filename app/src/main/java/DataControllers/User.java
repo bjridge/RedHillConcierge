@@ -5,7 +5,6 @@ public class User extends DatabaseObject {
     private String firstName;
     private String lastName;
     private String type;
-    public int id = 0;
 
     @Override
     public String getName(){

@@ -17,27 +17,44 @@ public class UserController {
 
     public void addObject(DatabaseObject object) {
 
+        setID(object);
+
+        add(object);
+    }
+    private void setID(DatabaseObject object){
         final DatabaseObject newObject = object;
-        String objectType = newObject.getClass().toString();
-        System.out.println("this is a " + objectType);
-//
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference reference = database.getReference("counts/" + objectType);
-//        int lastID;
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                int value = dataSnapshot.getValue(int.class);
-//                testUser.id = value;
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        String objectType = getObjectType(object);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("counts/" + objectType);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int value = dataSnapshot.getValue(int.class);
+                newObject.setID(value + 1);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void add(DatabaseObject object){
+
+        String objectType = getObjectType(object);
+        int objectID =  object.id;
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference(objectType + "/" + objectID);
+        reference.setValue(object);
+
+    }
+
+    private String getObjectType(DatabaseObject object){
+        String objectType = object.getClass().toString();
+        objectType.replace("DataControllers.", "");
+        return objectType;
     }
 
 
