@@ -24,8 +24,8 @@ public class DatabaseController {
 
     public void addObject(final DatabaseObject object) {
         String objectType = getObjectType(object);
-        DatabaseReference reference = db.getReference("counts/" + objectType);
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference objectCountReference = db.getReference("counts/" + objectType);
+        objectCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int value = dataSnapshot.getValue(int.class);
@@ -40,7 +40,7 @@ public class DatabaseController {
     private void writeToDatabase(DatabaseObject object){
         String objectType = getObjectType(object);
         int objectID =  object.key();
-        DatabaseReference reference = db.getReference(objectType + "/" + objectID);
+        DatabaseReference reference = db.getReference("objects/" + objectType + "/" + objectID);
         reference.setValue(object);
     }
     private String getObjectType(DatabaseObject object){
@@ -60,7 +60,7 @@ public class DatabaseController {
 
     //gets all of any object one time
     public Task<ArrayList<DatabaseObject>> getAll(final String objectType){
-        DatabaseReference reference = db.getReference(objectType);
+        DatabaseReference reference = db.getReference("objects/" + objectType);
         final TaskCompletionSource<ArrayList<DatabaseObject>> output = new TaskCompletionSource<>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -100,5 +100,23 @@ public class DatabaseController {
             horses.add(newHorse);
         }
         return horses;
+    }
+    private ArrayList<DatabaseObject> buildContacts(DataSnapshot table){
+        ArrayList<DatabaseObject> horses = new ArrayList<>();
+        for (DataSnapshot snapshot: table.getChildren()){
+            Contact newContact = snapshot.getValue(Contact.class);
+            newContact.setKey(Integer.parseInt(snapshot.getKey()));
+            horses.add(newContact);
+        }
+        return horses;
+    }
+
+
+    // TODO: 2/12/2017 verify user has permission to edit
+        //must be editing own material
+        //must be employee or admin
+        //must be at least standard user
+    public void updateObject(DatabaseObject object){
+        writeToDatabase(object);
     }
 }

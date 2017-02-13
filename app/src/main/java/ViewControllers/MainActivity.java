@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
+import DataControllers.Contact;
 import DataControllers.DatabaseObject;
 import DataControllers.Horse;
 import DataControllers.User;
@@ -25,10 +26,13 @@ import android.widget.EditText;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     EditText firstNameInput;
     EditText lastNameInput;
     EditText typeInput;
     Button addUserButton;
+
+    DatabaseController controller;
 
 
     @Override
@@ -38,12 +42,32 @@ public class MainActivity extends AppCompatActivity {
 
         initializeEditTexts();
         initializeButton();
+
+        controller = new DatabaseController();
     }
 
     private void initializeEditTexts(){
         firstNameInput = (EditText) findViewById(R.id.firstNameInput);
+        firstNameInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firstNameInput.setText("");
+            }
+        });
         lastNameInput = (EditText) findViewById(R.id.lastNameInput);
+        lastNameInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastNameInput.setText("");
+            }
+        });
         typeInput = (EditText) findViewById(R.id.typeInput);
+        typeInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                typeInput.setText("");
+            }
+        });
     }
     private void initializeButton(){
         addUserButton = (Button) findViewById(R.id.addUserButton);
@@ -51,11 +75,17 @@ public class MainActivity extends AppCompatActivity {
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //tryAddNewUser();
                 getAllUsers();
-
             }
         });
+    }
+    private void updateUser(){
+        User newUser = new User();
+        newUser.setFirstName("Bradley");
+        newUser.setLastName("Ridge");
+        newUser.setType("Lead Developer");
+        newUser.setKey(1);
+        controller.updateObject(newUser);
     }
 
     private void tryAddNewUser(){
@@ -65,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         }
         addNewUser();
     }
-
     private void addNewUser(){
         String firstName = firstNameInput.getText().toString();
         String lastName = lastNameInput.getText().toString();
@@ -81,15 +110,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    private ArrayList<DatabaseObject> output;
 
     private void getAllUsers() {
-        DatabaseController dataController = new DatabaseController();
-        final Task task = dataController.getAll("user");
+        final Task task = controller.getAll("user");
         task.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
-                ArrayList<DatabaseObject> output = (ArrayList<DatabaseObject>) task.getResult();
+                output = (ArrayList<DatabaseObject>) task.getResult();
+
+                //do things here!
+
+                for (DatabaseObject object: output){
+                    User user = (User) object;
+                    Contact contact = new Contact();
+                    contact.setName(user.getFirstName() + " " + user.getLastName());
+                    contact.setKey(user.key());
+                    controller.updateObject(contact);
+                }
+
+
+
+
+
             }
         });
     }
