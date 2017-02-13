@@ -14,8 +14,14 @@ public class Horse extends DatabaseObject{
     private String sex = "default";
     private String stallInstructions = "default";
     private int stallNumber = 0;
-    private int ownerID = 0;
+    private int owner = 0;
 
+    public int getOwner(){
+        return owner;
+    }
+    public void setOwner(int owner){
+        owner = owner;
+    }
     public String getBreed(){
         return breed;
     }

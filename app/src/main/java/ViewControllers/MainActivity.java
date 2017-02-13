@@ -1,29 +1,24 @@
 package ViewControllers;
 
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-
-import DataControllers.Contact;
-import DataControllers.DatabaseObject;
-import DataControllers.Horse;
-import DataControllers.User;
-import DataControllers.DatabaseController;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.*;//FirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
-
+import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import DataControllers.Contact;
+import DataControllers.DatabaseController;
+import DataControllers.DatabaseObject;
+import DataControllers.Horse;
+import DataControllers.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,10 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initializeEditTexts();
         initializeButton();
-
         controller = new DatabaseController();
     }
 
@@ -71,11 +64,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initializeButton(){
         addUserButton = (Button) findViewById(R.id.addUserButton);
-
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getAllUsers();
+                testMethod();
             }
         });
     }
@@ -106,33 +98,21 @@ public class MainActivity extends AppCompatActivity {
         newUser.setType(type);
 
         DatabaseController controller = new DatabaseController();
-        controller.addObject(newUser);
+        controller.addNewObject(newUser);
     }
 
 
-    private ArrayList<DatabaseObject> output;
 
-    private void getAllUsers() {
-        final Task task = controller.getAll("user");
-        task.addOnSuccessListener(new OnSuccessListener() {
+    private void testMethod() {
+        System.out.println("clicked");
+        final Task<ArrayList<DatabaseObject>> task = controller.getAll("horse");
+        task.addOnSuccessListener(new OnSuccessListener<ArrayList<DatabaseObject>>() {
             @Override
-            public void onSuccess(Object o) {
-                output = (ArrayList<DatabaseObject>) task.getResult();
-
-                //do things here!
-
-                for (DatabaseObject object: output){
-                    User user = (User) object;
-                    Contact contact = new Contact();
-                    contact.setName(user.getFirstName() + " " + user.getLastName());
-                    contact.setKey(user.key());
-                    controller.updateObject(contact);
-                }
-
-
-
-
-
+            public void onSuccess(ArrayList<DatabaseObject> databaseObjects) {
+                ArrayList<DatabaseObject> objects = (ArrayList<DatabaseObject>) task.getResult();
+                Horse user = (Horse) objects.get(4);
+                firstNameInput.setText(user.key() + "");
+                lastNameInput.setText(user.getName());
             }
         });
     }

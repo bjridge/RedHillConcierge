@@ -22,7 +22,7 @@ public class DatabaseController {
         db = FirebaseDatabase.getInstance();
     }
 
-    public void addObject(final DatabaseObject object) {
+    public void addNewObject(final DatabaseObject object) {
         String objectType = getObjectType(object);
         DatabaseReference objectCountReference = db.getReference("counts/" + objectType);
         objectCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -65,31 +65,28 @@ public class DatabaseController {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot table) {
-                switch(objectType){
-                    case "user":
-                        output.setResult(buildUsers(table));
-                        break;
-                    case "horse":
-                        output.setResult(buildHorses(table));
-                        break;
-                    default:
-                        System.out.println("non type found");
-                        break;
-                }
+                output.setResult(buildObjects(table));
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
         return output.getTask();
     }
-    private ArrayList<DatabaseObject> buildUsers(DataSnapshot table){
+    private ArrayList<DatabaseObject> buildObjects(DataSnapshot table){
         ArrayList<DatabaseObject> newObjects = new ArrayList<DatabaseObject>();
+        String objectType = table.getKey();
+        String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
+        Class tableClass = DatabaseObject.class;
+        try {
+            tableClass = Class.forName("DataControllers." + className);
+        } catch (ClassNotFoundException e){}
 
-        for (DataSnapshot child: table.getChildren()){
-            User newUser = child.getValue(User.class);
-            newUser.setKey(Integer.parseInt(child.getKey()));
-            newObjects.add(newUser);
-        }
+            for (DataSnapshot objectData: table.getChildren()){
+                DatabaseObject newObject = (DatabaseObject) objectData.getValue(tableClass);
+                newObject.setKey(Integer.parseInt(objectData.getKey()));
+                newObjects.add(newObject);
+            }
+
         return newObjects;
     }
     private ArrayList<DatabaseObject> buildHorses(DataSnapshot table){
@@ -111,12 +108,27 @@ public class DatabaseController {
         return horses;
     }
 
-
-    // TODO: 2/12/2017 verify user has permission to edit
-        //must be editing own material
-        //must be employee or admin
-        //must be at least standard user
     public void updateObject(DatabaseObject object){
         writeToDatabase(object);
+    }
+
+    public Task<DatabaseObject> getObject(final String objectType, int key){
+        DatabaseReference objectReference = db.getReference("objects/" + objectType + "/" + key);
+        final TaskCompletionSource<DatabaseObject> taskOutput = new TaskCompletionSource<>();
+        objectReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
+                    DatabaseObject user = (DatabaseObject) dataSnapshot.getValue(Class.forName("DataControllers." + className));
+                    taskOutput.setResult(user);
+                }catch (ClassNotFoundException e){
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+        return taskOutput.getTask();
     }
 }
