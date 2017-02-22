@@ -1,7 +1,6 @@
 package DataControllers;
 
 
-import android.provider.ContactsContract;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -11,12 +10,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 
 public class DatabaseController {
 
-    FirebaseDatabase db;
+    private FirebaseDatabase db;
 
     public DatabaseController(){
         db = FirebaseDatabase.getInstance();
@@ -54,8 +53,6 @@ public class DatabaseController {
         DatabaseReference reference = db.getReference("counts/" + objectType);
         reference.setValue(object.key());
     }
-
-
 
 
     //gets all of any object one time
