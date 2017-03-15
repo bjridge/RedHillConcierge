@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class DatabaseController {
 
     //test pushing from kelly's new laptop!
+    //tested receiving from brad's vr laptop!
+    //now testing pushing back so kelly's lender can pull!
 
     private FirebaseDatabase db;
 
