@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:layout_centerInParent="true"
+    android:weightSum="1"
+    android:background="@drawable/background">
+
+    /*Header*/
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/tab_bar"
+        android:elevation="10dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/navigation_header_container"
+            android:text="Red Hill Concierge"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:textColor="#F0F8FF"/>
+    </android.support.v7.widget.Toolbar>
+
+    /*body*/
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scvMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_marginBottom="80sp"
+        android:layout_marginLeft="40sp"
+        android:layout_marginRight="40sp"
+        android:layout_marginTop="40sp"
+        android:background="@drawable/contant">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:inputType="textEmailAddress"
+                android:hint="Email"
+                android:ems="10"
+                android:background="@drawable/text_boxes"
+                android:paddingLeft="10dp"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5sp" />
+
+            <EditText
+                android:id="@+id/txtPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:hint="Password"
+                android:ems="10"
+                android:background="@drawable/text_boxes"
+                android:paddingLeft="10dp"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp" />
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="172dp"
+                android:layout_height="30sp"
+                android:background="@drawable/buttons"
+                android:text="Login" />
+
+            <TextView
+                android:id="@+id/lblOr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="*OR*"
+                android:textColor="#F5F5F5"/>
+
+            <Button
+                android:id="@+id/newUser"
+                android:text="New User"
+                android:background="@drawable/buttons"
+                android:layout_width="172dp"
+                android:layout_height="30sp"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tlbBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_bar">
+
+    </android.support.v7.widget.Toolbar>
+</RelativeLayout>
