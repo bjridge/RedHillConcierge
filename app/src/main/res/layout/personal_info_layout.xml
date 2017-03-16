@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/green_field_background"
+    android:gravity="center">
+
+    <!--Header-->
+    <android.support.v7.widget.Toolbar android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/tab_bar"
+        android:elevation="10dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <ImageButton android:id="@+id/backIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:background="#00000000"
+        app:srcCompat="@mipmap/back_icon"
+        android:layout_gravity="left"/>
+
+        <TextView android:id="@+id/lblheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Info"
+            android:textColor="#F0F8FF"
+            android:textSize="30dp"
+            android:layout_gravity="center"/>
+        <ImageButton android:id="@+id/personIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="#00000000"
+            app:srcCompat="@mipmap/person_icon"
+            android:layout_gravity="right"/>
+    </android.support.v7.widget.Toolbar>
+
+    <!--main-->
+
+    <android.support.v4.widget.NestedScrollView android:id="@+id/scvContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="60sp"
+        android:layout_marginBottom="60sp"
+        android:background="@drawable/contant">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <!--ttop content-->
+            <TextView android:id="@+id/lblOwnerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner Name"
+                android:textColor="#F0F8FF"
+                android:textSize="30dp"
+                android:gravity="center_horizontal"/>
+            <LinearLayout android:id="@+id/topContent"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="horizontal"
+                 android:gravity="center_horizontal">
+                <!--top left content-->
+               <LinearLayout android:id="@+id/llLeft"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_below="@+id/lblOwnerName"
+                   android:layout_alignParentLeft="true"
+                   android:weightSum="1">
+
+                   <TextView
+                       android:id="@+id/lblOwnerPhone"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="#A1CAF1"
+                       android:text="Phone:"
+                       android:background="@drawable/labels"/>
+
+                   <TextView
+                       android:id="@+id/lblOwnerStreet"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textColor="#A1CAF1"
+                       android:text="Street:"
+                       android:background="@drawable/labels"/>
+               </LinearLayout>
+
+               <!--top right content-->
+                <LinearLayout android:id="@+id/llRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/lblOwnerName"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/txtOwnerPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="phone" />
+
+                    <EditText
+                        android:id="@+id/txtOwnerStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="textPostalAddress" />-
+                </LinearLayout>
+            </LinearLayout>
+
+           <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblOwnerCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#A1CAF1"
+                    android:text="City:    "
+                    android:background="@drawable/labels"/>
+                <EditText
+                    android:id="@+id/txtOwnerCity"
+                    android:layout_width="75sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="textPostalAddress" />
+                <TextView
+                    android:id="@+id/lblOwnerState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#A1CAF1"
+                    android:text="State:"
+                    android:background="@drawable/labels"/>
+                <EditText
+                    android:id="@+id/txtOwnerState"
+                    android:layout_width="22sp"
+                    android:layout_height="wrap_content"
+                    android:ems="2"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="textPostalAddress" />
+            </LinearLayout>-
+
+         <!--bottom content-->
+            <TextView android:id="@+id/lblEmergency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Emergency Contact"
+                android:textColor="#F0F8FF"
+                android:textSize="30dp"
+                android:gravity="center"/>
+            <LinearLayout
+                android:id="@+id/llBottomContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <!--bottom left content-->
+                <LinearLayout android:id="@+id/llBottomLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/lblOwnerName"
+                    android:layout_alignParentLeft="true"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/lblEmergencyPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A1CAF1"
+                        android:text="Phone:"
+                        android:background="@drawable/labels"/>
+
+                    <TextView
+                        android:id="@+id/lblEmergencyStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A1CAF1"
+                        android:text="Street:"
+                        android:background="@drawable/labels"/>
+                </LinearLayout>
+
+                <!--bottom right content-->
+                <LinearLayout android:id="@+id/llBottomRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/lblOwnerName"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/txtEmergencyPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="phone" />
+
+                    <EditText
+                        android:id="@+id/txtEmergencyStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="textPostalAddress" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblEmergencyCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#A1CAF1"
+                    android:text="City:    "
+                    android:background="@drawable/labels"/>
+                <EditText
+                    android:id="@+id/txtEmergencyCity"
+                    android:layout_width="75sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="textPostalAddress" />
+                <TextView
+                    android:id="@+id/lblEmergencyState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#A1CAF1"
+                    android:text="State:"
+                    android:background="@drawable/labels"/>
+                <EditText
+                    android:id="@+id/txtEmergencyState"
+                    android:layout_width="22sp"
+                    android:layout_height="wrap_content"
+                    android:ems="2"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="textPostalAddress" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    /*Tab bar*/
+    <TabHost android:id="@+id/tbButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/tab_bar"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/home_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/home_icon" />
+
+                <ImageButton
+                    android:id="@+id/search_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/search_icon" />
+
+                <ImageButton
+                    android:id="@+id/feed_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/feed_icon" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/cal_icon" />
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </FrameLayout>
+        </RelativeLayout>
+    </TabHost>
+
+</android.support.design.widget.CoordinatorLayout>

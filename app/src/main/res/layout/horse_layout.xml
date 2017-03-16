@@ -3,8 +3,6 @@
 1)When not viewing/not editable replace save button with next stall button listing
   a)this means we will have to list all found horses in order according to the stall number-->
 
-
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -20,19 +18,34 @@
         android:elevation="10dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
+        <ImageButton android:id="@+id/backIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="#00000000"
+            app:srcCompat="@mipmap/back_icon"
+            android:layout_gravity="left"/>
+
         <TextView android:id="@+id/lblheader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Edit Horse"
+            android:text="Horse Info"
             android:textColor="#F0F8FF"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:layout_gravity="center"/>
+        <ImageButton android:id="@+id/personIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="#00000000"
+            app:srcCompat="@mipmap/person_icon"
+            android:layout_gravity="right"/>
     </android.support.v7.widget.Toolbar>
 
     /*main*/
 
     <android.support.v4.widget.NestedScrollView android:id="@+id/scvContent"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar"
         android:layout_gravity="center"
@@ -63,7 +76,6 @@
                         android:layout_width="97dp"
                         android:layout_height="97dp"
                         android:background="@drawable/ic_notifications_black_24dp"/>
-
                 </LinearLayout>
 
                 /*right Top*/
@@ -92,6 +104,42 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView android:id="@+id/lblStallNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/labels"
+                    android:text="Stall #: "
+                    android:textColor="#A1CAF1"
+                    android:paddingTop="4sp"/>
+                <EditText android:id="@+id/txtStall"
+                    android:layout_width="25sp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="number"
+                    android:ems="5" />
+                <TextView android:id="@+id/lblYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/labels"
+                    android:text="Birth Year: "
+                    android:textColor="#A1CAF1"
+                    android:paddingTop="4sp"/>
+
+                <EditText android:id="@+id/txtYear"
+                    android:layout_width="35sp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_boxes"
+                    android:ems="5"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
         /*bottom content*/
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,13 +152,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_alignParentLeft="true">
-
-                    <TextView android:id="@+id/lblStallNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/labels"
-                        android:text="Stall #: "
-                        android:textColor="#A1CAF1" />
 
                     <TextView android:id="@+id/lblColor"
                         android:layout_width="wrap_content"
@@ -161,13 +202,6 @@
                         android:text="Vet Name: "
                         android:textColor="#A1CAF1" />
 
-                    <TextView android:id="@+id/lblAge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/labels"
-                        android:text="Age(years): "
-                        android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblBehavior"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -193,7 +227,6 @@
                         android:background="@drawable/labels"
                         android:text="Other Notes: "
                         android:textColor="#A1CAF1" />
-
                 </LinearLayout>
 
                 /*middle Bottom*/
@@ -202,13 +235,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:weightSum="1">
-
-                    <EditText android:id="@+id/txtStall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/text_boxes"
-                    android:inputType="number"
-                    android:ems="5" />
 
                     <Spinner android:id="@+id/spnColor"
                         android:layout_width="match_parent"
@@ -270,13 +296,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="22sp"
                         android:background="@drawable/spinners" />
-
-                    <EditText android:id="@+id/txtAge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/text_boxes"
-                        android:ems="5"
-                        android:inputType="number" />
 
                     <EditText android:id="@+id/txtBehavoir"
                         android:layout_width="match_parent"
@@ -352,7 +371,7 @@
                     app:srcCompat="@mipmap/feed_icon" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/col_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
