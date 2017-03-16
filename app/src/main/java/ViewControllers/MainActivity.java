@@ -22,10 +22,10 @@ import DataControllers.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText firstNameInput;
+    /*EditText firstNameInput;
     EditText lastNameInput;
     EditText typeInput;
-    Button addUserButton;
+    Button addUserButton;*/
 
     DatabaseController controller;
 
@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initializeEditTexts();
-        initializeButton();
-        controller = new DatabaseController();
+        setContentView(R.layout.login_layout);
+        //initializeEditTexts();
+        //initializeButton();
+        //controller = new DatabaseController();
     }
 
-    private void initializeEditTexts(){
+    /*private void initializeEditTexts(){
         firstNameInput = (EditText) findViewById(R.id.firstNameInput);
         firstNameInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,5 +115,5 @@ public class MainActivity extends AppCompatActivity {
                 lastNameInput.setText(user.getName());
             }
         });
-    }
+    }*/
 }
