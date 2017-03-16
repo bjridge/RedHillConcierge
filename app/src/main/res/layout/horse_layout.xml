@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO:
+1)When not viewing/not editable replace save button with next stall button listing
+  a)this means we will have to list all found horses in order according to the stall number-->
+
+
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/green_field_background"
+    android:gravity="center">
+
+    /*Header*/
+    <android.support.v7.widget.Toolbar android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/tab_bar"
+        android:elevation="10dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <TextView android:id="@+id/lblheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Edit Horse"
+            android:textColor="#F0F8FF"
+            android:textSize="30dp" />
+    </android.support.v7.widget.Toolbar>
+
+    /*main*/
+
+    <android.support.v4.widget.NestedScrollView android:id="@+id/scvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="60sp"
+        android:layout_marginBottom="60sp"
+        android:background="@drawable/contant">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        /*top content*/
+            <LinearLayout
+                android:id="@+id/topContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                /*Left Top*/
+                <LinearLayout android:id="@+id/llLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentLeft="true"
+                    android:weightSum="1">
+
+                    <ImageView android:id="@+id/imageHorse"
+                        android:layout_width="97dp"
+                        android:layout_height="97dp"
+                        android:background="@drawable/ic_notifications_black_24dp"/>
+
+                </LinearLayout>
+
+                /*right Top*/
+                <LinearLayout android:id="@+id/llRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:weightSum="1">
+
+                    <TextView android:id="@+id/lblHorseName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Horse Name"
+                        android:textSize="25sp"
+                        android:gravity="center_horizontal"
+                        android:textColor="#A1CAF1"/>
+
+                    <TextView android:id="@+id/lblOwnerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="(Owner Name)"
+                        android:linksClickable="true"
+                        android:gravity="center_horizontal"
+                        android:textColor="#A1CAF1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        /*bottom content*/
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_below="@+id/topContent">
+                /*left Bottom*/
+                <LinearLayout android:id="@+id/llBottomLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentLeft="true">
+
+                    <TextView android:id="@+id/lblStallNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Stall #: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Color: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblBreed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Breed: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Gender: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblGrainType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Grain Type: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblHayType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Hay Type: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblMedication"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Medication: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblVetName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Vet Name: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Age(years): "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblBehavior"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Behavoir: "
+                        android:textColor="#A1CAF1" />
+
+                    <TextView android:id="@+id/lblRiders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Riders: "
+                        android:textColor="#A1CAF1" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="20sp" />
+
+                    <TextView
+                        android:id="@+id/lblNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/labels"
+                        android:text="Other Notes: "
+                        android:textColor="#A1CAF1" />
+
+                </LinearLayout>
+
+                /*middle Bottom*/
+                <LinearLayout android:id="@+id/llBottomCenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <EditText android:id="@+id/txtStall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="number"
+                    android:ems="5" />
+
+                    <Spinner android:id="@+id/spnColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="22sp"
+                        android:background="@drawable/spinners" />
+
+                    <Spinner android:id="@+id/spnBreed"
+                        android:layout_width="match_parent"
+                        android:layout_height="22sp"
+                        android:background="@drawable/spinners" />
+
+                    <Spinner android:id="@+id/spnGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="22sp"
+                        android:background="@drawable/spinners" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Spinner android:id="@+id/spnGrainType"
+                            android:layout_width="match_parent"
+                            android:layout_height="22sp"
+                            android:background="@drawable/spinners" />
+                        <EditText
+                            android:id="@+id/txtGranAmount"
+                            android:layout_width="25sp"
+                            android:layout_height="wrap_content"
+                            android:ems="2"
+                            android:inputType="numberDecimal"
+                            android:background="@drawable/text_boxes"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <Spinner android:id="@+id/spnHay"
+                            android:layout_width="match_parent"
+                            android:layout_height="22sp"
+                            android:background="@drawable/spinners" />
+                        <EditText
+                            android:id="@+id/txtHayAmount"
+                            android:layout_width="25sp"
+                            android:layout_height="wrap_content"
+                            android:ems="2"
+                            android:inputType="numberDecimal"
+                            android:background="@drawable/text_boxes"/>
+                    </LinearLayout>
+
+                    <EditText android:id="@+id/txtMedical"
+                        android:layout_width="match_parent"
+                        android:layout_height="22sp"
+                        android:background="@drawable/text_boxes"
+                        android:ems="5" />
+
+                    <Spinner android:id="@+id/spnVet"
+                        android:layout_width="match_parent"
+                        android:layout_height="22sp"
+                        android:background="@drawable/spinners" />
+
+                    <EditText android:id="@+id/txtAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/text_boxes"
+                        android:ems="5"
+                        android:inputType="number" />
+
+                    <EditText android:id="@+id/txtBehavoir"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/text_boxes"
+                        android:ems="5"
+                        android:inputType="textPersonName" />
+
+                    <EditText android:id="@+id/txtRiders"
+                        android:layout_width="match_parent"
+                        android:layout_height="40sp"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="textMultiLine"/>
+
+                    <EditText android:id="@+id/txtNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="40sp"
+                        android:inputType="textMultiLine"
+                        android:ems="5"
+                        android:background="@drawable/text_boxes"/>
+
+                    <Button
+                        android:id="@+id/btnSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="30sp"
+                        android:background="@drawable/buttons"
+                        android:text="Save" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    /*Tab bar*/
+    <TabHost android:id="@+id/tbButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/tab_bar"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/home_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/home_icon" />
+
+                <ImageButton
+                    android:id="@+id/search_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/search_icon" />
+
+                <ImageButton
+                    android:id="@+id/feed_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/feed_icon" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/tab_bar"
+                    app:srcCompat="@mipmap/cal_icon" />
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+>
+            </FrameLayout>
+        </RelativeLayout>
+    </TabHost>
+</android.support.design.widget.CoordinatorLayout>

@@ -22,10 +22,10 @@ import DataControllers.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    /*EditText firstNameInput;
+    EditText firstNameInput;
     EditText lastNameInput;
     EditText typeInput;
-    Button addUserButton;*/
+    Button addUserButton;
 
     DatabaseController controller;
 
