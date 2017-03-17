@@ -37,11 +37,9 @@
     </android.support.v7.widget.Toolbar>
 
     <!--main-->
-    <android.support.v4.widget.NestedScrollView android:id="@+id/scvContent"
+    <ScrollView android:id="@+id/scvContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/my_toolbar"
-        android:gravity="center_horizontal"
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20sp"
         android:layout_marginTop="60sp"
@@ -52,7 +50,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_horizontal">
-            <!--ttop content-->
+            <!--top content-->
             <TextView android:id="@+id/lblOwnerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,7 +62,8 @@
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:orientation="horizontal"
-                 android:gravity="center_horizontal">
+                 android:gravity="center_horizontal"
+                 android:paddingTop="20sp">
 
                 <!--top left content-->
                <LinearLayout android:id="@+id/llLeft"
@@ -114,7 +113,8 @@
            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+               android:gravity="center_horizontal">
                 <TextView android:id="@+id/lblOwnerCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,24 +141,25 @@
                     android:inputType="textPostalAddress" />
             </LinearLayout>-
 
-         <!--bottom content-->
+         <!--Emergency content-->
             <TextView android:id="@+id/lblEmergency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Emergency Contact"
                 android:textColor="#F0F8FF"
-                android:paddingTop="30sp"
+                android:paddingTop="20sp"
                 android:textSize="30dp"
                 android:gravity="center"/>
             <LinearLayout
-                android:id="@+id/llBottomContent"
+                android:id="@+id/llEmergencyContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                >
 
-                <!--bottom left content-->
-                <LinearLayout android:id="@+id/llBottomLeft"
+                <!--Emergency left content-->
+                <LinearLayout android:id="@+id/llEmergencyLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -188,8 +189,8 @@
                         android:background="@drawable/labels"/>
                 </LinearLayout>
 
-                <!--bottom right content-->
-                <LinearLayout android:id="@+id/llBottomRight"
+                <!--Emergency right content-->
+                <LinearLayout android:id="@+id/llEmergencyRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -218,7 +219,8 @@
 
             <LinearLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
                 <TextView
                     android:id="@+id/lblEmergencyCity"
                     android:layout_width="wrap_content"
@@ -246,8 +248,112 @@
                     android:inputType="textPostalAddress" />
             </LinearLayout>
 
+            <!--Vet Content-->
+            <TextView android:id="@+id/lblVet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vet Name"
+                android:textColor="#F0F8FF"
+                android:paddingTop="20sp"
+                android:textSize="30dp"
+                android:gravity="center" />
+            <LinearLayout android:id="@+id/llVetContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <!--Vet left content-->
+                <LinearLayout android:id="@+id/llVetLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/lblOwnerName"
+                    android:layout_alignParentLeft="true"
+                    android:weightSum="1">
+
+                    <TextView android:id="@+id/lblVetName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A1CAF1"
+                        android:text="Name:"
+                        android:background="@drawable/labels"/>
+
+                    <TextView android:id="@+id/lblVetPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A1CAF1"
+                        android:text="Phone:"
+                        android:background="@drawable/labels"/>
+
+                    <TextView android:id="@+id/lblVetStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A1CAF1"
+                        android:text="Street:"
+                        android:background="@drawable/labels"/>
+                </LinearLayout>
+
+                <!--Vet right content-->
+                <LinearLayout android:id="@+id/llVetRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/lblOwnerName"
+                    android:weightSum="1">
+                    <EditText android:id="@+id/txtVetName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes" />
+                    <EditText android:id="@+id/txtVetPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="phone" />
+                    <EditText android:id="@+id/txtVetStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:background="@drawable/text_boxes"
+                        android:inputType="textPostalAddress" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/lblVetCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#A1CAF1"
+                    android:text="City:    "
+                    android:background="@drawable/labels"/>
+                <EditText android:id="@+id/txtVetCity"
+                    android:layout_width="75sp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="textPostalAddress" />
+                <TextView android:id="@+id/lblVetState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#A1CAF1"
+                    android:text="State:"
+                    android:background="@drawable/labels"/>
+                <EditText android:id="@+id/txtVetState"
+                    android:layout_width="22sp"
+                    android:layout_height="wrap_content"
+                    android:ems="2"
+                    android:background="@drawable/text_boxes"
+                    android:inputType="textPostalAddress" />
+            </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
     <!--Tab bar-->
     <TabHost android:id="@+id/tbButtons"

@@ -10,7 +10,7 @@
     android:background="@drawable/green_field_background"
     android:gravity="center">
 
-    /*Header*/
+    <!--Header-->
     <android.support.v7.widget.Toolbar android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -42,13 +42,11 @@
             android:layout_gravity="right"/>
     </android.support.v7.widget.Toolbar>
 
-    /*main*/
-
+    <!--main-->
     <android.support.v4.widget.NestedScrollView android:id="@+id/scvContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar"
-        android:layout_gravity="center"
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20sp"
         android:layout_marginTop="60sp"
@@ -58,13 +56,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        /*top content*/
+            <!--top content-->
             <LinearLayout
                 android:id="@+id/topContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-                /*Left Top*/
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <!--Left Top-->
                 <LinearLayout android:id="@+id/llLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,7 +77,7 @@
                         android:background="@drawable/ic_notifications_black_24dp"/>
                 </LinearLayout>
 
-                /*right Top*/
+                <!--right Top-->
                 <LinearLayout android:id="@+id/llRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,13 +102,11 @@
                         android:textColor="#A1CAF1"/>
                 </LinearLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center">
-
                 <TextView android:id="@+id/lblStallNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -118,7 +115,7 @@
                     android:textColor="#A1CAF1"
                     android:paddingTop="4sp"/>
                 <EditText android:id="@+id/txtStall"
-                    android:layout_width="25sp"
+                    android:layout_width="35sp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text_boxes"
                     android:inputType="number"
@@ -130,98 +127,85 @@
                     android:text="Birth Year: "
                     android:textColor="#A1CAF1"
                     android:paddingTop="4sp"/>
-
                 <EditText android:id="@+id/txtYear"
-                    android:layout_width="35sp"
+                    android:layout_width="55sp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text_boxes"
                     android:ems="5"
                     android:inputType="number" />
-
             </LinearLayout>
 
-        /*bottom content*/
+            <!--bottom content-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_below="@+id/topContent">
-                /*left Bottom*/
+                android:layout_below="@+id/topContent"
+                android:gravity="center_horizontal">
+                <!--left Bottom-->
                 <LinearLayout android:id="@+id/llBottomLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_alignParentLeft="true">
-
                     <TextView android:id="@+id/lblColor"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Color: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblBreed"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Breed: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblGender"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Gender: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblGrainType"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Grain Type: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblHayType"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Hay Type: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblMedication"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Medication: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblVetName"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Vet Name: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblBehavior"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Behavoir: "
                         android:textColor="#A1CAF1" />
-
                     <TextView android:id="@+id/lblRiders"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
                         android:text="Riders: "
                         android:textColor="#A1CAF1" />
-
                     <android.support.v4.widget.Space
                         android:layout_width="wrap_content"
                         android:layout_height="20sp" />
-
-                    <TextView
-                        android:id="@+id/lblNotes"
+                    <TextView android:id="@+id/lblNotes"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/labels"
@@ -229,40 +213,33 @@
                         android:textColor="#A1CAF1" />
                 </LinearLayout>
 
-                /*middle Bottom*/
+                <!--middle Bottom-->
                 <LinearLayout android:id="@+id/llBottomCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:weightSum="1">
-
                     <Spinner android:id="@+id/spnColor"
                         android:layout_width="match_parent"
                         android:layout_height="22sp"
                         android:background="@drawable/spinners" />
-
                     <Spinner android:id="@+id/spnBreed"
                         android:layout_width="match_parent"
                         android:layout_height="22sp"
                         android:background="@drawable/spinners" />
-
                     <Spinner android:id="@+id/spnGender"
                         android:layout_width="match_parent"
                         android:layout_height="22sp"
                         android:background="@drawable/spinners" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <LinearLayout android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <Spinner android:id="@+id/spnGrainType"
                             android:layout_width="match_parent"
-                            android:layout_height="22sp"
+                            android:layout_height="24sp"
                             android:background="@drawable/spinners" />
-                        <EditText
-                            android:id="@+id/txtGranAmount"
-                            android:layout_width="25sp"
+                        <EditText android:id="@+id/txtGranAmount"
+                            android:layout_width="35sp"
                             android:layout_height="wrap_content"
                             android:ems="2"
                             android:inputType="numberDecimal"
@@ -275,11 +252,11 @@
                         android:orientation="horizontal">
                         <Spinner android:id="@+id/spnHay"
                             android:layout_width="match_parent"
-                            android:layout_height="22sp"
+                            android:layout_height="24sp"
                             android:background="@drawable/spinners" />
                         <EditText
                             android:id="@+id/txtHayAmount"
-                            android:layout_width="25sp"
+                            android:layout_width="35sp"
                             android:layout_height="wrap_content"
                             android:ems="2"
                             android:inputType="numberDecimal"
@@ -316,16 +293,176 @@
                         android:inputType="textMultiLine"
                         android:ems="5"
                         android:background="@drawable/text_boxes"/>
-
-                    <Button
-                        android:id="@+id/btnSave"
-                        android:layout_width="match_parent"
-                        android:layout_height="30sp"
-                        android:background="@drawable/buttons"
-                        android:text="Save" />
-
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+                <!--In/Out Content-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IN? "
+                        android:textColor="#A1CAF1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Day "
+                        android:textColor="#A1CAF1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Night "
+                        android:textColor="#A1CAF1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView android:id="@+id/lblSunday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Sun "
+                        android:textColor="#A1CAF1"
+                        android:background="@drawable/labels"/>
+                    <CheckBox android:id="@+id/chkSunIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox"/>
+                    <CheckBox android:id="@+id/chkSunNight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView android:id="@+id/lblMon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="| Mon "
+                        android:background="@drawable/labels"
+                        android:textColor="#A1CAF1"/>
+                    <CheckBox android:id="@+id/chkMonIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox"/>
+                    <CheckBox android:id="@+id/chkMonNight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/checkbox"/>
+                </LinearLayout>
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView android:id="@+id/lblTue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="| Tue "
+                    android:background="@drawable/labels"
+                    android:textColor="#A1CAF1"/>
+                <CheckBox android:id="@+id/chkTueIN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+                <CheckBox android:id="@+id/chkTueNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+            </LinearLayout>
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView android:id="@+id/lblWed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="| Wed "
+                    android:background="@drawable/labels"
+                    android:textColor="#A1CAF1"/>
+                <CheckBox android:id="@+id/chkWedIN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+                <CheckBox android:id="@+id/chkWedNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+            </LinearLayout>
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView android:id="@+id/lblThu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="| Thu "
+                    android:background="@drawable/labels"
+                    android:textColor="#A1CAF1"/>
+                <CheckBox android:id="@+id/chkThuIN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+                <CheckBox android:id="@+id/chkThuNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+            </LinearLayout>
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView android:id="@+id/lblFri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="| Fri "
+                    android:background="@drawable/labels"
+                    android:textColor="#A1CAF1"/>
+                <CheckBox android:id="@+id/chkFriIN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+                <CheckBox android:id="@+id/chkFriNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+            </LinearLayout>
+                <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView android:id="@+id/lblSat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="| Sat "
+                    android:background="@drawable/labels"
+                    android:textColor="#A1CAF1"/>
+                <CheckBox android:id="@+id/chkSatIN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox">
+                <CheckBox android:id="@+id/chkSatNight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox"/>
+            </LinearLayout>
+            </LinearLayout>
+            <Button android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:background="@drawable/buttons"
+                android:text=" Save "
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -382,8 +519,7 @@
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
->
+                android:layout_height="wrap_content">
             </FrameLayout>
         </RelativeLayout>
     </TabHost>
