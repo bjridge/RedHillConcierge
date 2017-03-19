@@ -450,7 +450,7 @@
                 <CheckBox android:id="@+id/chkSatIN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox">
+                    android:button="@drawable/checkbox"/>
                 <CheckBox android:id="@+id/chkSatNight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
