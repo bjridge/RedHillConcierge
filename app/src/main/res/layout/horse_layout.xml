@@ -85,7 +85,7 @@
                     android:layout_gravity="center"
                     android:weightSum="1">
 
-                    <TextView android:id="@+id/lblHorseName"
+                    <TextView android:id="@+id/spnHorseName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Horse Name"
@@ -307,12 +307,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="IN? "
+                        android:text="           "
                         android:textColor="#A1CAF1" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Day "
+                        android:text="Inside Day "
                         android:textColor="#A1CAF1" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -323,7 +323,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
                     <TextView android:id="@+id/lblSunday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -342,7 +343,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
                     <TextView android:id="@+id/lblMon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -362,7 +364,8 @@
                 <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                    android:gravity="center_horizontal">
                 <TextView android:id="@+id/lblTue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -382,7 +385,8 @@
                 <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                    android:gravity="center_horizontal">
                 <TextView android:id="@+id/lblWed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -401,7 +405,8 @@
                 <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                    android:gravity="center_horizontal">
                 <TextView android:id="@+id/lblThu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -419,9 +424,10 @@
                     android:button="@drawable/checkbox"/>
             </LinearLayout>
                 <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
                 <TextView android:id="@+id/lblFri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -440,7 +446,8 @@
                 <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                    android:gravity="center_horizontal">
                 <TextView android:id="@+id/lblSat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -466,10 +473,11 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    /*Tab bar*/
+    <!--Tab bar-->
     <TabHost android:id="@+id/tbButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -519,8 +527,7 @@
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </FrameLayout>
+                android:layout_height="wrap_content"></FrameLayout>
         </RelativeLayout>
     </TabHost>
 </android.support.design.widget.CoordinatorLayout>

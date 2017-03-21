@@ -3,16 +3,16 @@ package DataControllers;
 public class Horse extends DatabaseObject{
 
     //added comment to test pushing
-    private String breed = "default";
-    private String color = "default";
-    private String grainAmount = "default";
-    private String grainType = "default";
+    private String breed = " ";
+    private String color = " ";
+    private String grainAmount = " ";
+    private String grainType = " ";
     private boolean hay = true;
-    private String medicationInstructions = "default";
-    private String name = "default";
-    private String notes = "default";
-    private String sex = "default";
-    private String stallInstructions = "default";
+    private String medicationInstructions = " ";
+    private String name = " ";
+    private String notes = " ";
+    private String sex = " ";
+    private String stallInstructions = " ";
     private int stallNumber = 0;
     private int owner = 0;
 

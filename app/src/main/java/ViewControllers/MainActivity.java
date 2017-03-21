@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
         controller.addNewObject(newUser);
     }
 
-
-
     private void testMethod() {
         System.out.println("clicked");
         final Task<ArrayList<DatabaseObject>> task = controller.getAll("horse");

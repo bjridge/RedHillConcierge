@@ -49,12 +49,5 @@ public class NewUser extends AppCompatActivity {
 
         firstNameInput.setText(newUser.getFirstName());
         lastNameInput.setText(newUser.getLastName());
-
-
-
-
-
-
-
     }
 }
