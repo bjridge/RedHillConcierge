@@ -89,4 +89,3 @@ public class Horse extends DatabaseObject{
         this.stallNumber = stallNumber;
     }
 }
-
