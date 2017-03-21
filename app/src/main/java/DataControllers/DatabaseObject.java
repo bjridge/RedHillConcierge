@@ -2,13 +2,13 @@ package DataControllers;
 
 public class DatabaseObject {
 
-    private int key = 0;
+    private String key = "empty object";
 
-    public void setKey(int id){
+    public void setKey(String id){
         this.key = id;
     }
 
-    public int key(){
+    public String key(){
         return key;
     }
 

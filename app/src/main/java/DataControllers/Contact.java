@@ -11,6 +11,10 @@ public class Contact extends DatabaseObject {
     private String zip = "46033";
 
 
+    public Contact(String id){
+        this.setKey(id);
+    }
+
     public String getName() {
         return name;
     }

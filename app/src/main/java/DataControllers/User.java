@@ -6,6 +6,16 @@ public class User extends DatabaseObject {
     private String lastName;
     private String type;
 
+
+    public User(){
+
+    }
+
+    public User(String id){
+        setKey(id);
+    }
+
+
     public String name(){
         return firstName + " " + lastName;
     }

@@ -2,6 +2,9 @@ package DataControllers;
 
 
 
+import android.provider.ContactsContract;
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.database.DataSnapshot;
@@ -19,30 +22,41 @@ public class DatabaseController {
     //tested receiving from brad's vr laptop!
     //now testing pushing back so kelly's lender can pull!
 
+
+
     private FirebaseDatabase db;
 
     public DatabaseController(){
         db = FirebaseDatabase.getInstance();
     }
 
-    public void addNewObject(final DatabaseObject object) {
-        String objectType = getObjectType(object);
-        DatabaseReference objectCountReference = db.getReference("counts/" + objectType);
-        objectCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int value = dataSnapshot.getValue(int.class);
-                object.setKey(value + 1);
-                writeToDatabase(object);
-                incrementCounter(object);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
+
+
+
+
+
+
+
+
+    // TODO: 3/21/2017 horse keys must be integers, but users are now string id's
+//    public void addNewObject(final DatabaseObject object) {
+//        String objectType = getObjectType(object);
+//        DatabaseReference objectCountReference = db.getReference("counts/" + objectType);
+//        objectCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                int value = dataSnapshot.getValue(int.class);
+//                //object.setKey(value + 1);
+//                writeToDatabase(object);
+//                incrementCounter(object);
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
+//    }
     private void writeToDatabase(DatabaseObject object){
         String objectType = getObjectType(object);
-        int objectID =  object.key();
+        String objectID =  object.key();
         DatabaseReference reference = db.getReference("objects/" + objectType + "/" + objectID);
         reference.setValue(object);
     }
@@ -84,7 +98,7 @@ public class DatabaseController {
 
             for (DataSnapshot objectData: table.getChildren()){
                 DatabaseObject newObject = (DatabaseObject) objectData.getValue(tableClass);
-                newObject.setKey(Integer.parseInt(objectData.getKey()));
+                newObject.setKey(objectData.getKey());
                 newObjects.add(newObject);
             }
 
@@ -94,7 +108,7 @@ public class DatabaseController {
         ArrayList<DatabaseObject> horses = new ArrayList<>();
         for (DataSnapshot horseSnapshot: table.getChildren()){
             Horse newHorse = horseSnapshot.getValue(Horse.class);
-            newHorse.setKey(Integer.parseInt(horseSnapshot.getKey()));
+            newHorse.setKey(horseSnapshot.getKey());
             horses.add(newHorse);
         }
         return horses;
@@ -103,7 +117,7 @@ public class DatabaseController {
         ArrayList<DatabaseObject> horses = new ArrayList<>();
         for (DataSnapshot snapshot: table.getChildren()){
             Contact newContact = snapshot.getValue(Contact.class);
-            newContact.setKey(Integer.parseInt(snapshot.getKey()));
+            newContact.setKey(snapshot.getKey());
             horses.add(newContact);
         }
         return horses;
@@ -113,16 +127,29 @@ public class DatabaseController {
         writeToDatabase(object);
     }
 
-    public Task<DatabaseObject> getObject(final String objectType, int key){
+
+
+
+
+
+    public Task<DatabaseObject> getObject(final String objectType, String key){
         DatabaseReference objectReference = db.getReference("objects/" + objectType + "/" + key);
         final TaskCompletionSource<DatabaseObject> taskOutput = new TaskCompletionSource<>();
         objectReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
+
                     String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
                     DatabaseObject user = (DatabaseObject) dataSnapshot.getValue(Class.forName("DataControllers." + className));
+                    if (user != null){
+                        user.setKey(dataSnapshot.getKey());
+                    }else{
+                        user = new DatabaseObject();
+                    }
                     taskOutput.setResult(user);
+
+
                 }catch (ClassNotFoundException e){
 
                 }
