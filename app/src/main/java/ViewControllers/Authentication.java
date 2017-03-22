@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import DataControllers.DatabaseController;
 import DataControllers.DatabaseObject;
@@ -39,11 +41,8 @@ import DataControllers.User;
 public class Authentication extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     //view objects
-    TextView firebaseTitle;
-    TextView firebaseOutput;
-    TextView loginStatus;
-    com.google.android.gms.common.SignInButton googleButton;
-    Button signOutButton;
+    Button googleButton;
+    TextView dateOutput;
 
     //Google Authentication resources
     private static final String TAG = "Google";
@@ -170,7 +169,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
     //STEP FIVE IN AUTHENTICATION - once user logs in, decide where to go
     private void loginToApp(FirebaseUser user){
-        loginStatus.setText("logged in");
         userExists(user);
     }
     private boolean userExists(final FirebaseUser user){
@@ -184,7 +182,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                 DatabaseObject result = task.getResult();
                 if (result.key() == "empty object"){
                     //new user
-                    firebaseOutput.setText("new user");
                     loginNewUser(user);
                 }else{
                     //existing user
@@ -239,13 +236,11 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     }
 
     private void logOut(){
-        loginStatus.setText("Logged Out");
         testFirebase();
     }
 
 
     private void testFirebase(){
-        firebaseOutput.setText("failed");
         DatabaseController dc = new DatabaseController();
         Task<ArrayList<DatabaseObject>> getAllUsersTask = dc.getAll("user");
         getAllUsersTask.addOnCompleteListener(new OnCompleteListener<ArrayList<DatabaseObject>>() {
@@ -254,7 +249,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                 ArrayList<DatabaseObject> objects = task.getResult();
                 for (DatabaseObject object: objects){
                     User user = (User) object;
-                    firebaseOutput.setText("success");
                 }
             }
         });
@@ -262,27 +256,17 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setupViewObjects(){
-        firebaseTitle = (TextView) findViewById(R.id.firebaseTitle);
-        firebaseOutput = (TextView) findViewById(R.id.firebaseOutput);
-        loginStatus = (TextView) findViewById(R.id.loginStatus);
-        googleButton = (com.google.android.gms.common.SignInButton) findViewById(R.id.googleButton);
-        signOutButton = (Button) findViewById(R.id.signOutButton);
-
+        googleButton = (Button) findViewById(R.id.googleButton);
         googleButton.setOnClickListener(this);
-        signOutButton.setOnClickListener(this);
-
-        firebaseTitle.setText("Firebase Status:");
-        loginStatus.setText("Not Logged In");
+        dateOutput = (TextView) findViewById(R.id.dateOutput);
+        Date d = new Date();
+        CharSequence s = DateFormat.format("MMMM d, yyyy", d.getTime());
+        dateOutput.setText(s);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.googleButton){
-            Log.v(TAG, "signing in");
-            signIn();
-        }else if(v.getId() == R.id.signOutButton){
-            signOut();
-        }
+        signIn();
     }
 
     @Override

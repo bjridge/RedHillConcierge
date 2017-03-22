@@ -4,6 +4,9 @@
     <string name="user_type_basic">Basic User</string>
     <string name="user_type_administrator">Administrator</string>
     <string name="user_type_employee" />
+    <string name="authentication_welcome">WELCOME</string>
+    <string name="authentication_locatoin">Bloomington, Indiana</string>
+    <string name="authentication_credit">In collaboration with Ball State University</string>
 
 
     <string-array name="user_types">
