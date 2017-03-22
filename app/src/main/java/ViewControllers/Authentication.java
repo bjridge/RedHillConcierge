@@ -52,6 +52,8 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
 
+    private String profilePicture;
+
 
 
     @Override
@@ -131,6 +133,8 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
     //STEP THREE IN AUTHENTICATION
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        profilePicture = acct.getPhotoUrl().toString();
+        Log.v("IMPORTANT", "go here:" + profilePicture);
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -139,6 +143,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                         if (!task.isSuccessful()) {
                             Toast.makeText(Authentication.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        }else{
                         }
                     }
                 });
@@ -183,11 +188,10 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                     loginNewUser(user);
                 }else{
                     //existing user
-                    firebaseOutput.setText("old user");
+                    loginExistingUser(user);
                 }
             }
         });
-        //testFirebase();
         return false;
     }
 
@@ -198,8 +202,15 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         Intent i = new Intent(context, NewUser.class);
         i.putExtra("id", user.getUid());
         i.putExtra("name", user.getDisplayName());
-        i.putExtra("pictureURL", user.getPhotoUrl());
-        i.putExtra("email", user.getEmail());
+        i.putExtra("pictureURL", user.getPhotoUrl().toString());
+        Log.v("IMPORTNANT",user.getPhotoUrl().toString());
+        startActivity(i);
+    }
+
+    private void loginExistingUser(FirebaseUser user){
+        Context context = getApplicationContext();
+        Intent i = new Intent(context, MainActivity.class);
+        i.putExtra("id", user.getUid());
         startActivity(i);
     }
 

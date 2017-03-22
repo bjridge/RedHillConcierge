@@ -9,10 +9,18 @@ public class Contact extends DatabaseObject {
     private String city = "Carmel";
     private String state = "Indiana";
     private String zip = "46033";
-
+    private String photo = "";
 
     public Contact(String id){
         this.setKey(id);
+    }
+
+
+    public String getPhoto(){
+        return photo;
+    }
+    public void setPhoto(String photoInput){
+        this.photo = photoInput;
     }
 
     public String getName() {
