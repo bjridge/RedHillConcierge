@@ -3,6 +3,7 @@ package ViewControllers;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -103,9 +104,11 @@ public class NewUser extends AppCompatActivity {
         userTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeInput.setAdapter(userTypeAdapter);
 
-        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, android.R.layout.simple_dropdown_item_1line);
+        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, R.layout.spinner_item);
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateInput.setAdapter(stateAdapter);
+
+
 
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override

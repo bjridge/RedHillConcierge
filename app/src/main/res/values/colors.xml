@@ -9,6 +9,10 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#bdbdbd</color>
 
+    <color name="colorDarkBackgroundPrimary">#ffffff</color>
+    <color name="colorDarkBackgroundSecondary">#bdbdbd</color>
+
+
     <color name="colorPrimaryBackground">#bdbdbd</color>
 
     <color name="colorHeadingOne">#FFFFFF</color>

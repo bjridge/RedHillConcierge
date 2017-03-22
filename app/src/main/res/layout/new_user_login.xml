@@ -74,7 +74,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@drawable/new_user_background"
+
+        >
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -83,7 +86,8 @@
             android:layout_below="@+id/linearLayout3"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="26dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <EditText
                 android:id="@+id/primaryPhoneInput"
@@ -91,10 +95,15 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Primary Phone #"
+                android:textColor="@color/colorDarkBackgroundPrimary"
+                android:textColorHint="@color/colorDarkBackgroundSecondary"
+
                 android:inputType="phone" />
 
             <EditText
                 android:id="@+id/secondaryPhoneInput"
+                android:textColor="@color/colorDarkBackgroundPrimary"
+                android:textColorHint="@color/colorDarkBackgroundSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -103,6 +112,8 @@
 
             <EditText
                 android:id="@+id/streetAddressInput"
+                android:textColor="@color/colorDarkBackgroundPrimary"
+                android:textColorHint="@color/colorDarkBackgroundSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -111,6 +122,8 @@
 
             <EditText
                 android:id="@+id/cityInput"
+                android:textColor="@color/colorDarkBackgroundPrimary"
+                android:textColorHint="@color/colorDarkBackgroundSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -124,6 +137,8 @@
 
                 <EditText
                     android:id="@+id/zipInput"
+                    android:textColor="@color/colorDarkBackgroundPrimary"
+                    android:textColorHint="@color/colorDarkBackgroundSecondary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -151,13 +166,21 @@
 
             <TextView
                 android:id="@+id/textView4"
+                android:textColor="@color/colorDarkBackgroundSecondary"
+                android:textColorHint="@color/colorDarkBackgroundSecondary"
+                android:paddingStart="10px"
+                android:paddingTop="10px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:text="Profile Picture URL" />
+                android:paddingLeft="3dp"
+                android:paddingBottom="0dp"
+                android:text="Profile Picture URL:" />
 
             <EditText
                 android:id="@+id/photoInput"
+                android:paddingTop="5dp"
+                android:textColor="@color/colorDarkBackgroundPrimary"
+                android:textColorHint="@color/colorDarkBackgroundSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:selectAllOnFocus="true"

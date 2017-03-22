@@ -24,7 +24,7 @@
                 style="@style/MyHeadingTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -39,9 +39,9 @@
                 style="@style/MyHeadingTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="50sp"
                 android:text="@string/authentication_locatoin"
-                android:textAlignment="center"
-                android:layout_marginBottom="50sp"/>
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/googleButton"
