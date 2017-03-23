@@ -1,117 +1,157 @@
 package ViewControllers;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-import DataControllers.Contact;
 import DataControllers.DatabaseController;
-import DataControllers.DatabaseObject;
-import DataControllers.Horse;
-import DataControllers.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText firstNameInput;
-    EditText lastNameInput;
-    EditText typeInput;
-    Button addUserButton;
+
+    //toolbar resources
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
+
+    //tab navigation resources
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     DatabaseController controller;
 
+    int[] drawables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //initializeEditTexts();
-        //initializeButton();
-        //controller = new DatabaseController();
+
+        initializeResources();
+        configureTabNavigation();
+        addTabMonitor();
+
+
+
+
+
     }
 
-    /*private void initializeEditTexts(){
-        firstNameInput = (EditText) findViewById(R.id.firstNameInput);
-        firstNameInput.setOnClickListener(new View.OnClickListener() {
+    private void addTabMonitor(){
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                firstNameInput.setText("");
+            public void onTabSelected(TabLayout.Tab tab) {
+                //get the tab
+                String title = "";
+                int selectedIndex = tab.getPosition();
+                switch (selectedIndex){
+                    case 0:
+                        title = "Home";
+                        break;
+                    case 1:
+                        title = "Feed";
+                        break;
+                    case 2:
+                        title="Search";
+                        break;
+                    default:
+                        title = "Schedule";
+                        break;
+                }
+                toolbarTitle.setText(title);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-        lastNameInput = (EditText) findViewById(R.id.lastNameInput);
-        lastNameInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lastNameInput.setText("");
-            }
-        });
-        typeInput = (EditText) findViewById(R.id.typeInput);
-        typeInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                typeInput.setText("");
-            }
-        });
-    }
-    private void initializeButton(){
-        addUserButton = (Button) findViewById(R.id.addUserButton);
-        addUserButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testMethod();
-            }
-        });
-    }
-    private void updateUser(){
-        User newUser = new User();
-        newUser.setFirstName("Bradley");
-        newUser.setLastName("Ridge");
-        newUser.setType("Lead Developer");
-        newUser.setKey(1);
-        controller.updateObject(newUser);
     }
 
-    private void tryAddNewUser(){
-        if (firstNameInput.getText().equals("") || lastNameInput.getText().equals("") || typeInput.getText().equals("")){
-            firstNameInput.setText("must complete all fields");
-            return;
+    private void initializeResources() {
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        toolbarTitle.setText("Home");
+        drawables = new int[5];
+        drawables[0] = R.drawable.home_tab_icon_selector;
+        drawables[1] = R.drawable.food_icon_selector;
+        drawables[2] = R.drawable.search_tab_icon_selector;
+        drawables[3] = R.drawable.calendar_icon_selector;
+    }
+    private void configureTabNavigation(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        setupViewPager();
+        tabLayout.setupWithViewPager(viewPager);
+        addTabIcons();
+    }
+    private void setupViewPager(){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new HomeTabFragment(), "");
+        adapter.addFragment(new HomeTabFragment(), "");
+        adapter.addFragment(new HomeTabFragment(), "");
+        adapter.addFragment(new HomeTabFragment(), "");
+        viewPager.setAdapter(adapter);
+
+    }
+
+
+    private void addTabIcons(){
+
+        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
+            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab, null);
+
+            homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
+            tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
         }
-        addNewUser();
     }
-    private void addNewUser(){
-        String firstName = firstNameInput.getText().toString();
-        String lastName = lastNameInput.getText().toString();
-        String type = typeInput.getText().toString();
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        User newUser = new User();
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
-        newUser.setType(type);
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-        DatabaseController controller = new DatabaseController();
-        controller.addNewObject(newUser);
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
-    private void testMethod() {
-        System.out.println("clicked");
-        final Task<ArrayList<DatabaseObject>> task = controller.getAll("horse");
-        task.addOnSuccessListener(new OnSuccessListener<ArrayList<DatabaseObject>>() {
-            @Override
-            public void onSuccess(ArrayList<DatabaseObject> databaseObjects) {
-                ArrayList<DatabaseObject> objects = (ArrayList<DatabaseObject>) task.getResult();
-                Horse user = (Horse) objects.get(4);
-                firstNameInput.setText(user.key() + "");
-                lastNameInput.setText(user.getName());
-            }
-        });
-    }*/
+
 }

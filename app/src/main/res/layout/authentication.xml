@@ -24,7 +24,8 @@
                 style="@style/MyHeadingTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -43,7 +44,7 @@
                 android:layout_marginBottom="50sp"
                 android:text="@string/authentication_locatoin"
                 android:textAlignment="center"
-/>
+                android:textSize="18sp" />
 
 
             <Button
@@ -53,11 +54,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/my_button_border"
                 android:layout_marginTop="50dp"
+                android:background="@drawable/accent_ripple"
                 android:text="Sign In With Google"
+                android:clickable="true"
 
-                />
+                android:textSize="20sp"
+
+                >
+
+
+
+                </Button>
         </LinearLayout>
 
     </RelativeLayout>

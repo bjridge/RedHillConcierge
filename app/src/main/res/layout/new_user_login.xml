@@ -126,7 +126,7 @@
                             android:paddingLeft="3dp"
                             android:paddingStart="10px"
                             android:paddingTop="10px"
-                            android:text="Profile Picture URL:"
+                            android:text="@string/profile_picture_url"
                             android:textColor="@color/colorDarkBackgroundSecondary"
                             android:textColorHint="@color/colorDarkBackgroundSecondary" />
 

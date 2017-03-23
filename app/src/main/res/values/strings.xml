@@ -7,7 +7,7 @@
     <string name="authentication_welcome">WELCOME</string>
     <string name="authentication_locatoin">Bloomington, Indiana</string>
     <string name="authentication_credit">In collaboration with Ball State University</string>
-
+    <string name="profile_picture_url">copy and paste url to change profile picture</string>
 
     <string-array name="user_types">
         <item>Basic User</item>

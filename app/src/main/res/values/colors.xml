@@ -25,8 +25,13 @@
 
     <color name="statusBar">#004d40</color>
     <color name="headerOne">#00bfa5</color>
+    <color name="emphasis">#00a28c</color>
     <color name="headerTwo">#64ffda</color>
     <color name="body">#e0f2f1</color>
     <color name="accent">#f50057</color>
+    <color name="ripple">#32f50057</color>
+    <color name="title">#ffffff</color>
+
+
 
 </resources>
