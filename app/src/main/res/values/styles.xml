@@ -3,13 +3,27 @@
     <!-- Base application theme. -->
     <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/headerOne</item>
+        <item name="colorPrimaryDark">@color/statusBar</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:textColorPrimary">@color/colorPrimaryText</item>
         <item name="android:textColorSecondary">@color/colorSecondaryText</item>
         <item name="android:colorForeground">@color/foreground_material_light</item>
+        <item name="android:colorBackground">@color/body</item>
+        <item name="android:textColorPrimaryInverse">@color/body</item>
 
+    </style>
+
+    <style name="headerOne">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:layout_height">100sp</item>
+        <item name="android:background">@color/headerOne</item>
+    </style>
+    <style name="headerTwo">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:background">@color/headerTwo</item>
     </style>
 
     <style name="MyToolbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -27,6 +41,10 @@
         <item name="android:radius">10dp</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:padding">10dp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">0.0</item>
+        <item name="android:shadowRadius">70.0</item>
     </style>
 
     <style name="MyHeadingOne">
@@ -34,12 +52,22 @@
         <item name="android:textSize">35sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">20sp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">0.0</item>
+        <item name="android:shadowRadius">50.0</item>
+
+
     </style>
 
     <style name="MyHeadingTwo">
         <item name="android:textColor">@color/colorHeadingOne</item>
         <item name="android:textSize">15sp</item>
         <item name="android:layout_marginBottom">0sp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">0.0</item>
+        <item name="android:shadowRadius">20.0</item>
     </style>
 
     <style name="MyDarkPrimaryText">

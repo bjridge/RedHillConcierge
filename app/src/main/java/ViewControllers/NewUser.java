@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -38,7 +39,7 @@ public class NewUser extends AppCompatActivity {
     TextView zipInput;
     TextView photoInput;
     Spinner stateInput;
-    ImageButton completeButton;
+    FloatingActionButton completeButton;
     ImageView profilePicture;
 
     String id;
@@ -81,7 +82,7 @@ public class NewUser extends AppCompatActivity {
     }
 
     private void setPicture(String pictureAddress){
-        Picasso.with(getApplicationContext()).load("https://scontent.xx.fbcdn.net/v/l/t1.0-9/1482954_865764286809102_4185013482102571086_n.jpg?oh=d728aef8e973807ce280d9e04d52ba63&oe=59269464").into(profilePicture);
+        Picasso.with(getApplicationContext()).load(pictureAddress).into(profilePicture);
     }
 
     private void setupViewObjects(){
@@ -95,7 +96,7 @@ public class NewUser extends AppCompatActivity {
         streetAddressInput = (TextView) findViewById(R.id.streetAddressInput);
         zipInput = (TextView) findViewById(R.id.zipInput);
         stateInput = (Spinner) findViewById(R.id.stateInput);
-        completeButton = (ImageButton) findViewById(R.id.completeButton);
+        completeButton = (FloatingActionButton) findViewById(R.id.completeButton);
         photoInput = (TextView) findViewById(R.id.photoInput);
         cityInput = (TextView) findViewById(R.id.cityInput);
 

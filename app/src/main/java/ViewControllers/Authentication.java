@@ -133,7 +133,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     //STEP THREE IN AUTHENTICATION
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         profilePicture = acct.getPhotoUrl().toString();
-        Log.v("IMPORTANT", "go here:" + profilePicture);
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

@@ -10,209 +10,221 @@
         android:visibility="visible"
         app:title="@string/app_name" />
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDarkest"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="140dp"
-            android:layout_height="140dp">
-
-            <ImageView
-                android:id="@+id/profilePicture"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                app:srcCompat="@drawable/empty_profile" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/firstNameInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="First Name"
-                    android:inputType="textPersonName" />
-
-                <EditText
-                    android:id="@+id/lastNameInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Last Name"
-                    android:inputType="textPersonName" />
-
-                <Spinner
-                    android:id="@+id/userTypeInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:dropDownWidth="wrap_content"
-                    android:spinnerMode="dropdown" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/new_user_background"
-
-        >
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/completeButton"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/linearLayout4"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="110dp"
+            android:clickable="true"
+            android:tint="@color/body"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_note_add_black_24dp" />
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp"
-            android:orientation="vertical"
-            >
-
-            <EditText
-                android:id="@+id/primaryPhoneInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Primary Phone #"
-                android:textColor="@color/colorDarkBackgroundPrimary"
-                android:textColorHint="@color/colorDarkBackgroundSecondary"
-
-                android:inputType="phone" />
-
-            <EditText
-                android:id="@+id/secondaryPhoneInput"
-                android:textColor="@color/colorDarkBackgroundPrimary"
-                android:textColorHint="@color/colorDarkBackgroundSecondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Secondary Phone #"
-                android:inputType="phone" />
-
-            <EditText
-                android:id="@+id/streetAddressInput"
-                android:textColor="@color/colorDarkBackgroundPrimary"
-                android:textColorHint="@color/colorDarkBackgroundSecondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Street Address"
-                android:inputType="textPostalAddress" />
-
-            <EditText
-                android:id="@+id/cityInput"
-                android:textColor="@color/colorDarkBackgroundPrimary"
-                android:textColorHint="@color/colorDarkBackgroundSecondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="City"
-                android:inputType="textPersonName" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/zipInput"
-                    android:textColor="@color/colorDarkBackgroundPrimary"
-                    android:textColorHint="@color/colorDarkBackgroundSecondary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Zip Code"
-                    android:inputType="number" />
-
-                <Spinner
-                    android:id="@+id/stateInput"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="visible" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:textColor="@color/colorDarkBackgroundSecondary"
-                android:textColorHint="@color/colorDarkBackgroundSecondary"
-                android:paddingStart="10px"
-                android:paddingTop="10px"
+            <LinearLayout
+                android:id="@+id/name_and_picture_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="3dp"
-                android:paddingBottom="0dp"
-                android:text="Profile Picture URL:" />
+                android:background="@color/colorPrimaryDarkest"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/photoInput"
-                android:paddingTop="5dp"
-                android:textColor="@color/colorDarkBackgroundPrimary"
-                android:textColorHint="@color/colorDarkBackgroundSecondary"
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
+
+                    <ImageView
+                        android:id="@+id/profilePicture"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/empty_profile" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/firstNameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="First Name"
+                            android:inputType="textPersonName" />
+
+                        <EditText
+                            android:id="@+id/lastNameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Last Name"
+                            android:inputType="textPersonName" />
+
+                        <Spinner
+                            android:id="@+id/userTypeInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="wrap_content"
+                            android:layout_marginRight="50sp"
+                            android:spinnerMode="dropdown" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:selectAllOnFocus="true"
-                android:ems="10"
-                android:hint="Picture URL"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                android:background="@drawable/new_user_background"
+                >
+
+                <LinearLayout
+                    android:id="@+id/input_fields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/url_fields"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="3dp"
+                            android:paddingStart="10px"
+                            android:paddingTop="10px"
+                            android:text="Profile Picture URL:"
+                            android:textColor="@color/colorDarkBackgroundSecondary"
+                            android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                        <EditText
+                            android:id="@+id/photoInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Picture URL"
+                            android:inputType="textPersonName"
+                            android:paddingTop="5dp"
+                            android:selectAllOnFocus="true"
+                            android:textColor="@color/colorDarkBackgroundPrimary"
+                            android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/other_fields"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearLayout3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/primaryPhoneInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Primary Phone #"
+                            android:inputType="phone"
+                            android:textColor="@color/colorDarkBackgroundPrimary"
+
+                            android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                        <EditText
+                            android:id="@+id/secondaryPhoneInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Secondary Phone #"
+                            android:inputType="phone"
+                            android:textColor="@color/colorDarkBackgroundPrimary"
+                            android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                        <EditText
+                            android:id="@+id/streetAddressInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Street Address"
+                            android:inputType="textPostalAddress"
+                            android:textColor="@color/colorDarkBackgroundPrimary"
+                            android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                        <EditText
+                            android:id="@+id/cityInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="City"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/colorDarkBackgroundPrimary"
+                            android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/zipInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Zip Code"
+                                android:inputType="number"
+                                android:textColor="@color/colorDarkBackgroundPrimary"
+                                android:textColorHint="@color/colorDarkBackgroundSecondary" />
+
+                            <Spinner
+                                android:id="@+id/stateInput"
+                                android:layout_width="200dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:visibility="visible"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
 
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <ImageButton
-                android:id="@+id/completeButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                android:adjustViewBounds="false"
-                android:background="#80303030"
-                android:cropToPadding="false"
-                android:elevation="12dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/add_button" />
-        </RelativeLayout>
-    </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>
