@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -51,7 +53,22 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         initializeResources();
         configureTabNavigation();
         addTabMonitor();
+
+
+
+
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.layout.custom_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //do something here
+        return true;
+    }
+
 
     private void addTabMonitor(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

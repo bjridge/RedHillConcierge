@@ -11,7 +11,8 @@
         android:layout_height="@dimen/toolbar_height"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:theme="?attr/actionBarTheme"
+        android:clickable="true">
 
         <TextView
             android:id="@+id/main_toolbar_title"
@@ -25,6 +26,7 @@
 
 
     </android.support.v7.widget.Toolbar>
+
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,5 +71,16 @@
         app:elevation="10dp"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_administrator_white" />
+
+    <ImageButton
+        android:id="@+id/dropdown_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/ic_dropdown_white"
+        android:background="@drawable/my__ripple_toolbar"
+        android:layout_gravity="top|right"
+
+        />
+
 
 </android.support.design.widget.CoordinatorLayout>
