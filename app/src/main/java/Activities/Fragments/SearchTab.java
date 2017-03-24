@@ -1,4 +1,4 @@
-package ViewControllers;
+package Activities.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +23,7 @@ public class SearchTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.search, container, false);
+        return inflater.inflate(R.layout.tab__search, container, false);
     }
 
 

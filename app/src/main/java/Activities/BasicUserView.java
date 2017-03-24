@@ -1,6 +1,9 @@
-package ViewControllers;
+package Activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,9 +19,14 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import java.util.ArrayList;
 import java.util.List;
 
+import Activities.Fragments.EventsTab;
+import Activities.Fragments.HomeTab;
+import Activities.Fragments.MyHorsesTab;
+import Activities.Fragments.SearchTab;
+import Activities.Fragments.TodayTab;
 import DataControllers.DatabaseController;
 
-public class MainActivity extends AppCompatActivity {
+public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
 
 
     //toolbar resources
@@ -29,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    FloatingActionButton administratorViewButton;
+
     DatabaseController controller;
 
     int[] drawables;
@@ -36,16 +46,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity__basic_user);
 
         initializeResources();
         configureTabNavigation();
         addTabMonitor();
-
-
-
-
-
     }
 
     private void addTabMonitor(){
@@ -93,13 +98,15 @@ public class MainActivity extends AppCompatActivity {
         toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+        administratorViewButton = (FloatingActionButton) findViewById(R.id.administrator_button);
         toolbarTitle.setText("Home");
         drawables = new int[5];
-        drawables[0] = R.drawable.home_tab_icon_selector;
-        drawables[1] = R.drawable.assignment_icon_selector;
-        drawables[2] = R.drawable.search_tab_icon_selector;
-        drawables[3] = R.drawable.calendar_icon_selector;
-        drawables[4] = R.drawable.horse_icon_selector;
+        administratorViewButton.setOnClickListener(this);
+        drawables[0] = R.drawable.selector__home_tab_icon;
+        drawables[1] = R.drawable.selector__today_tab_icon;
+        drawables[2] = R.drawable.selector__search_tab_icon;
+        drawables[3] = R.drawable.selector__events_tab_icon;
+        drawables[4] = R.drawable.selector__my_horses_tab_icon;
     }
     private void configureTabNavigation(){
         setSupportActionBar(toolbar);
@@ -111,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeTab(), "");
-        adapter.addFragment(new TodayFragment(), "");
+        adapter.addFragment(new TodayTab(), "");
         adapter.addFragment(new SearchTab(), "");
         adapter.addFragment(new EventsTab(), "");
         adapter.addFragment(new MyHorsesTab(), "");
@@ -123,12 +130,26 @@ public class MainActivity extends AppCompatActivity {
     private void addTabIcons(){
 
         for (int tabNumber = 0; tabNumber < 5; tabNumber++){
-            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab, null);
+            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
 
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
             tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.administrator_button){
+            switchToAdministratorView();
+        }
+    }
+    private void switchToAdministratorView(){
+        Context context = getApplicationContext();
+        Intent intent = new Intent(context, AdministratorView.class);
+        startActivity(intent);
+
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

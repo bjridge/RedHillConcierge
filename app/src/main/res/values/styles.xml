@@ -83,7 +83,7 @@
     </style>
 
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
-        <item name="tabBackground">@drawable/custom_tab_ripple</item>
+        <item name="tabBackground">@drawable/my__ripple_light_accent</item>
         <item name="tabIndicatorColor">@color/accent</item>
         <item name="tabIndicatorHeight">4dp</item>
     </style>

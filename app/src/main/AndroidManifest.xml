@@ -9,18 +9,19 @@
         android:theme="@style/MyAppTheme"
 
         >
-        <activity android:name="ViewControllers.Authentication" >
+        <activity android:name="Activities.Authentication" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
-        <activity android:name="ViewControllers.InitialUserSetup"
+        <activity android:name="Activities.NewUser"
             android:screenOrientation="portrait"
             />
-        <activity android:name="ViewControllers.MainActivity"
+        <activity android:name="Activities.BasicUserView"
             android:noHistory="true"
             />
+        <activity android:name="Activities.AdministratorView"/>
     </application>
 </manifest>

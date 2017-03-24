@@ -1,4 +1,4 @@
-package ViewControllers;
+package Activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +21,7 @@ import DataControllers.DatabaseController;
 import DataControllers.User;
 
 
-public class InitialUserSetup extends AppCompatActivity {
+public class NewUser extends AppCompatActivity {
 
     TextView firstNameInput;
     TextView lastNameInput;
@@ -46,7 +46,7 @@ public class InitialUserSetup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_user_login);
+        setContentView(R.layout.activity__new_user_setup);
 
         setupViewObjects();
         setInitialValues();
@@ -99,7 +99,7 @@ public class InitialUserSetup extends AppCompatActivity {
         userTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeInput.setAdapter(userTypeAdapter);
 
-        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, R.layout.custom_spinner_item);
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateInput.setAdapter(stateAdapter);
 
@@ -197,7 +197,7 @@ public class InitialUserSetup extends AppCompatActivity {
 
     private void goToMainActivity(User user){
         Context context = getApplicationContext();
-        Intent i = new Intent(context, MainActivity.class);
+        Intent i = new Intent(context, BasicUserView.class);
         i.putExtra("id", user.key());
         startActivity(i);
     }
@@ -222,7 +222,7 @@ public class InitialUserSetup extends AppCompatActivity {
     }
 
     private void showDialog(String title, String text){
-        AlertDialog alertDialog = new AlertDialog.Builder(InitialUserSetup.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(NewUser.this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(text);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

@@ -1,4 +1,4 @@
-package ViewControllers;
+package Activities.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class TodayFragment extends Fragment {
+public class HomeTab extends Fragment {
 
-    public TodayFragment() {
+    public HomeTab() {
         // Required empty public constructor
     }
 
@@ -23,7 +23,7 @@ public class TodayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.today, container, false);
+        return inflater.inflate(R.layout.tab__home, container, false);
     }
 
 

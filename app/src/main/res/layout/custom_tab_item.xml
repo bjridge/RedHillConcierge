@@ -6,7 +6,7 @@
     android:layout_height="@dimen/tab_bar_height"
     android:gravity="center_horizontal"
     android:layout_gravity="center"
-    android:background="@drawable/custom_tab_ripple">
+    android:background="@drawable/my__ripple_light_accent">
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"

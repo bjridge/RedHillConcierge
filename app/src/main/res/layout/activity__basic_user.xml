@@ -17,7 +17,7 @@
             android:id="@+id/main_toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/custom_tab_ripple"
+            android:background="@drawable/my__ripple_light_accent"
             android:gravity="center"
             android:textColor="@color/title"
             android:textSize="20dp"
@@ -50,7 +50,7 @@
 
     <ImageButton
         android:id="@+id/imageButton2"
-        android:background="@drawable/custom_tab_ripple"
+        android:background="@drawable/my__ripple_light_accent"
         android:layout_width="@dimen/toolbar_height"
         android:layout_height="@dimen/toolbar_height"
         app:srcCompat="@drawable/ic_camera"
@@ -58,16 +58,16 @@
 />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="@dimen/menu_button_height"
+        android:id="@+id/administrator_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="@dimen/administrator_button_height"
         android:clickable="true"
         app:backgroundTint="@color/accent"
         app:elevation="10dp"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_more" />
+        app:srcCompat="@drawable/ic_administrator_white" />
 
 </android.support.design.widget.CoordinatorLayout>
