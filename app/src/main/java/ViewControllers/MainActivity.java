@@ -61,13 +61,16 @@ public class MainActivity extends AppCompatActivity {
                         title = "Home";
                         break;
                     case 1:
-                        title = "Feed";
+                        title = "Today";
                         break;
                     case 2:
                         title="Search";
                         break;
+                    case 3:
+                        title = "Events";
+                        break;
                     default:
-                        title = "Schedule";
+                        title = "My Horses";
                         break;
                 }
                 toolbarTitle.setText(title);
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private void initializeResources() {
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
@@ -93,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
         toolbarTitle.setText("Home");
         drawables = new int[5];
         drawables[0] = R.drawable.home_tab_icon_selector;
-        drawables[1] = R.drawable.food_icon_selector;
+        drawables[1] = R.drawable.assignment_icon_selector;
         drawables[2] = R.drawable.search_tab_icon_selector;
         drawables[3] = R.drawable.calendar_icon_selector;
+        drawables[4] = R.drawable.horse_icon_selector;
     }
     private void configureTabNavigation(){
         setSupportActionBar(toolbar);
@@ -107,9 +112,10 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeTabFragment(), "");
-        adapter.addFragment(new HomeTabFragment(), "");
-        adapter.addFragment(new HomeTabFragment(), "");
-        adapter.addFragment(new HomeTabFragment(), "");
+        adapter.addFragment(new TodayFragment(), "");
+        adapter.addFragment(new SearchTabFragment(), "");
+        adapter.addFragment(new EventsFragment(), "");
+        adapter.addFragment(new MyHorsesFragment(), "");
         viewPager.setAdapter(adapter);
 
     }
@@ -117,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addTabIcons(){
 
-        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
+        for (int tabNumber = 0; tabNumber < 5; tabNumber++){
             View homeTab = getLayoutInflater().inflate(R.layout.custom_tab, null);
 
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);

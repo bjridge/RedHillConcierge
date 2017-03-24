@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="#00000000"
-            app:srcCompat="@mipmap/person_icon"
             android:layout_gravity="right"/>
     </android.support.v7.widget.Toolbar>
 

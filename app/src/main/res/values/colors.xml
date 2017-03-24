@@ -31,6 +31,7 @@
     <color name="accent">#f50057</color>
     <color name="ripple">#32f50057</color>
     <color name="title">#ffffff</color>
+    <color name="transparent">#00ffffff</color>
 
 
 
