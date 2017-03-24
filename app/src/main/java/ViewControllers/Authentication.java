@@ -28,8 +28,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -195,7 +193,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     private void loginNewUser(FirebaseUser user){
         //transition to new screen with new names
         Context context = getApplicationContext();
-        Intent i = new Intent(context, NewUser.class);
+        Intent i = new Intent(context, InitialUserSetup.class);
         i.putExtra("id", user.getUid());
         i.putExtra("name", user.getDisplayName());
         i.putExtra("pictureURL", user.getPhotoUrl().toString());

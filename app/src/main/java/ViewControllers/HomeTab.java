@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class HomeTabFragment extends Fragment {
+public class HomeTab extends Fragment {
 
-    public HomeTabFragment() {
+    public HomeTab() {
         // Required empty public constructor
     }
 

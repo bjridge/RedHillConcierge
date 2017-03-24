@@ -3,23 +3,17 @@ package ViewControllers;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 import DataControllers.Contact;
@@ -27,7 +21,7 @@ import DataControllers.DatabaseController;
 import DataControllers.User;
 
 
-public class NewUser extends AppCompatActivity {
+public class InitialUserSetup extends AppCompatActivity {
 
     TextView firstNameInput;
     TextView lastNameInput;
@@ -228,7 +222,7 @@ public class NewUser extends AppCompatActivity {
     }
 
     private void showDialog(String title, String text){
-        AlertDialog alertDialog = new AlertDialog.Builder(NewUser.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(InitialUserSetup.this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(text);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
