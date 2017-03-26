@@ -54,11 +54,11 @@
         />
 
     <ImageButton
-        android:id="@+id/settings_button"
+        android:id="@+id/profile_button"
         android:layout_width="@dimen/toolbar_height"
         android:layout_height="@dimen/toolbar_height"
         android:layout_gravity="top|right"
-        app:srcCompat="@drawable/ic_settings_white"
+        app:srcCompat="@drawable/ic_profile_white"
         android:background="@drawable/my__ripple_light_accent"
         />
     <ImageButton

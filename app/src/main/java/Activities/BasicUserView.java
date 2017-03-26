@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -46,7 +47,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private ViewPager viewPager;
 
     ImageButton administratorButton;
-    ImageButton settingsButton;
+    ImageButton profileButton;
     ImageButton cameraButton;
 
     DatabaseController controller;
@@ -119,10 +120,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         administratorButton = (ImageButton) findViewById(R.id.administrator_button);
-        settingsButton = (ImageButton) findViewById(R.id.settings_button);
+        profileButton = (ImageButton) findViewById(R.id.profile_button);
         cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(this);
-        settingsButton.setOnClickListener(this);
+        profileButton.setOnClickListener(this);
         administratorButton.setOnClickListener(this);
         toolbarTitle.setText("Home");
         drawables = new int[4];
@@ -196,10 +197,37 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.administrator_button:
+                navigateTo(AdministratorView.class);
+                break;
+            case R.id.profile_button:
+                navigateTo(Profile.class);
+                break;
+            case R.id.camera_button:
+                //go to camera view
+                break;
+            default:
+                //do nothing
+                break;
+        }
         if (v.getId() == R.id.administrator_button){
             switchToAdministratorView();
         }
     }
+
+    private void navigateTo(Class destination){
+        Context context = getApplicationContext();
+        Intent i = new Intent(context, destination);
+        i.putExtra("id", user.key());
+        i.putExtra("name", user.getFirstName());
+        i.putExtra("pictureURL", user.getLastName());
+        startActivity(i);
+    }
+
+
+
+
     private void switchToAdministratorView(){
         Context context = getApplicationContext();
         Intent intent = new Intent(context, AdministratorView.class);
