@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class MyHorsesTab extends Fragment {
+import DataControllers.Contact;
+import DataControllers.User;
+
+public class MyHorsesTab extends MyFragment {
 
     public MyHorsesTab() {
         // Required empty public constructor

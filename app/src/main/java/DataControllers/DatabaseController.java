@@ -141,13 +141,18 @@ public class DatabaseController {
                 try {
 
                     String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
-                    DatabaseObject user = (DatabaseObject) dataSnapshot.getValue(Class.forName("DataControllers." + className));
-                    if (user != null){
-                        user.setKey(dataSnapshot.getKey());
+                    Log.v("IMPORTANT", className);
+                    DatabaseObject object = (DatabaseObject) dataSnapshot.getValue(Class.forName("DataControllers." + className));
+                    if (object != null){
+                        object.setKey(dataSnapshot.getKey());
+                        Log.v("IMPORTANT", "object is not null");
+
                     }else{
-                        user = new DatabaseObject();
+                        object = new DatabaseObject();
+                        Log.v("IMPORTANT", "object is null");
+
                     }
-                    taskOutput.setResult(user);
+                    taskOutput.setResult(object);
 
 
                 }catch (ClassNotFoundException e){

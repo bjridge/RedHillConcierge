@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class SearchTab extends Fragment {
+import DataControllers.Contact;
+import DataControllers.User;
+
+public class SearchTab extends MyFragment {
 
     public SearchTab() {
         // Required empty public constructor

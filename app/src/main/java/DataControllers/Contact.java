@@ -15,6 +15,8 @@ public class Contact extends DatabaseObject {
         this.setKey(id);
     }
 
+    public Contact(){}
+
 
     public String getPhoto(){
         return photo;

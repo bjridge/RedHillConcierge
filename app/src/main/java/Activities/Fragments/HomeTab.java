@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class HomeTab extends Fragment {
+import DataControllers.Contact;
+import DataControllers.User;
+
+public class HomeTab extends MyFragment {
+
 
     public HomeTab() {
         // Required empty public constructor

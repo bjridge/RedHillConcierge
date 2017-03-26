@@ -23,5 +23,7 @@
             android:noHistory="true"
             />
         <activity android:name="Activities.AdministratorView"/>
+        <activity android:name="Activities.Profile"></activity>
+        <activity android:name="Activities.Settings"></activity>
     </application>
 </manifest>

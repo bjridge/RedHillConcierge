@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class EventsTab extends Fragment {
+import DataControllers.Contact;
+import DataControllers.User;
+
+public class EventsTab extends MyFragment {
 
     public EventsTab() {
         // Required empty public constructor

@@ -207,7 +207,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         i.putExtra("id", user.getUid());
         i.putExtra("name", user.getDisplayName());
         i.putExtra("pictureURL", user.getPhotoUrl().toString());
-        Log.v("IMPORTNANT",user.getPhotoUrl().toString());
+        Log.v("IMPORTANT",user.getPhotoUrl().toString());
         startActivity(i);
     }
 

@@ -3,6 +3,7 @@ package Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,22 +12,27 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
+import Activities.Fragments.MyFragment;
 import Activities.Fragments.MyHorsesTab;
 import Activities.Fragments.SearchTab;
-import Activities.Fragments.TodayTab;
+import DataControllers.Contact;
 import DataControllers.DatabaseController;
+import DataControllers.DatabaseObject;
+import DataControllers.User;
 
 public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,11 +45,16 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    FloatingActionButton administratorViewButton;
+    ImageButton administratorButton;
+    ImageButton settingsButton;
+    ImageButton cameraButton;
 
     DatabaseController controller;
 
     int[] drawables;
+
+    User user;
+    Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +65,15 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         configureTabNavigation();
         addTabMonitor();
 
+        checkPermissions();
+
+
+
 
 
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.layout.custom_menu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        //do something here
-        return true;
-    }
+
 
 
     private void addTabMonitor(){
@@ -82,12 +88,9 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                         title = "Home";
                         break;
                     case 1:
-                        title = "Today";
-                        break;
-                    case 2:
                         title="Search";
                         break;
-                    case 3:
+                    case 2:
                         title = "Events";
                         break;
                     default:
@@ -115,15 +118,40 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        administratorViewButton = (FloatingActionButton) findViewById(R.id.administrator_button);
+        administratorButton = (ImageButton) findViewById(R.id.administrator_button);
+        settingsButton = (ImageButton) findViewById(R.id.settings_button);
+        cameraButton = (ImageButton) findViewById(R.id.camera_button);
+        cameraButton.setOnClickListener(this);
+        settingsButton.setOnClickListener(this);
+        administratorButton.setOnClickListener(this);
         toolbarTitle.setText("Home");
-        drawables = new int[5];
-        administratorViewButton.setOnClickListener(this);
+        drawables = new int[4];
+        administratorButton.setOnClickListener(this);
         drawables[0] = R.drawable.selector__home_tab_icon;
-        drawables[1] = R.drawable.selector__today_tab_icon;
-        drawables[2] = R.drawable.selector__search_tab_icon;
-        drawables[3] = R.drawable.selector__events_tab_icon;
-        drawables[4] = R.drawable.selector__my_horses_tab_icon;
+        drawables[1] = R.drawable.selector__search_tab_icon;
+        drawables[2] = R.drawable.selector__events_tab_icon;
+        drawables[3] = R.drawable.selector__my_horses_tab_icon;
+
+        getUser();
+    }
+    private void getUser(){
+        Intent i = getIntent();
+        String id = i.getStringExtra("id");
+        DatabaseController dc = new DatabaseController();
+        Task<DatabaseObject> getUserTask = dc.getObject("user", id);
+        getUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
+            @Override
+            public void onComplete(@NonNull Task<DatabaseObject> task) {
+                user = (User) task.getResult();
+            }
+        });
+        Task<DatabaseObject> getContactTask = dc.getObject("contact", id);
+        getContactTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
+            @Override
+            public void onComplete(@NonNull Task<DatabaseObject> task) {
+                contact = (Contact) task.getResult();
+            }
+        });
     }
     private void configureTabNavigation(){
         setSupportActionBar(toolbar);
@@ -134,19 +162,31 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
     private void setupViewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HomeTab(), "");
-        adapter.addFragment(new TodayTab(), "");
-        adapter.addFragment(new SearchTab(), "");
-        adapter.addFragment(new EventsTab(), "");
-        adapter.addFragment(new MyHorsesTab(), "");
+        Fragment[] fragments = buildFragments();
+        for (Fragment tab: fragments){
+            adapter.addFragment(tab, "");
+        }
         viewPager.setAdapter(adapter);
 
+    }
+
+    private Fragment[] buildFragments(){
+        MyFragment[] fragments = new MyFragment[4];
+        fragments[0] = new HomeTab();
+        fragments[1] = new SearchTab();
+        fragments[2] = new EventsTab();
+        fragments[3] = new MyHorsesTab();
+        for (MyFragment frag: fragments){
+            frag.setUser(user);
+            frag.setContact(contact);
+        }
+        return fragments;
     }
 
 
     private void addTabIcons(){
 
-        for (int tabNumber = 0; tabNumber < 5; tabNumber++){
+        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
             View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
 
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
@@ -194,6 +234,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private void checkPermissions(){
+        DatabaseController dc = new DatabaseController();
+        //dc.getObject(id);
     }
 
 
