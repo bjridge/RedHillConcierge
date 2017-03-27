@@ -64,6 +64,9 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         setupViewObjects();
         setupGoogleResources();
         setupFirebaseResources();
+
+
+
     }
     private void setupViewObjects(){
         initializeViewObjects();
@@ -231,15 +234,17 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
 
 
-
-    private void signOut(){
+    private void signOut() {
+        // Firebase sign out
         mAuth.signOut();
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                //logOut();
-            }
-        });
+
+        // Google sign out
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                    }
+                });
     }
 
 

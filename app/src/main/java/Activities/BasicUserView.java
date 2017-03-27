@@ -222,7 +222,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         i.putExtra("id", user.key());
         i.putExtra("name", user.getFirstName());
         i.putExtra("pictureURL", user.getLastName());
-        startActivity(i);
+        startActivityForResult(i, 0);
     }
 
 

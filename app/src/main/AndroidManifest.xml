@@ -23,6 +23,8 @@
             android:noHistory="true"
             />
         <activity android:name="Activities.AdministratorView"/>
-        <activity android:name="Activities.Profile"></activity>
+        <activity android:name="Activities.Profile"
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
     </application>
 </manifest>
