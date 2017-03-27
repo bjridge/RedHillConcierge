@@ -208,8 +208,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         Context context = getApplicationContext();
         Intent i = new Intent(context, NewUser.class);
         i.putExtra("id", user.getUid());
-        i.putExtra("name", user.getDisplayName());
-        i.putExtra("pictureURL", user.getPhotoUrl().toString());
         Log.v("IMPORTANT",user.getPhotoUrl().toString());
         startActivity(i);
     }

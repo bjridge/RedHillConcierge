@@ -17,6 +17,37 @@ public class Contact extends DatabaseObject {
 
     public Contact(){}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Contact contact = (Contact) o;
+
+        if (!name.equals(contact.name)) return false;
+        if (!primaryPhone.equals(contact.primaryPhone)) return false;
+        if (!secondaryPhone.equals(contact.secondaryPhone)) return false;
+        if (!streetAddress.equals(contact.streetAddress)) return false;
+        if (!city.equals(contact.city)) return false;
+        if (!state.equals(contact.state)) return false;
+        if (!zip.equals(contact.zip)) return false;
+        if (!photo.equals(contact.photo)) return false;
+        return photo.equals(contact.photo);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + primaryPhone.hashCode();
+        result = 31 * result + secondaryPhone.hashCode();
+        result = 31 * result + streetAddress.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + state.hashCode();
+        result = 31 * result + zip.hashCode();
+        result = 31 * result + photo.hashCode();
+        return result;
+    }
 
     public String getPhoto(){
         return photo;

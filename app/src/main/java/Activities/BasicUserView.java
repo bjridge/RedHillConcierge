@@ -30,6 +30,7 @@ import Activities.Fragments.HomeTab;
 import Activities.Fragments.MyFragment;
 import Activities.Fragments.MyHorsesTab;
 import Activities.Fragments.SearchTab;
+import Activities.Fragments.TodayTab;
 import DataControllers.Contact;
 import DataControllers.DatabaseController;
 import DataControllers.DatabaseObject;
@@ -89,13 +90,16 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                         title = "Home";
                         break;
                     case 1:
-                        title="Search";
+                        title="My Horses";
                         break;
                     case 2:
-                        title = "Events";
+                        title = "Search";
+                        break;
+                    case 3:
+                        title = "Today";
                         break;
                     default:
-                        title = "My Horses";
+                        title = "Calendar";
                         break;
                 }
                 toolbarTitle.setText(title);
@@ -126,12 +130,13 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         profileButton.setOnClickListener(this);
         administratorButton.setOnClickListener(this);
         toolbarTitle.setText("Home");
-        drawables = new int[4];
+        drawables = new int[5];
         administratorButton.setOnClickListener(this);
         drawables[0] = R.drawable.selector__home_tab_icon;
-        drawables[1] = R.drawable.selector__search_tab_icon;
-        drawables[2] = R.drawable.selector__events_tab_icon;
-        drawables[3] = R.drawable.selector__my_horses_tab_icon;
+        drawables[1] = R.drawable.selector__my_horses_tab_icon;
+        drawables[2] = R.drawable.selector__search_tab_icon;
+        drawables[3] = R.drawable.selector__today_tab_icon;
+        drawables[4] = R.drawable.selector__events_tab_icon;
 
         getUser();
     }
@@ -144,6 +149,9 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<DatabaseObject> task) {
                 user = (User) task.getResult();
+                if (!user.getType().matches("Administrator")){
+                    disableAdminPrivelages();
+                }
             }
         });
         Task<DatabaseObject> getContactTask = dc.getObject("contact", id);
@@ -154,6 +162,12 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+    private void disableAdminPrivelages(){
+        administratorButton.setVisibility(View.GONE);
+    }
+
+
+
     private void configureTabNavigation(){
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -172,11 +186,12 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
 
     private Fragment[] buildFragments(){
-        MyFragment[] fragments = new MyFragment[4];
+        MyFragment[] fragments = new MyFragment[5];
         fragments[0] = new HomeTab();
-        fragments[1] = new SearchTab();
-        fragments[2] = new EventsTab();
-        fragments[3] = new MyHorsesTab();
+        fragments[1] = new MyHorsesTab();
+        fragments[2] = new SearchTab();
+        fragments[3] = new TodayTab();
+        fragments[4] = new EventsTab();
         for (MyFragment frag: fragments){
             frag.setUser(user);
             frag.setContact(contact);
@@ -187,7 +202,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     private void addTabIcons(){
 
-        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
+        for (int tabNumber = 0; tabNumber < 5; tabNumber++){
             View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
 
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
@@ -265,9 +280,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
 
     private void checkPermissions(){
-        DatabaseController dc = new DatabaseController();
-        //dc.getObject(id);
+        //String userType = user.getType();
     }
+
+
 
 
 }

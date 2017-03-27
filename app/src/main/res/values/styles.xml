@@ -51,7 +51,7 @@
         <item name="android:textColor">@color/colorHeadingOne</item>
         <item name="android:textSize">35sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_margin">20sp</item>
+        <item name="android:layout_margin">5sp</item>
         <item name="android:shadowColor">#000000</item>
         <item name="android:shadowDx">0.0</item>
         <item name="android:shadowDy">0.0</item>

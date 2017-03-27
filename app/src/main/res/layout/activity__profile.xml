@@ -43,7 +43,8 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
                         android:background="@android:drawable/screen_background_light_transparent"
-                        app:srcCompat="@drawable/image__empty_profile" />
+                        app:srcCompat="@drawable/image__empty_profile"
+                        android:focusableInTouchMode="true"/>
 
                     <Spinner
                         android:id="@+id/profile_user_type_spinner"
@@ -60,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
                 android:textColor="@color/accent"
                 android:text="Log Off"
                 android:background="@drawable/my__ripple_toolbar"/>
@@ -68,10 +70,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:columnCount="2"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                >
 
                 <TextView
                     android:id="@+id/textView18"
+                    style="@style/MyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="First Name" />
+
+                <EditText
+                    android:id="@+id/profile_photo_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:selectAllOnFocus="true"
+                    android:inputType="textPersonName"
+                    android:text="Name" />
+
+                <TextView
+                    android:id="@+id/textView2"
                     style="@style/MyText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -167,8 +186,9 @@
 
                 <Spinner
                     android:id="@+id/profile_state_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    />
 
                 <TextView
                     android:id="@+id/textView13"

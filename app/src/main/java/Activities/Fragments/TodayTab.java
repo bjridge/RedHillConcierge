@@ -8,14 +8,10 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-import DataControllers.Contact;
-import DataControllers.User;
+public class TodayTab extends MyFragment {
 
-public class HomeTab extends MyFragment {
-
-
-    public HomeTab() {
-
+    public TodayTab() {
+        // Required empty public constructor
     }
 
     @Override
@@ -26,37 +22,7 @@ public class HomeTab extends MyFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.tab__home, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.tab__today, container, false);
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-
-        Bundle bundle = getArguments();
-        if (bundle != null){
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
