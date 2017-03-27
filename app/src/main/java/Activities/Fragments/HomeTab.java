@@ -1,18 +1,25 @@
 package Activities.Fragments;
 
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import DataControllers.Contact;
 import DataControllers.User;
 
 public class HomeTab extends MyFragment {
 
+
+    TextView nameOutput;
+    TextView typeOutput;
 
     public HomeTab() {
 
@@ -34,10 +41,11 @@ public class HomeTab extends MyFragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        Bundle bundle = getArguments();
-        if (bundle != null){
+        nameOutput = (TextView) getView().findViewById(R.id.home_name);
+        typeOutput = (TextView) getView().findViewById(R.id.home_user_type);
 
-        }
+        nameOutput.setText(super.getUser().getFirstName());
+        typeOutput.setText(super.getUser().getType());
 
     }
 

@@ -67,13 +67,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         configureTabNavigation();
         addTabMonitor();
 
-        checkPermissions();
-
-
-
-
-
-
     }
 
 
@@ -151,6 +144,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                 user = (User) task.getResult();
                 if (!user.getType().matches("Administrator")){
                     disableAdminPrivelages();
+                    //configureTabNavigation();
                 }
             }
         });
@@ -192,8 +186,15 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         fragments[2] = new SearchTab();
         fragments[3] = new TodayTab();
         fragments[4] = new EventsTab();
+
+        User fakeUser = new User("1");
+        fakeUser.setType("lol");
+        fakeUser.setFirstName("yes");
+        fakeUser.setLastName("cat");
+
+
         for (MyFragment frag: fragments){
-            frag.setUser(user);
+            frag.setUser(fakeUser);
             frag.setContact(contact);
         }
         return fragments;
@@ -279,9 +280,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void checkPermissions(){
-        //String userType = user.getType();
-    }
 
 
 
