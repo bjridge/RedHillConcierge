@@ -34,6 +34,8 @@ import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.User;
 
+import static android.view.View.GONE;
+
 public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
 
     private boolean isLoaded = false;
@@ -73,6 +75,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
         configureTabNavigation();
         addTabMonitor();
+
+        if (!user.getType().matches("Administrator")){
+            administratorButton.setVisibility(GONE);
+        }
 
     }
     private void setupUserObject(){
@@ -175,7 +181,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
     private void disableAdminPrivelages(){
-        administratorButton.setVisibility(View.GONE);
+        administratorButton.setVisibility(GONE);
     }
 
 
@@ -190,22 +196,12 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     private void setupViewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        Fragment[] fragments = buildLoadingFragments();
+        Fragment[] fragments = buildFragments();
         for (Fragment tab: fragments){
             adapter.addFragment(tab, "");
         }
         viewPager.setAdapter(adapter);
 
-    }
-
-    private Fragment[] buildLoadingFragments(){
-        fragments = new MyFragment[5];
-        fragments[0] = new HomeTab();
-        fragments[1] = new MyHorsesTab();
-        fragments[2] = new SearchTab();
-        fragments[3] = new TodayTab();
-        fragments[4] = new EventsTab();
-        return fragments;
     }
 
     private Fragment[] buildFragments(){
@@ -268,7 +264,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private void switchToAdministratorView(){
         Context context = getApplicationContext();
         Intent intent = new Intent(context, AdministratorView.class);
-        startActivity(intent);
+        intent.putExtra("user", user);
+        startActivityForResult(intent, 1);
 
     }
 

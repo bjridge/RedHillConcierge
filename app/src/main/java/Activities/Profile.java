@@ -200,6 +200,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         returnIntent.putExtra("user", user);
         setResult(Activity.RESULT_OK, returnIntent);
         startActivity(returnIntent);
+        finish();
     }
     private boolean noEmptyFields(){
         String title = "Missing Information";
