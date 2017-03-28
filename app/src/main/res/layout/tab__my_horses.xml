@@ -3,4 +3,36 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Horses"
+        style="@style/list_heading"/>
+
+    <ListView
+        android:id="@+id/my_horses_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/ripple"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:footerDividersEnabled="true"
+        android:dividerHeight="1dp"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Horses Shared With Me"
+        style="@style/list_heading"
+        android:layout_marginTop="10dp"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shared_horses_list"
+        android:text="Horses Shared With Me"/>
 </LinearLayout>
