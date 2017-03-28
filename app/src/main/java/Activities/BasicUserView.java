@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,8 +11,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,17 +24,21 @@ import java.util.List;
 
 import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
+import Activities.Fragments.LoadingTab;
 import Activities.Fragments.MyFragment;
 import Activities.Fragments.MyHorsesTab;
 import Activities.Fragments.SearchTab;
 import Activities.Fragments.TodayTab;
 import DataControllers.Contact;
-import DataControllers.DatabaseController;
+import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.User;
 
 public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
 
+    private boolean isLoaded = false;
+    private boolean userLoaded = false;
+    private boolean contactLoaded = false;
 
     //toolbar resources
     private Toolbar toolbar;
@@ -51,9 +52,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     ImageButton profileButton;
     ImageButton cameraButton;
 
-    DatabaseController controller;
+    DataFetcher controller;
 
     int[] drawables;
+
+    MyFragment[] fragments;
 
     User user;
     Contact contact;
@@ -63,10 +66,67 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__basic_user);
 
-        initializeResources();
+        setupUserObject();
+
+        setupViewObjects();
+        setupOnClickListeners();
+
         configureTabNavigation();
         addTabMonitor();
 
+    }
+    private void setupUserObject(){
+        Intent i = getIntent();
+        user = (User) i.getSerializableExtra("user");
+    }
+    private void setupLoadingPage(){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new LoadingTab(), "");
+        viewPager.setAdapter(adapter);
+    }
+    private void setupViewObjects() {
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        administratorButton = (ImageButton) findViewById(R.id.administrator_button);
+        cameraButton = (ImageButton) findViewById(R.id.camera_button);
+        profileButton = (ImageButton) findViewById(R.id.profile_button);
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        drawables = new int[5];
+        drawables[0] = R.drawable.selector__home_tab_icon;
+        drawables[1] = R.drawable.selector__my_horses_tab_icon;
+        drawables[2] = R.drawable.selector__search_tab_icon;
+        drawables[3] = R.drawable.selector__today_tab_icon;
+        drawables[4] = R.drawable.selector__events_tab_icon;
+    }
+    private void setupOnClickListeners(){
+        cameraButton.setOnClickListener(this);
+        profileButton.setOnClickListener(this);
+        administratorButton.setOnClickListener(this);
+    }
+    private void fetchUser(){
+        Intent i = getIntent();
+        String id = i.getStringExtra("id");
+        DataFetcher dc = new DataFetcher();
+        Task<DatabaseObject> getUserTask = dc.getObject("user", id);
+        getUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
+            @Override
+            public void onComplete(@NonNull Task<DatabaseObject> task) {
+                user = (User) task.getResult();
+                if (!user.getType().matches("Administrator")){
+                    disableAdminPrivelages();
+                    //configureTabNavigation();
+                }
+            }
+        });
+        Task<DatabaseObject> getContactTask = dc.getObject("contact", id);
+        getContactTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
+            @Override
+            public void onComplete(@NonNull Task<DatabaseObject> task) {
+                contact = (Contact) task.getResult();
+            }
+        });
     }
 
 
@@ -100,6 +160,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                Fragment testHome = new HomeTab();
 
             }
 
@@ -111,51 +172,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void initializeResources() {
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        administratorButton = (ImageButton) findViewById(R.id.administrator_button);
-        profileButton = (ImageButton) findViewById(R.id.profile_button);
-        cameraButton = (ImageButton) findViewById(R.id.camera_button);
-        cameraButton.setOnClickListener(this);
-        profileButton.setOnClickListener(this);
-        administratorButton.setOnClickListener(this);
-        toolbarTitle.setText("Home");
-        drawables = new int[5];
-        administratorButton.setOnClickListener(this);
-        drawables[0] = R.drawable.selector__home_tab_icon;
-        drawables[1] = R.drawable.selector__my_horses_tab_icon;
-        drawables[2] = R.drawable.selector__search_tab_icon;
-        drawables[3] = R.drawable.selector__today_tab_icon;
-        drawables[4] = R.drawable.selector__events_tab_icon;
 
-        getUser();
-    }
-    private void getUser(){
-        Intent i = getIntent();
-        String id = i.getStringExtra("id");
-        DatabaseController dc = new DatabaseController();
-        Task<DatabaseObject> getUserTask = dc.getObject("user", id);
-        getUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                user = (User) task.getResult();
-                if (!user.getType().matches("Administrator")){
-                    disableAdminPrivelages();
-                    //configureTabNavigation();
-                }
-            }
-        });
-        Task<DatabaseObject> getContactTask = dc.getObject("contact", id);
-        getContactTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                contact = (Contact) task.getResult();
-            }
-        });
-    }
+
     private void disableAdminPrivelages(){
         administratorButton.setVisibility(View.GONE);
     }
@@ -169,9 +187,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         tabLayout.setupWithViewPager(viewPager);
         addTabIcons();
     }
+
     private void setupViewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        Fragment[] fragments = buildFragments();
+        Fragment[] fragments = buildLoadingFragments();
         for (Fragment tab: fragments){
             adapter.addFragment(tab, "");
         }
@@ -179,27 +198,30 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private Fragment[] buildLoadingFragments(){
+        fragments = new MyFragment[5];
+        fragments[0] = new HomeTab();
+        fragments[1] = new MyHorsesTab();
+        fragments[2] = new SearchTab();
+        fragments[3] = new TodayTab();
+        fragments[4] = new EventsTab();
+        return fragments;
+    }
+
     private Fragment[] buildFragments(){
-        MyFragment[] fragments = new MyFragment[5];
+        fragments = new MyFragment[5];
         fragments[0] = new HomeTab();
         fragments[1] = new MyHorsesTab();
         fragments[2] = new SearchTab();
         fragments[3] = new TodayTab();
         fragments[4] = new EventsTab();
 
-        User fakeUser = new User("1");
-        fakeUser.setType("lol");
-        fakeUser.setFirstName("yes");
-        fakeUser.setLastName("cat");
-
-
         for (MyFragment frag: fragments){
-            frag.setUser(fakeUser);
+            frag.setUser(user);
             frag.setContact(contact);
         }
         return fragments;
     }
-
 
     private void addTabIcons(){
 
@@ -235,9 +257,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private void navigateTo(Class destination){
         Context context = getApplicationContext();
         Intent i = new Intent(context, destination);
-        i.putExtra("id", user.key());
-        i.putExtra("name", user.getFirstName());
-        i.putExtra("pictureURL", user.getLastName());
+        i.putExtra("user", user);
+        i.putExtra("isNewUser", false);
         startActivityForResult(i, 0);
     }
 

@@ -1,25 +1,22 @@
 package Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
@@ -35,7 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import DataControllers.Change;
 import DataControllers.Contact;
-import DataControllers.DatabaseController;
+import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.User;
 
@@ -43,6 +40,7 @@ import DataControllers.User;
 public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton exitButton;
+    private FloatingActionButton nextButton;
     private ImageView profilePicture;
     private ImageView profilePictureBackground;
     private EditText pictureInput;
@@ -67,14 +65,48 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__profile);
+
+        Intent i = getIntent();
+        user = (User) i.getSerializableExtra("user");
+        Boolean isNewUser = i.getBooleanExtra("isNewUser", true);
         initializeViewResources();
         setupSpinners();
         setupButton();
-        setupUserDetails();
 
+        if (isNewUser){
+            setupFirstTimeProfile(i.getStringExtra("pictureURL"));
+        }else{
+            setInitialUserValues();
+            fetchContact(user.key());
+        }
+    }
+    private void setupFirstTimeProfile(String pictureURL){
+        showFirstTimeDialog();
+        contact = new Contact(user.key());
+        contact.setPhoto(pictureURL);
+        setInitialUserValues();
+        setInitialContactValues();
+    }
+    private void showFirstTimeDialog(){
+        String dialogTitle = "Welcome to Red Hill Concierge!";
+        String dialogText = "It looks like this is your first time using Red Hill Concierge with this account.  We just need a few things from you so other users can contact you in the case of an emergency.";
+        showDialog(dialogTitle, dialogText, false);
+    }
+
+    private void fetchContact(String id){
+        DataFetcher df = new DataFetcher();
+        Task<DatabaseObject> fetchUserTask = df.getObject("contact", id);
+        fetchUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
+            @Override
+            public void onComplete(@NonNull Task<DatabaseObject> task) {
+                contact = (Contact) task.getResult();
+                setInitialContactValues();
+            }
+        });
     }
     private void initializeViewResources(){
         exitButton = (ImageButton) findViewById(R.id.profile_exit_button);
+        nextButton = (FloatingActionButton) findViewById(R.id.profile_save_button);
         profilePicture = (ImageView) findViewById(R.id.profile_image);
         profilePictureBackground = (ImageView) findViewById(R.id.profile_image_background);
         pictureInput = (EditText) findViewById(R.id.profile_photo_input);
@@ -88,18 +120,12 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         cityInput = (EditText) findViewById(R.id.profile_city_input);
         stateSpinner = (Spinner) findViewById(R.id.profile_state_spinner);
         zipCodeInput = (EditText) findViewById(R.id.profile_zip_code_input);
-
-        Intent i = getIntent();
-        String id = i.getStringExtra("id");
-        user = new User(id);
     }
     private void setupSpinners(){
         ArrayAdapter<CharSequence> userTypeAdapter = ArrayAdapter.createFromResource(this,
-
                 R.array.user_types, R.layout.custom_spinner_item);
         userTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeSpinner.setAdapter(userTypeAdapter);
-
 
         ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.states, android.R.layout.simple_dropdown_item_1line);
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -108,27 +134,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private void setupButton(){
         exitButton.setOnClickListener(this);
         logOffButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
     }
-    private void setupUserDetails(){
-        DatabaseController dc = new DatabaseController();
-        dc.getObject("user", user.key()).addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                user = (User) task.getResult();
-            }
-        });
-        dc.getObject("contact", user.key()).addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                contact = (Contact) task.getResult();
-                setInitialValues();
-            }
-        });
-    }
-    private void setInitialValues(){
-        pictureInput.setText(contact.getPhoto());
-        firstNameInput.setText(user.getFirstName());
-        lastNameInput.setText(user.getLastName());
+    private void setInitialContactValues(){
         phoneOneInput.setText(contact.getPrimaryPhone());
         phoneTwoInput.setText(contact.getSecondaryPhone());
         streetAddressInput.setText(contact.getStreetAddress());
@@ -136,12 +144,17 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         zipCodeInput.setText(contact.getZip());
         int stateIndex = getIndex(stateSpinner, contact.getState());
         stateSpinner.setSelection(stateIndex);
-        int userTypeIndex = getIndex(userTypeSpinner, user.getType());
-        userTypeSpinner.setSelection(userTypeIndex);
+        pictureInput.setText(contact.getPhoto());
         String profilePictureURL = contact.getPhoto();
         if (!profilePictureURL.matches("")){
             Picasso.with(getApplicationContext()).load(contact.getPhoto()).into(profilePicture);
         }
+    }
+    private void setInitialUserValues(){
+        firstNameInput.setText(user.getFirstName());
+        lastNameInput.setText(user.getLastName());
+        int userTypeIndex = getIndex(userTypeSpinner, user.getType());
+        userTypeSpinner.setSelection(userTypeIndex);
     }
     private int getIndex(Spinner spinner, String value){
         int index = 0;
@@ -162,7 +175,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 logOut();
                 break;
             default:
-                handleChanges();
+                if (noEmptyFields()){
+                    handleChanges();
+                }
                 break;
         }
     }
@@ -181,10 +196,50 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     }
     private void exitProfileView(){
         Context context = getApplicationContext();
-        Intent i = new Intent(Profile.this, BasicUserView.class);
-        i.putExtra("id", user.key());
-        startActivity(i);
-        finish();
+        Intent returnIntent = new Intent(Profile.this, BasicUserView.class);
+        returnIntent.putExtra("user", user);
+        setResult(Activity.RESULT_OK, returnIntent);
+        startActivity(returnIntent);
+    }
+    private boolean noEmptyFields(){
+        String title = "Missing Information";
+        String prefix = "Please complete the ";
+        String body;
+        String suffix = " field.";
+        if (pictureInput.getText().toString().matches("")){
+            body = "Picture URL";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (firstNameInput.getText().toString().matches("")){
+            body = "First Name";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (lastNameInput.getText().toString().matches("")){
+            body = "Last Name";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (phoneOneInput.getText().toString().matches("")){
+            body = "Phone One";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (phoneTwoInput.getText().toString().matches("")){
+            body = "Phone Two";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (streetAddressInput.getText().toString().matches("")){
+            body = "Street Address";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (cityInput.getText().toString().matches("")){
+            body = "City";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }if (zipCodeInput.getText().toString().matches("")){
+            body = "Zip Code";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }
+        return true;
     }
     private void handleChanges() {
 
@@ -213,7 +268,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         contactInfo.setCity(city);
         contactInfo.setState(state);
         contactInfo.setZip(zip);
-        DatabaseController dc = new DatabaseController();
+        DataFetcher dc = new DataFetcher();
 
         if (!contact.equals(contactInfo)) {
             dc.updateObject(contactInfo);
@@ -225,15 +280,18 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 String title = "Administrative Approval Required";
                 String message = "A request has been sent to an administrator to change your user type from " + user.getType() +
                         " to " + userType + ".";
-                showDialog(title, message);
+                showDialog(title, message, true);
+                userInfo.setType(user.getType());
+                dc.updateObject(userInfo);
+                user = userInfo;
                 return;
             }
-            userInfo.setType(user.getType());
             dc.updateObject(userInfo);
+            user = userInfo;
         }
         exitProfileView();
     }
-    private void showDialog(String title, String text){
+    private void showDialog(String title, String text, final boolean shouldExit){
         AlertDialog alertDialog = new AlertDialog.Builder(Profile.this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(text);
@@ -242,7 +300,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         //exit the app
-                        exitProfileView();
+                        if (shouldExit){
+                            exitProfileView();
+                        }
                     }
                 });
         alertDialog.show();
@@ -254,7 +314,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         change.setOldValue(user.getType());
         change.setNewValue(newUser.getType());
         change.setObjectKey(user.key());
-        DatabaseController dc = new DatabaseController();
+        DataFetcher dc = new DataFetcher();
         dc.updateObject(change);
     }
 

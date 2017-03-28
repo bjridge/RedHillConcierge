@@ -2,13 +2,13 @@ package DataControllers;
 
 public class Contact extends DatabaseObject {
 
-    private String name = "name";
-    private String primaryPhone = "3173622222";
-    private String secondaryPhone = "3175718484";
-    private String streetAddress = "2742 Maralice Drive";
-    private String city = "Carmel";
-    private String state = "Indiana";
-    private String zip = "46033";
+    private String name = "";
+    private String primaryPhone = "";
+    private String secondaryPhone = "";
+    private String streetAddress = "";
+    private String city = "";
+    private String state = "";
+    private String zip = "";
     private String photo = "";
 
     public Contact(String id){

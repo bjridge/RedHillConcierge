@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DatabaseController {
+public class DataFetcher {
 
     //test pushing from kelly's new laptop!
     //tested receiving from brad's vr laptop!
@@ -26,7 +26,7 @@ public class DatabaseController {
 
     private FirebaseDatabase db;
 
-    public DatabaseController(){
+    public DataFetcher(){
         db = FirebaseDatabase.getInstance();
     }
 
@@ -59,6 +59,7 @@ public class DatabaseController {
         String objectID =  object.key();
         DatabaseReference reference = db.getReference("objects/" + objectType + "/" + objectID);
         reference.setValue(object);
+        return;
     }
     private String getObjectType(DatabaseObject object){
         String objectType = object.getClass().toString();
@@ -148,7 +149,8 @@ public class DatabaseController {
                         Log.v("IMPORTANT", "object is not null");
 
                     }else{
-                        object = new DatabaseObject();
+                        object = null;
+
                         Log.v("IMPORTANT", "object is null");
 
                     }

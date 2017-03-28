@@ -78,16 +78,15 @@
                     style="@style/MyText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="First Name" />
+                    android:text="Picture URL" />
 
                 <EditText
                     android:id="@+id/profile_photo_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:selectAllOnFocus="true"
                     android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:selectAllOnFocus="true" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -101,8 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="textPersonName" />
 
                 <TextView
                     android:id="@+id/textView17"
@@ -116,8 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="textPersonName" />
 
                 <TextView
                     android:id="@+id/textView19"
@@ -159,8 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="textPersonName" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -174,8 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="textPersonName" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -202,8 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="textPersonName" />
             </GridLayout>
 
         </LinearLayout>
@@ -220,5 +214,16 @@
         android:clickable="true"
         android:tint="@color/accent"
         app:srcCompat="@drawable/ic_down" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/profile_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_log_out_white" />
 
 </android.support.design.widget.CoordinatorLayout>

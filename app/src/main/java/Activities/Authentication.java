@@ -19,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -31,8 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Date;
 
-import DataControllers.DatabaseController;
-import DataControllers.DatabaseObject;
+import DataControllers.User;
 
 public class Authentication extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -51,6 +48,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     //save profilePicture from google account, pass to Firebase account
     private String googleProfilePictureAddress;
 
+    private User user;
 
 
 
@@ -125,34 +123,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     }
 
     /*-------------------- called after authentication changes and result is successful ------------- */
-    private void loginToApp(FirebaseUser user){
-        userExists(user);
-    }
-    private boolean userExists(final FirebaseUser user){
-        DatabaseController taskBuilder = new DatabaseController();
-        Task<DatabaseObject> getUserTask = taskBuilder.getObject("user", user.getUid());
-
-        getUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            // TODO: 3/21/2017 add a loading mechanism while it figures out if the user is new or not!
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                DatabaseObject result = task.getResult();
-                if (result.key() == "empty object"){
-                    //new user
-                    loginNewUser(user);
-                }else{
-                    //existing user
-                    loginExistingUser(user);
-                }
-            }
-        });
-        return false;
-    }
-
-
-
-
-
 
 
 
@@ -203,49 +173,15 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
 
 
-    private void loginNewUser(FirebaseUser user){
-        //transition to new screen with new names
+    private void loginToApp(FirebaseUser user){
         Context context = getApplicationContext();
-        Intent i = new Intent(context, NewUser.class);
+        Intent i = new Intent(context, Loading.class);
         i.putExtra("id", user.getUid());
-        Log.v("IMPORTANT",user.getPhotoUrl().toString());
+        i.putExtra("name", user.getDisplayName());
+        i.putExtra("pictureURL", user.getPhotoUrl().toString());
+        Log.v("IMPORTANT", "url:" + user.getPhotoUrl());
         startActivity(i);
     }
-
-    private void loginExistingUser(FirebaseUser user){
-        Context context = getApplicationContext();
-        Intent i = new Intent(context, BasicUserView.class);
-        i.putExtra("id", user.getUid());
-        startActivity(i);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
-
-        // Google sign out
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                    }
-                });
-    }
-
-
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

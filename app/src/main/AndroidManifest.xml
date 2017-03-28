@@ -16,15 +16,12 @@
             </intent-filter>
 
         </activity>
-        <activity android:name="Activities.NewUser"
-            android:screenOrientation="portrait"
-            />
         <activity android:name="Activities.BasicUserView"
-            android:noHistory="true"
             />
         <activity android:name="Activities.AdministratorView"/>
         <activity android:name="Activities.Profile"
             android:windowSoftInputMode="stateHidden"
             ></activity>
+        <activity android:name="Activities.Loading"/>
     </application>
 </manifest>

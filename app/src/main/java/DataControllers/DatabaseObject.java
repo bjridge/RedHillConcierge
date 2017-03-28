@@ -1,6 +1,8 @@
 package DataControllers;
 
-public class DatabaseObject {
+import java.io.Serializable;
+
+public class DatabaseObject implements Serializable {
 
     private String key = "empty object";
 
