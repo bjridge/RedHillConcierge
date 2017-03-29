@@ -62,6 +62,9 @@ public class MyHorsesTab extends MyFragment {
 
         myHorsesList.setAdapter(horseArrayAdapter);
 
+        //how to get all horses, and only display certain ones?
+        //load them into the application during the first stage
+
 
     }
 

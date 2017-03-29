@@ -21,23 +21,27 @@ public class Loading extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab__loading);
 
-        //start task regarding login authentication with Red Hill Concierge
+
+        //get existing user information
         Intent i = getIntent();
         final String id = i.getStringExtra("id");
         final String[] name = i.getStringExtra("name").split(" ");
         final String pictureURL = i.getStringExtra("pictureURL");
-        Log.v("IMPORTANT", "url:" + pictureURL);
+
+        //get Red Hill ConciergeUser information from Firebase
         DataFetcher df = new DataFetcher();
         Task<DatabaseObject> userFetchTask = df.getObject("user", id);
         userFetchTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
             @Override
             public void onComplete(@NonNull Task<DatabaseObject> task) {
-                if (task.getResult() != null){
+                //if the user exists
+                if (taskReturnsObject(task)){
                     User user = (User) task.getResult();
                     Intent i = new Intent(getApplicationContext(), BasicUserView.class);
                     i.putExtra("user", user);
                     startActivity(i);
                 }else{
+                    //if the user does not exist yet
                     String firstName = name[0];
                     String lastName = name[1];
                     User newUser = new User(id);
@@ -58,7 +62,17 @@ public class Loading extends AppCompatActivity {
         });
     }
 
+    private boolean taskReturnsObject(Task task){
+        if (task.getResult() == null){
+            return false;
+        }
+        return true;
+    }
 
+
+    //the app should "load" on the view which depends on it's information, not in a "loading" tab
+
+    //app should login and immediately go to the view
 
 
 

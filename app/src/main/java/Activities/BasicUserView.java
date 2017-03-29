@@ -24,7 +24,6 @@ import java.util.List;
 
 import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
-import Activities.Fragments.LoadingTab;
 import Activities.Fragments.MyFragment;
 import Activities.Fragments.MyHorsesTab;
 import Activities.Fragments.SearchTab;
@@ -68,27 +67,37 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__basic_user);
 
-        setupUserObject();
 
-        setupViewObjects();
-        setupOnClickListeners();
+        /*
+            1) send user to profile if user is brand new
+            2)initialize view objects
+            3) start loading user and contact information
+            4) set initial values (onComplete for user/contact information tasks)
+            5) start loading horse list information
+            6) send horse values to fragments
+         */
 
-        configureTabNavigation();
-        addTabMonitor();
+        Intent i = getIntent();
 
-        if (!user.getType().matches("Administrator")){
-            administratorButton.setVisibility(GONE);
-        }
+
+
+//
+//        setupUserObject();
+//
+//        setupViewObjects();
+//        setupOnClickListeners();
+//
+//        configureTabNavigation();
+//        addTabMonitor();
+//
+//        if (!user.getType().matches("Administrator")){
+//            administratorButton.setVisibility(GONE);
+//        }
 
     }
     private void setupUserObject(){
         Intent i = getIntent();
         user = (User) i.getSerializableExtra("user");
-    }
-    private void setupLoadingPage(){
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new LoadingTab(), "");
-        viewPager.setAdapter(adapter);
     }
     private void setupViewObjects() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);

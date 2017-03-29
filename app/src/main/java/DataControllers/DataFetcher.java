@@ -37,7 +37,6 @@ public class DataFetcher {
 
 
 
-
     // TODO: 3/21/2017 horse keys must be integers, but users are now string id's
 //    public void addNewObject(final DatabaseObject object) {
 //        String objectType = getObjectType(object);
