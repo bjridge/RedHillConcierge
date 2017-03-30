@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataFetcher {
 
@@ -74,9 +75,10 @@ public class DataFetcher {
 
 
     //gets all of any object one time
-    public Task<DatabaseObject[]> getAll(final String objectType){
+    public Task<List<DatabaseObject>> getAll(final String objectType){
+        log("getting all ");
         DatabaseReference reference = db.getReference("objects/" + objectType);
-        final TaskCompletionSource<DatabaseObject[]> output = new TaskCompletionSource<>();
+        final TaskCompletionSource<List<DatabaseObject>> output = new TaskCompletionSource<>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot table) {
@@ -87,64 +89,24 @@ public class DataFetcher {
         });
         return output.getTask();
     }
-    private DatabaseObject[] buildObjects(DataSnapshot table){
-        int objectCount = (int) table.getChildrenCount();
-        Log.v("IMPORTANT", "count: " + objectCount);
-
-        DatabaseObject[] newObjects = new DatabaseObject[objectCount];
+    private List<DatabaseObject> buildObjects(DataSnapshot table){
+        List<DatabaseObject> newObjects = new ArrayList<>();
         String objectType = table.getKey();
         String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
+        log("name of class: " + className);
         Class tableClass = DatabaseObject.class;
         try {
-            Log.v("IMPORTANT", "about to try and make the objects");
-
             tableClass = Class.forName("DataControllers." + className);
+            log("real class name: " + tableClass);
         } catch (ClassNotFoundException e){}
-            int childNumber = 0;
             for (DataSnapshot objectData: table.getChildren()){
-                Log.v("IMPORTANT", "about to try to create aN OBJECT OF CLASS: " + tableClass);
-
-                Horse newObject = objectData.getValue(Horse.class);
-                Log.v("IMPORTANT", "created a horse object ");
-
+                log("got a data snapshot; creating it now");
+                DatabaseObject newObject = (DatabaseObject) objectData.getValue(tableClass);
+                log("created object from data snapshot");
                 newObject.setKey(objectData.getKey());
-                newObjects[childNumber] = newObject;
-                childNumber++;
+                newObjects.add(newObject);
             }
-        Log.v("IMPORTANT", "made all of the objects");
-
         return newObjects;
-    }
-
-
-
-
-
-
-
-
-
-
-    private DatabaseObject[] buildHorses(DataSnapshot table){
-        int count = (int) table.getChildrenCount();
-        Horse[] horses = new Horse[count];
-        int i = 0;
-        for (DataSnapshot horseSnapshot: table.getChildren()){
-            Horse newHorse = horseSnapshot.getValue(Horse.class);
-            newHorse.setKey(horseSnapshot.getKey());
-            horses[i] = newHorse;
-            i++;
-        }
-        return horses;
-    }
-    private ArrayList<DatabaseObject> buildContacts(DataSnapshot table){
-        ArrayList<DatabaseObject> horses = new ArrayList<>();
-        for (DataSnapshot snapshot: table.getChildren()){
-            Contact newContact = snapshot.getValue(Contact.class);
-            newContact.setKey(snapshot.getKey());
-            horses.add(newContact);
-        }
-        return horses;
     }
 
     public void updateObject(DatabaseObject object){
@@ -165,17 +127,11 @@ public class DataFetcher {
                 try {
 
                     String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
-                    Log.v("IMPORTANT", className);
                     DatabaseObject object = (DatabaseObject) dataSnapshot.getValue(Class.forName("DataControllers." + className));
                     if (object != null){
                         object.setKey(dataSnapshot.getKey());
-                        Log.v("IMPORTANT", "object is not null");
-
                     }else{
                         object = null;
-
-                        Log.v("IMPORTANT", "object is null");
-
                     }
                     taskOutput.setResult(object);
 
@@ -188,5 +144,10 @@ public class DataFetcher {
             public void onCancelled(DatabaseError databaseError) {}
         });
         return taskOutput.getTask();
+    }
+
+
+    private void log(String message){
+        Log.v("IMPORTANT", message);
     }
 }

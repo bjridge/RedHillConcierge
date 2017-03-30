@@ -3,6 +3,7 @@ package Activities.Fragments;
 import android.support.v4.app.Fragment;
 
 import DataControllers.Contact;
+import DataControllers.Horse;
 import DataControllers.User;
 
 
@@ -25,10 +26,6 @@ public class MyFragment extends Fragment {
         contact.setZip("");
         contact.setKey("");
     }
-
-
-
-
 
     public User getUser() {
         return user;

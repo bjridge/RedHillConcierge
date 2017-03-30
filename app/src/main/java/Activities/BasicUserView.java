@@ -1,6 +1,5 @@
 package Activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +36,7 @@ import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.Horse;
+import DataControllers.Permission;
 import DataControllers.User;
 
 import static android.view.View.GONE;
@@ -71,7 +70,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     User user;
     Contact contact;
-    Horse[] horses;
+    List<Horse> horses;
+    List<Permission> permissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,23 +82,29 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 //  1) initialize objects; disable view
         initializeViewObjects();
+        log("view objects initialized");
         initializeButtonActions();
+        log("buttons initialized");
         toggleViewStatus(false);
+        log("view disabled");
 
 //  2) get the (partial) user and contact from the intent
         Intent i = getIntent();
         user = (User) i.getSerializableExtra("user");
         contact = (Contact) i.getSerializableExtra("contact");
-        horses = (Horse[]) i.getSerializableExtra("horses");
+        horses = (List<Horse>) i.getSerializableExtra("horses");
+        log("intent objects initialized");
 
 //  3) check to see if the user is complete
         if (!user.isComplete()){
 //      a) if user is incomplete: fetch the user and then contact and then horses
+            log("user is incomplete; just logged in");
             DataFetcher df = new DataFetcher();
             Task<DatabaseObject> getUserTask = df.getObject("user", user.key());
             getUserTask.addOnCompleteListener(new MyOnCompleteListener("tryToGetUser"));
         }else{
 //      b) if user is complete: all is good, initialize as normal
+            log("user is complete; already logged in");
             completeInitialization();
         }
     }
@@ -115,26 +121,46 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             switch(purpose){
                 case "tryToGetUser":
                     if (task.getResult() == null){
+                        log("user is brand new; go to profile");
                         newUser();
                     }else{
+                        log("user is not new; get user");
                         user = (User) task.getResult();
+                        log("got user; getting contact;");
                         fetchContact();
                     }
                     break;
                 case "getContact":
                     contact = (Contact) task.getResult();
+                    log("got contact; getting horses");
                     fetchHorses();
                     break;
                 case "getHorses":
-
-                    DatabaseObject[] objects  = (DatabaseObject[]) task.getResult();
-                    Horse[] newHorses = new Horse[objects.length];
-                    for (int i = 0; i < objects.length; i++){
-                        Horse horse = (Horse) objects[i];
-                        newHorses[i] = horse;
+                    List<DatabaseObject> objects  = (List<DatabaseObject>) task.getResult();
+                    List<Horse> newHorses = new ArrayList<Horse>();
+                    for (DatabaseObject object: objects){
+                        Horse horse = (Horse) object;
+                        newHorses.add(horse);
                     }
                     horses = newHorses;
+                    horses.addAll(newHorses);
+                    horses.addAll(newHorses);
+                    log("got horses; completing initialization");
+                    fetchPermissions();
+                    break;
+                case "getPermissions":
+                    //by user ID or by horse ID?
+                    log("about to get permissions");
+                    List<DatabaseObject> permissionObjects  = (List<DatabaseObject>) task.getResult();
+                    log("permissions: " + permissionObjects.size());
+                    permissions = new ArrayList<Permission>();
+                    for (DatabaseObject object: permissionObjects){
+                        Permission permission = (Permission) object;
+                        permissions.add(permission);
+                    }
+                    log("got permissions");
                     completeInitialization();
+                    break;
                 default:
                     break;
             }
@@ -151,11 +177,17 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
     private void fetchHorses(){
         DataFetcher df = new DataFetcher();
-        Task<DatabaseObject[]> getHorsesTask = df.getAll("horse");
+        Task<List<DatabaseObject>> getHorsesTask = df.getAll("horse");
         getHorsesTask.addOnCompleteListener(new MyOnCompleteListener("getHorses"));
     }
+    private void fetchPermissions(){
+        DataFetcher df = new DataFetcher();
+        log("about to fetch permissions");
+        Task<List<DatabaseObject>> getPermissionsTask = df.getAll("permission");
+        log("got task");
+        getPermissionsTask.addOnCompleteListener(new MyOnCompleteListener("getPermissions"));
+    }
     private void completeInitialization(){
-        initializeButtonActions();
         initializeTabNavigation();
         initializeTabMonitor();
         configureAdministrativePrivelages();
@@ -226,24 +258,31 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     private void initializeViewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        Fragment[] fragments = buildFragments();
+        Fragment[] fragments = initializeFragments();
         for (Fragment tab: fragments){
             adapter.addFragment(tab, "");
         }
         viewPager.setAdapter(adapter);
     }
-    private Fragment[] buildFragments(){
+    private Fragment[] initializeFragments(){
+        log("building tabs");
         fragments = new MyFragment[5];
         fragments[0] = new HomeTab();
         fragments[1] = new MyHorsesTab();
         fragments[2] = new SearchTab();
         fragments[3] = new TodayTab();
         fragments[4] = new EventsTab();
-
+        log("tabs built; adding user/contact");
         for (MyFragment frag: fragments){
             frag.setUser(user);
             frag.setContact(contact);
         }
+
+        log("adding horses to horse tab");
+        MyHorsesTab horseTab = (MyHorsesTab) fragments[1];
+        horseTab.setHorses(horses);
+        horseTab.setPermissions(permissions);
+        log("added horses to horse tab");
         return fragments;
     }
     private void addTabIcons(){
@@ -309,22 +348,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void disableAdminPrivelages(){
         administratorButton.setVisibility(GONE);
     }
@@ -379,6 +402,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
+            viewPager.setOffscreenPageLimit(4);
+
         }
 
         @Override
@@ -400,5 +425,9 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private void log(String message){
+        Log.v("IMPORTANT", message);
     }
 }

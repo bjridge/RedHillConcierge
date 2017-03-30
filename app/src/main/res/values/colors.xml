@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimary">#00bfa5</color>
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorPrimaryDarkest">#B2DFDB</color>
     <color name="colorAccent">#FF4081</color>
@@ -26,7 +26,7 @@
     <color name="statusBar">#004d40</color>
     <color name="headerOne">#00bfa5</color>
     <color name="emphasis">#00a28c</color>
-    <color name="headerTwo">#64ffda</color>
+    <color name="headerTwo">#b2ffed</color>
     <color name="body">#e0f2f1</color>
     <color name="accent">#f50057</color>
     <color name="ripple">#32f50057</color>
