@@ -353,7 +353,12 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
 
 
-
+    //first time loading:
+        //users
+        //contact
+        //horses
+        //permissions
+        //resources
 
 
 
