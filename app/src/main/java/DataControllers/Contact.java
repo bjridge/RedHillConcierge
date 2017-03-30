@@ -57,7 +57,10 @@ public class Contact extends DatabaseObject {
     }
 
     public String getName() {
-        return name;
+        if (name != null){
+            return name;
+        }
+        return "";
     }
 
     public void setName(String name) {
@@ -65,6 +68,7 @@ public class Contact extends DatabaseObject {
     }
 
     public String getPrimaryPhone() {
+
         return primaryPhone;
     }
 

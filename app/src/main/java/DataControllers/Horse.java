@@ -7,85 +7,113 @@ public class Horse extends DatabaseObject{
     private String color = " ";
     private String grainAmount = " ";
     private String grainType = " ";
-    private boolean hay = true;
+    private String hay = "true";
     private String medicationInstructions = " ";
     private String name = " ";
     private String notes = " ";
     private String sex = " ";
     private String stallInstructions = " ";
-    private int stallNumber = 0;
-    private int owner = 0;
+    private String stallNumber = "0";
+    private String owner = "0";
 
-    public int getOwner(){
-        return owner;
+
+    public Horse(){
+
     }
-    public void setOwner(int owner){
-        owner = owner;
-    }
-    public String getBreed(){
+
+    public String getBreed() {
         return breed;
     }
-    public void setBreed(String breed){
+
+    public void setBreed(String breed) {
         this.breed = breed;
     }
-    public String getColor(){
+
+    public String getColor() {
         return color;
     }
-    public void setColor(String color){
+
+    public void setColor(String color) {
         this.color = color;
     }
-    public String getGrainAmount(){
-        return this.grainAmount;
+
+    public String getGrainAmount() {
+        return grainAmount;
     }
-    public void setGrainAmount(String grainAmount){
+
+    public void setGrainAmount(String grainAmount) {
         this.grainAmount = grainAmount;
     }
-    public String getGrainType(){
+
+    public String getGrainType() {
         return grainType;
     }
-    public void setGrainType(String grainType){
+
+    public void setGrainType(String grainType) {
         this.grainType = grainType;
     }
-    public boolean getHay(){
+
+    public String isHay() {
         return hay;
     }
-    public void setHay(boolean hay){
+
+    public void setHay(String hay) {
         this.hay = hay;
     }
-    public String getMedicationInstructions(){
-        return this.medicationInstructions;
+
+    public String getMedicationInstructions() {
+        return medicationInstructions;
     }
-    public void setMedicationInstructions(String medicationInstructions){
+
+    public void setMedicationInstructions(String medicationInstructions) {
         this.medicationInstructions = medicationInstructions;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
-    public String getNotes(){
-        return this.notes;
+
+    public String getNotes() {
+        return notes;
     }
-    public void setNotes(String notes){
+
+    public void setNotes(String notes) {
         this.notes = notes;
     }
-    public String getSex(){
+
+    public String getSex() {
         return sex;
     }
-    public void setSex(String sex){
+
+    public void setSex(String sex) {
         this.sex = sex;
     }
-    public String getStallInstructions(){
+
+    public String getStallInstructions() {
         return stallInstructions;
     }
-    public void setStallInstructions(String stallInstructions){
+
+    public void setStallInstructions(String stallInstructions) {
         this.stallInstructions = stallInstructions;
     }
-    public int getStallNumber(){
+
+    public String getStallNumber() {
         return stallNumber;
     }
-    public void setStallNumber(int stallNumber){
+
+    public void setStallNumber(String stallNumber) {
         this.stallNumber = stallNumber;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -63,8 +64,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
 
         initializeAuthenticationTools();
-        setupFirebaseResources();
-
 
 
     }
@@ -104,7 +103,6 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
     private void initializeFirebaseResources(){
         firebaseAuthenticationStatus = FirebaseAuth.getInstance();
-        //takes action depending on whether or not a user is logged in
         firebaseAuthenticationStatusListener = buildFirebaseAuthenticationStatusListener();
     }
 
@@ -188,11 +186,11 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
     private void goToApp(FirebaseUser user){
         Context context = getApplicationContext();
-        Intent i = new Intent(context, Loading.class);
+        Intent i = new Intent(context, BasicUserView.class);
         User appUser = buildAppUser(user);
         Contact appUserContact = buildAppUserContact(user);
         i.putExtra("user", appUser);
-        i.putExtra("contact", appUser);
+        i.putExtra("contact", appUserContact);
         startActivity(i);
     }
     private User buildAppUser(FirebaseUser firebaseUser){

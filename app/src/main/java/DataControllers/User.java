@@ -63,6 +63,12 @@ public class User extends DatabaseObject {
     }
 
 
+    public boolean isComplete(){
+        if (firstName != null && lastName != null && type != null && key() != null){
+            return true;
+        }
+        return false;
+    }
 
 
 }

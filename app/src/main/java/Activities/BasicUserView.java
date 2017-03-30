@@ -1,9 +1,11 @@
 package Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,9 +13,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +37,7 @@ import Activities.Fragments.TodayTab;
 import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
+import DataControllers.Horse;
 import DataControllers.User;
 
 import static android.view.View.GONE;
@@ -48,10 +55,13 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     //tab navigation resources
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ProgressBar loadingIcon;
 
     ImageButton administratorButton;
     ImageButton profileButton;
     ImageButton cameraButton;
+
+    CoordinatorLayout layout;
 
     DataFetcher controller;
 
@@ -61,6 +71,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     User user;
     Contact contact;
+    Horse[] horses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,40 +79,99 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity__basic_user);
 
 
-        /*
-            1) send user to profile if user is brand new
-            2)initialize view objects
-            3) start loading user and contact information
-            4) set initial values (onComplete for user/contact information tasks)
-            5) start loading horse list information
-            6) send horse values to fragments
-         */
 
-        Intent i = getIntent();
+//  1) initialize objects; disable view
+        initializeViewObjects();
+        initializeButtonActions();
+        toggleViewStatus(false);
 
-
-
-//
-//        setupUserObject();
-//
-//        setupViewObjects();
-//        setupOnClickListeners();
-//
-//        configureTabNavigation();
-//        addTabMonitor();
-//
-//        if (!user.getType().matches("Administrator")){
-//            administratorButton.setVisibility(GONE);
-//        }
-
-    }
-    private void setupUserObject(){
+//  2) get the (partial) user and contact from the intent
         Intent i = getIntent();
         user = (User) i.getSerializableExtra("user");
-    }
-    private void setupViewObjects() {
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        contact = (Contact) i.getSerializableExtra("contact");
+        horses = (Horse[]) i.getSerializableExtra("horses");
 
+//  3) check to see if the user is complete
+        if (!user.isComplete()){
+//      a) if user is incomplete: fetch the user and then contact and then horses
+            DataFetcher df = new DataFetcher();
+            Task<DatabaseObject> getUserTask = df.getObject("user", user.key());
+            getUserTask.addOnCompleteListener(new MyOnCompleteListener("tryToGetUser"));
+        }else{
+//      b) if user is complete: all is good, initialize as normal
+            completeInitialization();
+        }
+    }
+    private class MyOnCompleteListener implements OnCompleteListener {
+
+        String purpose;
+
+        public MyOnCompleteListener(String purpose){
+            this.purpose = purpose;
+        }
+
+        @Override
+        public void onComplete(@NonNull Task task){
+            switch(purpose){
+                case "tryToGetUser":
+                    if (task.getResult() == null){
+                        newUser();
+                    }else{
+                        user = (User) task.getResult();
+                        fetchContact();
+                    }
+                    break;
+                case "getContact":
+                    contact = (Contact) task.getResult();
+                    fetchHorses();
+                    break;
+                case "getHorses":
+
+                    DatabaseObject[] objects  = (DatabaseObject[]) task.getResult();
+                    Horse[] newHorses = new Horse[objects.length];
+                    for (int i = 0; i < objects.length; i++){
+                        Horse horse = (Horse) objects[i];
+                        newHorses[i] = horse;
+                    }
+                    horses = newHorses;
+                    completeInitialization();
+                default:
+                    break;
+            }
+        }
+    }
+    private void newUser(){
+        navigateTo(Profile.class);
+    }
+    private void fetchContact(){
+        DataFetcher df = new DataFetcher();
+        Task<DatabaseObject> getContactTask = df.getObject("contact", user.key());
+        OnCompleteListener<DatabaseObject> getContactTaskListener = new MyOnCompleteListener("getContact");
+        getContactTask.addOnCompleteListener(getContactTaskListener);
+    }
+    private void fetchHorses(){
+        DataFetcher df = new DataFetcher();
+        Task<DatabaseObject[]> getHorsesTask = df.getAll("horse");
+        getHorsesTask.addOnCompleteListener(new MyOnCompleteListener("getHorses"));
+    }
+    private void completeInitialization(){
+        initializeButtonActions();
+        initializeTabNavigation();
+        initializeTabMonitor();
+        configureAdministrativePrivelages();
+        stopLoadingIcon();
+        toggleViewStatus(true);
+    }
+
+
+
+
+
+
+    private void initializeViewObjects(){
+        layout = (CoordinatorLayout) findViewById(R.id.layout);
+        loadingIcon = (ProgressBar) findViewById(R.id.loading_icon);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         administratorButton = (ImageButton) findViewById(R.id.administrator_button);
         cameraButton = (ImageButton) findViewById(R.id.camera_button);
         profileButton = (ImageButton) findViewById(R.id.profile_button);
@@ -115,38 +185,77 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         drawables[3] = R.drawable.selector__today_tab_icon;
         drawables[4] = R.drawable.selector__events_tab_icon;
     }
-    private void setupOnClickListeners(){
+    private void toggleViewStatus(boolean enabled){
+        for (int i = 0; i < layout.getChildCount(); i++){
+            View child = layout.getChildAt(i);
+            child.setEnabled(enabled);
+        }
+    }
+    private void initializeButtonActions(){
         cameraButton.setOnClickListener(this);
         profileButton.setOnClickListener(this);
         administratorButton.setOnClickListener(this);
     }
-    private void fetchUser(){
-        Intent i = getIntent();
-        String id = i.getStringExtra("id");
-        DataFetcher dc = new DataFetcher();
-        Task<DatabaseObject> getUserTask = dc.getObject("user", id);
-        getUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                user = (User) task.getResult();
-                if (!user.getType().matches("Administrator")){
-                    disableAdminPrivelages();
-                    //configureTabNavigation();
-                }
-            }
-        });
-        Task<DatabaseObject> getContactTask = dc.getObject("contact", id);
-        getContactTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                contact = (Contact) task.getResult();
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.administrator_button:
+               // navigateTo(AdministratorView.class);
+                break;
+            case R.id.profile_button:
+                navigateTo(Profile.class);
+                break;
+            case R.id.camera_button:
+                //go to camera view
+                break;
+            default:
+                //do nothing
+                break;
+        }
+        if (v.getId() == R.id.administrator_button){
+            switchToAdministratorView();
+        }
+    }
+    private void initializeTabNavigation(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        initializeViewPager();
+        tabLayout.setupWithViewPager(viewPager);
+        addTabIcons();
     }
 
+    private void initializeViewPager(){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        Fragment[] fragments = buildFragments();
+        for (Fragment tab: fragments){
+            adapter.addFragment(tab, "");
+        }
+        viewPager.setAdapter(adapter);
+    }
+    private Fragment[] buildFragments(){
+        fragments = new MyFragment[5];
+        fragments[0] = new HomeTab();
+        fragments[1] = new MyHorsesTab();
+        fragments[2] = new SearchTab();
+        fragments[3] = new TodayTab();
+        fragments[4] = new EventsTab();
 
+        for (MyFragment frag: fragments){
+            frag.setUser(user);
+            frag.setContact(contact);
+        }
+        return fragments;
+    }
+    private void addTabIcons(){
 
-    private void addTabMonitor(){
+        for (int tabNumber = 0; tabNumber < 5; tabNumber++){
+            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
+
+            homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
+            tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
+        }
+    }
+    private void initializeTabMonitor(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -185,6 +294,33 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+    private void stopLoadingIcon(){
+        loadingIcon.setVisibility(View.GONE);
+    }
+
+
+
+
+
+
+    private void configureAdministrativePrivelages(){
+        if (!user.getType().matches("Administrator")){
+            administratorButton.setVisibility(GONE);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -195,76 +331,35 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
 
-    private void configureTabNavigation(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setupViewPager();
-        tabLayout.setupWithViewPager(viewPager);
-        addTabIcons();
-    }
 
-    private void setupViewPager(){
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        Fragment[] fragments = buildFragments();
-        for (Fragment tab: fragments){
-            adapter.addFragment(tab, "");
-        }
-        viewPager.setAdapter(adapter);
 
-    }
 
-    private Fragment[] buildFragments(){
-        fragments = new MyFragment[5];
-        fragments[0] = new HomeTab();
-        fragments[1] = new MyHorsesTab();
-        fragments[2] = new SearchTab();
-        fragments[3] = new TodayTab();
-        fragments[4] = new EventsTab();
-
-        for (MyFragment frag: fragments){
-            frag.setUser(user);
-            frag.setContact(contact);
-        }
-        return fragments;
-    }
-
-    private void addTabIcons(){
-
-        for (int tabNumber = 0; tabNumber < 5; tabNumber++){
-            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
-
-            homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
-            tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.administrator_button:
-                navigateTo(AdministratorView.class);
-                break;
-            case R.id.profile_button:
-                navigateTo(Profile.class);
-                break;
-            case R.id.camera_button:
-                //go to camera view
-                break;
-            default:
-                //do nothing
-                break;
-        }
-        if (v.getId() == R.id.administrator_button){
-            switchToAdministratorView();
-        }
-    }
 
     private void navigateTo(Class destination){
         Context context = getApplicationContext();
         Intent i = new Intent(context, destination);
         i.putExtra("user", user);
-        i.putExtra("isNewUser", false);
+        i.putExtra("contact", contact);
         startActivityForResult(i, 0);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == 0  && resultCode  == RESULT_OK) {
+
+                User returnedUser = (User) data.getSerializableExtra("user");
+                Contact returnedContact = (Contact) data.getSerializableExtra("contact");
+
+                user = returnedUser;
+                contact = returnedContact;
+            }
+        } catch (Exception ex) {
+            Toast.makeText(BasicUserView.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -306,9 +401,4 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             return mFragmentTitleList.get(position);
         }
     }
-
-
-
-
-
 }

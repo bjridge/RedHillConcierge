@@ -20,6 +20,7 @@ public class MyHorsesTab extends MyFragment {
 
     ListView myHorsesList;
     ListView sharedHorsesList;
+    Horse[] horses;
 
 
 
@@ -27,6 +28,9 @@ public class MyHorsesTab extends MyFragment {
 
     public MyHorsesTab() {
         // Required empty public constructor
+    }
+    public void withHorses(Horse[] horses){
+        this.horses = horses;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MyHorsesTab extends MyFragment {
         testHorse.setBreed("test breed");
         testHorse.setColor("test color");
         testHorse.setSex("test breed");
-        testHorse.setStallNumber(4);
+        testHorse.setStallNumber("4");
 
         Horse[] testHorses = new Horse[]{testHorse, testHorse, testHorse};
 

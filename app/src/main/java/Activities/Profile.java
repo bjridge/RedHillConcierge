@@ -36,7 +36,6 @@ import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.User;
 
-
 public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton exitButton;
@@ -66,43 +65,38 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__profile);
 
-        Intent i = getIntent();
-        user = (User) i.getSerializableExtra("user");
-        Boolean isNewUser = i.getBooleanExtra("isNewUser", true);
         initializeViewResources();
         setupSpinners();
         setupButton();
 
-        if (isNewUser){
-            setupFirstTimeProfile(i.getStringExtra("pictureURL"));
+        //if the user is incomplete, it is a new user
+        Intent i = getIntent();
+        user = (User) i.getSerializableExtra("user");
+        contact = (Contact) i.getSerializableExtra("contact");
+        if (user.isComplete()){
+            completeInitialization();
         }else{
-            setInitialUserValues();
-            fetchContact(user.key());
+            setupFirstTimeProfile();
         }
+
+
+
     }
-    private void setupFirstTimeProfile(String pictureURL){
-        showFirstTimeDialog();
-        contact = new Contact(user.key());
-        contact.setPhoto(pictureURL);
+    private void completeInitialization(){
         setInitialUserValues();
         setInitialContactValues();
+    }
+    private void setupFirstTimeProfile(){
+        showFirstTimeDialog();
+        user.setType("Basic User");
+        setInitialUserValues();
+        setImage(contact.getPhoto());
+        pictureInput.setText(contact.getPhoto());
     }
     private void showFirstTimeDialog(){
         String dialogTitle = "Welcome to Red Hill Concierge!";
         String dialogText = "It looks like this is your first time using Red Hill Concierge with this account.  We just need a few things from you so other users can contact you in the case of an emergency.";
         showDialog(dialogTitle, dialogText, false);
-    }
-
-    private void fetchContact(String id){
-        DataFetcher df = new DataFetcher();
-        Task<DatabaseObject> fetchUserTask = df.getObject("contact", id);
-        fetchUserTask.addOnCompleteListener(new OnCompleteListener<DatabaseObject>() {
-            @Override
-            public void onComplete(@NonNull Task<DatabaseObject> task) {
-                contact = (Contact) task.getResult();
-                setInitialContactValues();
-            }
-        });
     }
     private void initializeViewResources(){
         exitButton = (ImageButton) findViewById(R.id.profile_exit_button);
@@ -145,7 +139,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         int stateIndex = getIndex(stateSpinner, contact.getState());
         stateSpinner.setSelection(stateIndex);
         pictureInput.setText(contact.getPhoto());
-        String profilePictureURL = contact.getPhoto();
+        setImage(contact.getPhoto());
+    }
+    private void setImage(String profilePictureURL){
         if (!profilePictureURL.matches("")){
             Picasso.with(getApplicationContext()).load(contact.getPhoto()).into(profilePicture);
         }
@@ -196,10 +192,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     }
     private void exitProfileView(){
         Context context = getApplicationContext();
-        Intent returnIntent = new Intent(Profile.this, BasicUserView.class);
-        returnIntent.putExtra("user", user);
-        setResult(Activity.RESULT_OK, returnIntent);
-        startActivity(returnIntent);
+        Intent intent = getIntent();
+        intent.putExtra("user", user);
+        intent.putExtra("contact", contact);
+        setResult(RESULT_OK, intent);
         finish();
     }
     private boolean noEmptyFields(){

@@ -74,9 +74,9 @@ public class DataFetcher {
 
 
     //gets all of any object one time
-    public Task<ArrayList<DatabaseObject>> getAll(final String objectType){
+    public Task<DatabaseObject[]> getAll(final String objectType){
         DatabaseReference reference = db.getReference("objects/" + objectType);
-        final TaskCompletionSource<ArrayList<DatabaseObject>> output = new TaskCompletionSource<>();
+        final TaskCompletionSource<DatabaseObject[]> output = new TaskCompletionSource<>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot table) {
@@ -87,29 +87,53 @@ public class DataFetcher {
         });
         return output.getTask();
     }
-    private ArrayList<DatabaseObject> buildObjects(DataSnapshot table){
-        ArrayList<DatabaseObject> newObjects = new ArrayList<DatabaseObject>();
+    private DatabaseObject[] buildObjects(DataSnapshot table){
+        int objectCount = (int) table.getChildrenCount();
+        Log.v("IMPORTANT", "count: " + objectCount);
+
+        DatabaseObject[] newObjects = new DatabaseObject[objectCount];
         String objectType = table.getKey();
         String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
         Class tableClass = DatabaseObject.class;
         try {
+            Log.v("IMPORTANT", "about to try and make the objects");
+
             tableClass = Class.forName("DataControllers." + className);
         } catch (ClassNotFoundException e){}
-
+            int childNumber = 0;
             for (DataSnapshot objectData: table.getChildren()){
-                DatabaseObject newObject = (DatabaseObject) objectData.getValue(tableClass);
+                Log.v("IMPORTANT", "about to try to create aN OBJECT OF CLASS: " + tableClass);
+
+                Horse newObject = objectData.getValue(Horse.class);
+                Log.v("IMPORTANT", "created a horse object ");
+
                 newObject.setKey(objectData.getKey());
-                newObjects.add(newObject);
+                newObjects[childNumber] = newObject;
+                childNumber++;
             }
+        Log.v("IMPORTANT", "made all of the objects");
 
         return newObjects;
     }
-    private ArrayList<DatabaseObject> buildHorses(DataSnapshot table){
-        ArrayList<DatabaseObject> horses = new ArrayList<>();
+
+
+
+
+
+
+
+
+
+
+    private DatabaseObject[] buildHorses(DataSnapshot table){
+        int count = (int) table.getChildrenCount();
+        Horse[] horses = new Horse[count];
+        int i = 0;
         for (DataSnapshot horseSnapshot: table.getChildren()){
             Horse newHorse = horseSnapshot.getValue(Horse.class);
             newHorse.setKey(horseSnapshot.getKey());
-            horses.add(newHorse);
+            horses[i] = newHorse;
+            i++;
         }
         return horses;
     }
