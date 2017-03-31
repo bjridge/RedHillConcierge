@@ -136,12 +136,6 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         i.putExtra("user", super.getUser());
         startActivityForResult(i, 0);
 
-
-
-
-
-
-
         return false;
     }
 }

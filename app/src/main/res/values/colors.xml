@@ -32,6 +32,7 @@
     <color name="ripple">#32f50057</color>
     <color name="title">#ffffff</color>
     <color name="transparent">#00ffffff</color>
+    <color name="transparent_black">#8c000000</color>
 
 
 

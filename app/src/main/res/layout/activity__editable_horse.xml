@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/editable_horse_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@drawable/background__authentication"
+
+        >
+
+        <TextView
+            android:id="@+id/editable_horse_toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/title"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Horse Name"/>
+
+
+    </android.support.v7.widget.Toolbar>
+    <ImageButton
+        android:id="@+id/editable_horse_exit_button"
+        android:layout_width="@dimen/toolbar_height"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/transparent"
+        android:elevation="24dp"
+        android:scaleType="fitCenter"
+        android:clickable="true"
+        android:tint="@color/accent"
+        app:srcCompat="@drawable/ic_down" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/toolbar_height">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -14,7 +46,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/horse_name_output"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -86,6 +118,7 @@
                 android:text="TextView" />
         </LinearLayout>
     </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
 
 
