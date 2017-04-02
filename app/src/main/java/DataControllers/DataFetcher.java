@@ -19,11 +19,6 @@ import java.util.List;
 
 public class DataFetcher {
 
-    //test pushing from kelly's new laptop!
-    //tested receiving from brad's vr laptop!
-    //now testing pushing back so kelly's lender can pull!
-
-
 
     private FirebaseDatabase db;
 
@@ -38,22 +33,7 @@ public class DataFetcher {
 
 
 
-    // TODO: 3/21/2017 horse keys must be integers, but users are now string id's
-//    public void addNewObject(final DatabaseObject object) {
-//        String objectType = getObjectType(object);
-//        DatabaseReference objectCountReference = db.getReference("counts/" + objectType);
-//        objectCountReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                int value = dataSnapshot.getValue(int.class);
-//                //object.setKey(value + 1);
-//                writeToDatabase(object);
-//                incrementCounter(object);
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {}
-//        });
-//    }
+
     private void writeToDatabase(DatabaseObject object){
         String objectType = getObjectType(object);
         String objectID =  object.key();
