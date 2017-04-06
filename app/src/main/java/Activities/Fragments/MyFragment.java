@@ -2,6 +2,8 @@ package Activities.Fragments;
 
 import android.support.v4.app.Fragment;
 
+import java.util.List;
+
 import DataControllers.Contact;
 import DataControllers.Horse;
 import DataControllers.User;
@@ -11,6 +13,7 @@ public class MyFragment extends Fragment {
 
     private User user;
     private Contact contact;
+    private List<List<String>> resources;
 
     public MyFragment(){
         user = new User();
@@ -25,6 +28,13 @@ public class MyFragment extends Fragment {
         contact.setStreetAddress("");
         contact.setZip("");
         contact.setKey("");
+    }
+    public void setResources(List<List<String>> resources){
+        this.resources = resources;
+    }
+
+    public List<List<String>> getHorseResources(){
+        return this.resources;
     }
 
     public User getUser() {

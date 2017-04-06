@@ -67,10 +67,13 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
     MyFragment[] fragments;
 
+    MyTask listener;
+
     User user;
     Contact contact;
     List<Horse> horses;
     List<Permission> permissions;
+    List<List<String>> resources;
 
     DataFetcher data;
 
@@ -78,7 +81,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__basic_user);
-
+        log("new main activity");
         data = new DataFetcher();
 
         checkForNewUser();
@@ -90,6 +93,9 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         getUserAndContactFromIntent();
         if (userJustLoggedIn()){
             fetchUser();
+        }else{
+            listener = new MyTask();
+            fetchHorses();
         }
     }
     private void getUserAndContactFromIntent(){
@@ -103,14 +109,37 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
     private void fetchUser(){
         Task<DatabaseObject> getUserTask = data.getObject("user", user.key());
-        getUserTask.addOnCompleteListener(new MyTask("tryToGetUser"));
+        listener = new MyTask().forUser();
+        getUserTask.addOnCompleteListener(listener);
     }
     private class MyTask implements OnCompleteListener {
 
         String purpose;
 
-        private MyTask(String purpose){
-            this.purpose = purpose;
+        private MyTask(){
+        }
+
+        public MyTask forUser(){
+            purpose = "tryToGetUser";
+            return this;
+        }
+        public MyTask forContact(){
+            purpose = "getContact";
+            return this;
+        }
+        public MyTask forHorses(){
+            purpose = "getHorses";
+            return this;
+        }
+        private MyTask forPermissions(){
+            purpose = "getPermissions";
+            return this;
+        }
+        private MyTask forResources(){
+            log("created forResources properly");
+
+            purpose = "getResources";
+            return this;
         }
 
         @Override
@@ -139,22 +168,22 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                         newHorses.add(horse);
                     }
                     horses = newHorses;
-                    horses.addAll(newHorses);
-                    horses.addAll(newHorses);
-                    log("got horses; completing initialization");
                     fetchPermissions();
                     break;
                 case "getPermissions":
-                    //by user ID or by horse ID?
-                    log("about to get permissions");
                     List<DatabaseObject> permissionObjects  = (List<DatabaseObject>) task.getResult();
-                    log("permissions: " + permissionObjects.size());
                     permissions = new ArrayList<Permission>();
                     for (DatabaseObject object: permissionObjects){
                         Permission permission = (Permission) object;
                         permissions.add(permission);
                     }
-                    log("got permissions");
+                    fetchResources();
+                    break;
+                case "getResources":
+                    log("got to teh resources");
+                    //get the resources here
+                    List<List<String>> returnedResources = (List<List<String>>) task.getResult();
+                    resources = returnedResources;
                     completeInitialization();
                     break;
                 default:
@@ -172,22 +201,21 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
 
     private void fetchContact(){
-        DataFetcher df = new DataFetcher();
-        Task<DatabaseObject> getContactTask = df.getObject("contact", user.key());
-        OnCompleteListener<DatabaseObject> getContactTaskListener = new MyTask("getContact");
-        getContactTask.addOnCompleteListener(getContactTaskListener);
+        Task<DatabaseObject> getContactTask = data.getObject("contact", user.key());
+        getContactTask.addOnCompleteListener(listener.forContact());
     }
     private void fetchHorses(){
-        DataFetcher df = new DataFetcher();
-        Task<List<DatabaseObject>> getHorsesTask = df.getAll("horse");
-        getHorsesTask.addOnCompleteListener(new MyTask("getHorses"));
+        Task<List<DatabaseObject>> getHorsesTask = data.getAll("horse");
+        getHorsesTask.addOnCompleteListener(listener.forHorses());
     }
     private void fetchPermissions(){
-        DataFetcher df = new DataFetcher();
-        log("about to fetch permissions");
-        Task<List<DatabaseObject>> getPermissionsTask = df.getAll("permission");
-        log("got task");
-        getPermissionsTask.addOnCompleteListener(new MyTask("getPermissions"));
+        Task<List<DatabaseObject>> getPermissionsTask = data.getAll("permission");
+        getPermissionsTask.addOnCompleteListener(listener.forPermissions());
+    }
+    private void fetchResources(){
+        Task<List<List<String>>> getResourcesTask = data.getResources();
+        getResourcesTask.addOnCompleteListener(listener.forResources());
+        log("set the listener");
     }
     private void completeInitialization(){
         initializeViewObjects();
@@ -275,7 +303,9 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         for (MyFragment frag: fragments){
             frag.setUser(user);
             frag.setContact(contact);
+            frag.setResources(resources);
         }
+
 
         log("adding horses to horse tab");
         MyHorsesTab horseTab = (MyHorsesTab) fragments[1];

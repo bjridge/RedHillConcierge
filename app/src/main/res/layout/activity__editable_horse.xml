@@ -9,95 +9,127 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:columnCount="2"
-        android:layout_marginTop="40dp">
+
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/Name"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name" />
+            android:text="Name"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/horse_name_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/textView17"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Breed" />
+            android:text="Breed"
+            android:textSize="20dp"
+            />
 
         <Spinner
             android:id="@+id/horse_breed_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="5dp"
+            />
 
         <TextView
             android:id="@+id/textView19"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color" />
+            android:text="Color"
+            android:textSize="20dp"/>
 
         <Spinner
             android:id="@+id/horse_color_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="5dp"
+            />
 
         <TextView
             android:id="@+id/textView20"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grain Amount" />
+            android:text="Grain Amount"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/horse_grain_amount_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/textView16"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grain Type" />
+            android:text="Grain Type"
+            android:textSize="20dp"/>
 
         <Spinner
             android:id="@+id/horse_grain_type_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="5dp"
+            />
 
         <TextView
             android:id="@+id/textView15"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hay" />
+            android:text="Hay"
+            android:textSize="20dp"/>
 
-        <CheckBox
-            android:id="@+id/horse_hay_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/horse_hay_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="5dp"
+            />
 
         <TextView
             android:id="@+id/textView14"
             style="@style/MyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sex" />
+            android:text="Sex"
+            android:textSize="20dp"/>
 
         <Spinner
             android:id="@+id/horse_sex_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:textSize="20dp"
+            android:layout_marginBottom="5dp"
+            />
 
         <TextView
             android:id="@+id/textView13"
@@ -106,7 +138,8 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_row="7"
-            android:text="Stall Number" />
+            android:text="Stall Number"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/horse_stall_input"
@@ -115,7 +148,8 @@
             android:layout_column="1"
             android:layout_row="7"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="20dp"/>
 
     </GridLayout>
 

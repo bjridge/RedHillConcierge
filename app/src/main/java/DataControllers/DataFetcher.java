@@ -56,7 +56,6 @@ public class DataFetcher {
 
     //gets all of any object one time
     public Task<List<DatabaseObject>> getAll(final String objectType){
-        log("getting all ");
         DatabaseReference reference = db.getReference("objects/" + objectType);
         final TaskCompletionSource<List<DatabaseObject>> output = new TaskCompletionSource<>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -73,16 +72,12 @@ public class DataFetcher {
         List<DatabaseObject> newObjects = new ArrayList<>();
         String objectType = table.getKey();
         String className = objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
-        log("name of class: " + className);
         Class tableClass = DatabaseObject.class;
         try {
             tableClass = Class.forName("DataControllers." + className);
-            log("real class name: " + tableClass);
         } catch (ClassNotFoundException e){}
             for (DataSnapshot objectData: table.getChildren()){
-                log("got a data snapshot; creating it now");
                 DatabaseObject newObject = (DatabaseObject) objectData.getValue(tableClass);
-                log("created object from data snapshot");
                 newObject.setKey(objectData.getKey());
                 newObjects.add(newObject);
             }
@@ -126,8 +121,45 @@ public class DataFetcher {
         return taskOutput.getTask();
     }
 
+    public Task<List<List<String>>> getResources(){
+        log("about to try to get resources");
+        DatabaseReference ref = db.getReference("resorces");
+        final TaskCompletionSource<List<List<String>>> taskOutput = new TaskCompletionSource<>();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int resourceIndex = 0;
+                List<List<String>> resourceLists = new ArrayList<List<String>>();
+                log(dataSnapshot.getChildrenCount() + " objects");
+                for (DataSnapshot resourceCollection: dataSnapshot.getChildren()){
+                    List<String> resources = new ArrayList<String>();
+                    for (DataSnapshot eachResource: resourceCollection.getChildren()){
+                        String resource = (String) eachResource.getValue(String.class);
+                        resources.add(resource);
+                    }
+                    resourceLists.add(resources);
+                    resourceIndex++;
+                }
+                taskOutput.setResult(resourceLists);
+                log("lists: " + resourceLists.size());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return taskOutput.getTask();
+    }
+
+
+
+
+
+
 
     private void log(String message){
-        Log.v("IMPORTANT", message);
+        Log.v("TESTING", message);
     }
 }

@@ -30,6 +30,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import java.util.Date;
 
 import DataControllers.Contact;
+import DataControllers.DataFetcher;
 import DataControllers.User;
 
 public class Authentication extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {

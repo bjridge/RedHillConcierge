@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,6 +135,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Intent i = new Intent(context, EditableHorse.class);
         i.putExtra("horse", selectedHorse);
         i.putExtra("user", super.getUser());
+        i.putExtra("resources", (Serializable) super.getHorseResources());
         startActivityForResult(i, 0);
 
         return false;
