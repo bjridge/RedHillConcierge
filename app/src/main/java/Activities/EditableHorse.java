@@ -2,7 +2,9 @@ package Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,10 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
 import DataControllers.Contact;
+import DataControllers.DataFetcher;
+import DataControllers.DatabaseObject;
 import DataControllers.Horse;
 import DataControllers.User;
 
@@ -30,10 +36,14 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     Spinner sexSpinner;
     TextView stallInput;
     ImageButton exitButton;
+    TextView ownerButton;
 
     Horse horse;
-
+    User user;
+    Contact contact;
     List<List<String>> resources;
+    MyListener listener;
+    DataFetcher data;
 
 
     @Override
@@ -48,6 +58,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
 
         setInitialHorseValues();
 
+        getOwner();
+
 
     }
     private void initializeViewObjects(){
@@ -60,9 +72,11 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         sexSpinner = (Spinner) findViewById(R.id.horse_sex_spinner);
         stallInput = (TextView) findViewById(R.id.horse_stall_input);
         exitButton = (ImageButton) findViewById(R.id.horse_exit_button);
+        ownerButton = (TextView) findViewById(R.id.horse_owner_button);
     }
     private void setButtonOnClickListeners(){
         exitButton.setOnClickListener(this);
+        ownerButton.setOnClickListener(this);
     }
     private void getHorseAndResourcesFromIntent(){
         Intent intent = getIntent();
@@ -117,9 +131,56 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         return index;
     }
 
+    private void getOwner(){
+        data = new DataFetcher();
+        listener = new MyListener().forUser();
+        Task<DatabaseObject> taskToGetContact = data.getObject("user", horse.getOwner());
+        taskToGetContact.addOnCompleteListener(listener);
+    }
+    private void getOwnerContact(){
+        Task<DatabaseObject> taskToGetContact = data.getObject("contact", horse.getOwner());
+        taskToGetContact.addOnCompleteListener(listener.forContact());
+    }
+    private class MyListener implements OnCompleteListener{
+        String purpose = "getContact";
+        private MyListener forUser(){
+            purpose = "getUser";
+            return this;
+        }
+        private MyListener forContact(){
+            purpose = "getContact";
+            return this;
+        }
+        @Override
+        public void onComplete(@NonNull Task task) {
+            switch(purpose){
+                case "getContact":
+                    contact = (Contact) task.getResult();
+                    setContactValues();
+                    break;
+                case "getUser":
+                    user = (User) task.getResult();
+                    getOwnerContact();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    private void setContactValues(){
+        ownerButton.setText(contact.getName());
+    }
+
     @Override
     public void onClick(View v) {
-        setResult(1);
-        finish();
+        if (v.getId() == R.id.horse_owner_button){
+            Intent i = new Intent(this, Profile.class);
+            i.putExtra("user", user);
+            i.putExtra("contact", contact);
+            startActivityForResult(i, 2);
+        }else{
+            setResult(1);
+            finish();
+        }
     }
 }

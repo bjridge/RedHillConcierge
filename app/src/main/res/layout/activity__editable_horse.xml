@@ -4,185 +4,212 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:columnCount="2"
-
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="5dp">
-
-        <TextView
-            android:id="@+id/Name"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="20dp"/>
-
-        <EditText
-            android:id="@+id/horse_name_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="20dp"/>
-
-        <TextView
-            android:id="@+id/textView17"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breed"
-            android:textSize="20dp"
-            />
-
-        <Spinner
-            android:id="@+id/horse_breed_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:textSize="20dp"
-            android:layout_marginBottom="5dp"
-            />
-
-        <TextView
-            android:id="@+id/textView19"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Color"
-            android:textSize="20dp"/>
-
-        <Spinner
-            android:id="@+id/horse_color_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:textSize="20dp"
-            android:layout_marginBottom="5dp"
-            />
-
-        <TextView
-            android:id="@+id/textView20"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Grain Amount"
-            android:textSize="20dp"/>
-
-        <EditText
-            android:id="@+id/horse_grain_amount_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            android:textSize="20dp"/>
-
-        <TextView
-            android:id="@+id/textView16"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Grain Type"
-            android:textSize="20dp"/>
-
-        <Spinner
-            android:id="@+id/horse_grain_type_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:textSize="20dp"
-            android:layout_marginBottom="5dp"
-            />
-
-        <TextView
-            android:id="@+id/textView15"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hay"
-            android:textSize="20dp"/>
-
-        <Spinner
-            android:id="@+id/horse_hay_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:textSize="20dp"
-            android:layout_marginBottom="5dp"
-            />
-
-        <TextView
-            android:id="@+id/textView14"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sex"
-            android:textSize="20dp"/>
-
-        <Spinner
-            android:id="@+id/horse_sex_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal"
-            android:textSize="20dp"
-            android:layout_marginBottom="5dp"
-            />
-
-        <TextView
-            android:id="@+id/textView13"
-            style="@style/MyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="7"
-            android:text="Stall Number"
-            android:textSize="20dp"/>
-
-        <EditText
-            android:id="@+id/horse_stall_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="7"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="20dp"/>
-
-    </GridLayout>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/editable_horse_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@drawable/background__authentication"
-
-        >
-
-        <TextView
-            android:id="@+id/editable_horse_toolbar_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/title"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:text="Horse Name"/>
-
-
-    </android.support.v7.widget.Toolbar>
     <ImageButton
         android:id="@+id/horse_exit_button"
         android:layout_width="@dimen/toolbar_height"
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/transparent"
+        android:clickable="true"
         android:elevation="24dp"
         android:scaleType="fitCenter"
-        android:clickable="true"
         android:tint="@color/accent"
         app:srcCompat="@drawable/ic_down" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/editable_horse_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@drawable/background__authentication"
+
+            >
+
+            <TextView
+                android:id="@+id/editable_horse_toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Horse Name"
+                android:textColor="@color/title"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+
+            android:columnCount="2">
+
+            <TextView
+                android:id="@+id/Name"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/horse_name_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView17"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Breed"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/horse_breed_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView19"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/horse_color_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grain Amount"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/horse_grain_amount_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView16"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grain Type"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/horse_grain_type_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView15"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hay"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/horse_hay_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView14"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sex"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/horse_sex_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView13"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="7"
+                android:text="Stall Number"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/horse_stall_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="7"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/owner"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="8"
+                android:text="owner"
+                android:textSize="20dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/horse_owner_button"
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="8"
+                android:text="Some Owner Name >"
+                android:textSize="20dp"
+                android:clickable="true"
+                android:textColor="@color/accent"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                />
+
+        </GridLayout>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 

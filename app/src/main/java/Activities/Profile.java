@@ -61,22 +61,21 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__profile);
 
+
+        log("got to profile");
         getUserAndContactFromIntent();
+        log("couldnt get things from intent");
         checkForNewUser();
-        Log.v("sidenote", "1user type is:" + user.getType());
 
 
         initializeViewResources();
         setupSpinners();
         setupButton();
 
-        Log.v("sidenote", "2user type is:" + user.getType());
 
         if (userIsNew){
             showNewUserDialog();
             setupProfileForNewUser();
-            Log.v("sidenote", "3user type is:" + user.getType());
-
         }else{
             setupProfileForExistingUser();
         }
@@ -391,6 +390,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
 
         super.onStart();
+    }
+
+    private void log(String text){
+        Log.v("IMPORTANT", text);
     }
 
 }
