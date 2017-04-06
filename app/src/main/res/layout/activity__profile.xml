@@ -27,7 +27,7 @@
                     android:layout_height="170dp"
                     android:layout_gravity="top"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/background__new_user" />
+                    app:srcCompat="@drawable/background__authentication" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

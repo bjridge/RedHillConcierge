@@ -55,17 +55,13 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__authentication);
-
         initializeView();
-
-
         initializeAuthenticationTools();
-
-
     }
     private void initializeView(){
         initializeViewObjects();
@@ -134,7 +130,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                 firebaseAuthWithGoogle(account);
             }else{
                 //failed to authenticate with google
-            }
+                Toast.makeText(Authentication.this, "Google Authentication failed.", Toast.LENGTH_LONG).show();            }
         }
     }
 
@@ -167,8 +163,10 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 //  7) go to the app
                     goToApp(user);
                 } else {
-                    // User is signed out
-                }
+
+
+                    Toast.makeText(Authentication.this, "Signed Out",
+                            Toast.LENGTH_SHORT).show();                }
             }
         };
         return listener;
@@ -202,6 +200,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         User appUser = new User(userId);
         appUser.setFirstName(firstName);
         appUser.setLastName(lastName);
+        appUser.setType("incomplete");
         return appUser;
     }
     private Contact buildAppUserContact(FirebaseUser firebaseUser){
