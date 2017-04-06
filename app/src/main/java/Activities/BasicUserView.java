@@ -357,12 +357,18 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         try {
             super.onActivityResult(requestCode, resultCode, data);
 
+                if (resultCode == 0){
+                    //profile view returning
+                    User returnedUser = (User) data.getSerializableExtra("user");
+                    Contact returnedContact = (Contact) data.getSerializableExtra("contact");
 
-                User returnedUser = (User) data.getSerializableExtra("user");
-                Contact returnedContact = (Contact) data.getSerializableExtra("contact");
+                    user = returnedUser;
+                    contact = returnedContact;
+                }else if (resultCode == 1){
+                    //horse detail view returning
 
-                user = returnedUser;
-                contact = returnedContact;
+                }
+
 
         } catch (Exception ex) {
             Toast.makeText(BasicUserView.this, ex.toString(),
