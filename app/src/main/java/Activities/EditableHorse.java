@@ -45,6 +45,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     MyListener listener;
     DataFetcher data;
 
+    //restricted changes - 24 hour change only; no permission
+        //midication instructions
+        //hay
+        //grain
+        //inOutDay
+        //inOutNight
+
+    //if emergency, contact today's employee
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +114,13 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         return adapters;
     }
     private void setInitialHorseValues(){
-        nameInput.setText(horse.getName());
+        nameInput.setText(horse.getInOutDay());
         grainAmountInput.setText(horse.getGrainAmount());
         stallInput.setText(horse.getStallNumber());
         setSpinnerValue(breedSpinner, horse.getBreed());
         setSpinnerValue(colorSpinner, horse.getColor());
         setSpinnerValue(grainTypeSpinner, horse.getGrainType());
-        //// TODO: 4/6/2017 fix hay values in horses
+        setSpinnerValue(haySpinner, horse.getHay());
         setSpinnerValue(haySpinner, "hay");
         setSpinnerValue(sexSpinner, horse.getSex());
     }

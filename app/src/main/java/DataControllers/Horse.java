@@ -15,7 +15,28 @@ public class Horse extends DatabaseObject{
     private String stallInstructions = " ";
     private String stallNumber = "0";
     private String owner = "0";
+    private String inOutDay = "1111111";
+    private String inOutNight = "1111111";
 
+    public String getHay() {
+        return hay;
+    }
+
+    public String getInOutDay() {
+        return inOutDay;
+    }
+
+    public void setInOutDay(String inOutDay) {
+        this.inOutDay = inOutDay;
+    }
+
+    public String getInOutNight() {
+        return inOutNight;
+    }
+
+    public void setInOutNight(String inOutNight) {
+        this.inOutNight = inOutNight;
+    }
 
     public Horse(){
 
@@ -53,9 +74,6 @@ public class Horse extends DatabaseObject{
         this.grainType = grainType;
     }
 
-    public String isHay() {
-        return hay;
-    }
 
     public void setHay(String hay) {
         this.hay = hay;
