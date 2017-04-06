@@ -62,9 +62,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity__profile);
 
 
-        log("got to profile");
         getUserAndContactFromIntent();
-        log("couldnt get things from intent");
         checkForNewUser();
 
 

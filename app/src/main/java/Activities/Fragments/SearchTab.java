@@ -13,6 +13,16 @@ import DataControllers.User;
 
 public class SearchTab extends MyFragment {
 
+    //search dropdowns
+        //breed
+    //color
+    //sex
+
+    //stall number
+    //name
+    //owner name
+
+
     public SearchTab() {
         // Required empty public constructor
     }
