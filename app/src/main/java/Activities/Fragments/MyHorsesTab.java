@@ -2,6 +2,7 @@ package Activities.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,7 +19,9 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 
 import Activities.EditableHorse;
 import DataControllers.Contact;
@@ -26,13 +29,14 @@ import DataControllers.DataFetcher;
 import DataControllers.Horse;
 import DataControllers.HorseAdapter;
 import DataControllers.Permission;
-import DataControllers.User;
 
 public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChildClickListener {
 
     List<Horse> horses;
     List<Horse> myHorses;
     List<Horse> sharedHorses;
+    List<Integer> stallNumbers = new ArrayList<Integer>();
+    List<Horse> sortedHorses;
     List<Permission> permissions;
     List<List<Horse>> allHorseLists;
 
@@ -44,6 +48,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         // Required empty public constructor
         myHorses = new ArrayList<Horse>();
         sharedHorses = new ArrayList<Horse>();
+        sortedHorses = new ArrayList<Horse>();
     }
     public void setHorses(List<Horse>  horses){
         this.horses = horses;
@@ -72,6 +77,8 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
 
         sortMyHorses();
         sortSharedHorses();
+        sortedStallNumbers();
+        sortHorses();
         allHorseLists = new ArrayList<List<Horse>>();
         allHorseLists.add(myHorses);
         allHorseLists.add(sharedHorses);
@@ -79,7 +86,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
 
         log("about to initialize horse list adapter");
         horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
-        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, horses);
+        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, sortedHorses);
         log("initialized adapter; setting adapter");
         horseLists.setAdapter(adapter);
         log("set adapter");
@@ -91,9 +98,22 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
 
         //what horses are yours?
 
+    }
+    private void sortedStallNumbers(){
+        for(Horse horse: horses){
+            stallNumbers.add(Integer.parseInt(horse.getStallNumber()));
+        }
+        Collections.sort(stallNumbers);
+    }
 
-
-
+    private void sortHorses(){
+        for(int i = 0; stallNumbers.size()>i; i++){
+            for(Horse horse: horses){
+                if(horse.getStallNumber().matches(stallNumbers.get(i).toString())){
+                    sortedHorses.add(horse);
+                }
+            }
+        }
     }
     private void sortMyHorses(){
         for (Horse horse: horses) {

@@ -46,6 +46,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private boolean userLoaded = false;
     private boolean contactLoaded = false;
 
+
     //toolbar resources
     private Toolbar toolbar;
     private TextView toolbarTitle;
