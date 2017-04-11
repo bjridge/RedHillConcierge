@@ -1,5 +1,7 @@
 package DataControllers;
 
+import android.support.annotation.NonNull;
+
 public class Horse extends DatabaseObject{
 
     //added comment to test pushing
@@ -17,6 +19,18 @@ public class Horse extends DatabaseObject{
     private String owner = "0";
     private String inOutDay = "1111111";
     private String inOutNight = "1111111";
+
+
+    public int compareTo(@NonNull Horse another) {
+        if (stallNumber == another.stallNumber) {
+            return name.compareToIgnoreCase(another.name);
+        } else if (Integer.parseInt(stallNumber) < Integer.parseInt(another.stallNumber)) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
 
     public String getHay() {
         return hay;

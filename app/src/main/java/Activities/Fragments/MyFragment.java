@@ -6,6 +6,7 @@ import java.util.List;
 
 import DataControllers.Contact;
 import DataControllers.Horse;
+import DataControllers.Permission;
 import DataControllers.User;
 
 
@@ -14,6 +15,15 @@ public class MyFragment extends Fragment {
     private User user;
     private Contact contact;
     private List<List<String>> resources;
+    private List<Permission> permissions;
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
 
     public MyFragment(){
         user = new User();

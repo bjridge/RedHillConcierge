@@ -304,6 +304,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             frag.setUser(user);
             frag.setContact(contact);
             frag.setResources(resources);
+            frag.setPermissions(permissions);
         }
 
 
@@ -311,6 +312,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         MyHorsesTab horseTab = (MyHorsesTab) fragments[1];
         horseTab.setHorses(horses);
         horseTab.setPermissions(permissions);
+        SearchTab search = (SearchTab) fragments[2];
+        search.setHorses(horses);
         log("added horses to horse tab");
         return fragments;
     }

@@ -23,6 +23,7 @@
             android:windowSoftInputMode="stateHidden"
             ></activity>
         <activity android:name="Activities.EditableHorse"/>
+        <activity android:name="Activities.HorseList"></activity>
 
     </application>
 </manifest>

@@ -23,6 +23,7 @@ import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.Horse;
+import DataControllers.Permission;
 import DataControllers.User;
 
 public class EditableHorse extends AppCompatActivity implements View.OnClickListener {
@@ -44,6 +45,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     List<List<String>> resources;
     MyListener listener;
     DataFetcher data;
+    List<Permission> permissions;
 
     //restricted changes - 24 hour change only; no permission
         //midication instructions
@@ -53,7 +55,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         //inOutNight
 
     //if emergency, contact today's employee
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     private void getHorseAndResourcesFromIntent(){
         Intent intent = getIntent();
         horse = (Horse) intent.getSerializableExtra("horse");
+        permissions = (List<Permission>) intent.getSerializableExtra("permissions");
         resources = (List<List<String>>) intent.getSerializableExtra("resources");
     }
     private void setupSpinnerValues(){

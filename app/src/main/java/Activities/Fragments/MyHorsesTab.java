@@ -136,6 +136,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         i.putExtra("horse", selectedHorse);
         i.putExtra("user", super.getUser());
         i.putExtra("resources", (Serializable) super.getHorseResources());
+        i.putExtra("permissions", (Serializable) super.getPermissions());
         startActivityForResult(i, 0);
 
         return false;
