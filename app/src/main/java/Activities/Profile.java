@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import Application.MyApplication;
 import DataControllers.Change;
 import DataControllers.Contact;
 import DataControllers.DataFetcher;
@@ -49,6 +50,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private Spinner stateSpinner;
     private EditText zipCodeInput;
 
+    private MyApplication application;
     private User user;
     private Contact contact;
     private boolean userIsNew;
@@ -56,35 +58,40 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth mAuth;
 
+    private int returnCode = 0;
+    //0: viewed/edited your own profile
+    //1: viewed someone else's profile
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__profile);
+        application = (MyApplication) getApplication();
 
-
-        getUserAndContactFromIntent();
-        checkForNewUser();
-
+        getIntentObjects();
 
         initializeViewResources();
         setupSpinners();
         setupButton();
 
-
-        if (userIsNew){
+        contact = application.getContact(user.key());
+        if (contact == null){
+            //new user
+            userIsNew = true;
+            contact = application.getContact();
             showNewUserDialog();
             setupProfileForNewUser();
         }else{
+            userIsNew = false;
             setupProfileForExistingUser();
         }
     }
-    private void getUserAndContactFromIntent(){
+    private void getIntentObjects(){
         Intent i = getIntent();
         user = (User) i.getSerializableExtra("user");
-        contact = (Contact) i.getSerializableExtra("contact");
-    }
-    private void checkForNewUser(){
-        userIsNew = user.getType().matches("new user");
+        log("got to profile");
+
     }
     private void showNewUserDialog(){
         String dialogTitle = "Welcome to Red Hill Concierge!";
@@ -113,7 +120,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     }
     private void setNewUserValues(){
         user.setType("Basic User");
-        contact.setKey(user.key());
     }
     private void setInitialUserValues(){
         firstNameInput.setText(user.getFirstName());
@@ -271,11 +277,13 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             newUserValues.setType(user.getType());
             data.updateObject(newUserValues);
             user = newUserValues;
+            application.updateUser(user);
         }
         if (contactValuesChanged() || userIsNew){
             Contact newContactValues = getInputContactValues();
             data.updateObject(newContactValues);
             contact = newContactValues;
+            application.updateContact(contact);
         }
         if (!restrictedChangeOccured){
             goToMainActivity();

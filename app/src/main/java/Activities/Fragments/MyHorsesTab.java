@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.ConsoleHandler;
 
 import Activities.EditableHorse;
+import Application.MyApplication;
 import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.Horse;
@@ -39,6 +40,8 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     List<Horse> sortedHorses;
     List<Permission> permissions;
     List<List<Horse>> allHorseLists;
+
+    MyApplication application;
 
     ExpandableListView horseLists;
     MyHorsesExpandableListAdapter adapter;
@@ -74,24 +77,22 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+        horses = application.getAllHorses();
 
-        sortMyHorses();
-        sortSharedHorses();
-        sortedStallNumbers();
-        sortHorses();
-        allHorseLists = new ArrayList<List<Horse>>();
-        allHorseLists.add(myHorses);
-        allHorseLists.add(sharedHorses);
-        allHorseLists.add(horses);
-
-        log("about to initialize horse list adapter");
-        horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
-        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, sortedHorses);
-        log("initialized adapter; setting adapter");
-        horseLists.setAdapter(adapter);
-        log("set adapter");
-
-        horseLists.setOnChildClickListener(this);
+        //sortMyHorses();
+        //sortSharedHorses();
+        //sortedStallNumbers();
+//        //sortHorses();
+//        allHorseLists = new ArrayList<List<Horse>>();
+//        allHorseLists.add(myHorses);
+//        allHorseLists.add(sharedHorses);
+//        allHorseLists.add(horses);
+//
+//        horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
+//        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, sortedHorses);
+//        horseLists.setAdapter(adapter);
+//
+//        horseLists.setOnChildClickListener(this);
 
         //how to get all horses, and only display certain ones?
         //load them into the application during the first stage
@@ -117,7 +118,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     }
     private void sortMyHorses(){
         for (Horse horse: horses) {
-            if (horse.getOwner().matches(super.getUser().key())) {
+            if (horse.getOwner().matches(application.getUser().key())) {
                 myHorses.add(horse);
             }
         }
@@ -125,7 +126,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     private void sortSharedHorses(){
         for (Permission permission: permissions){
             log("user: " + permission.getUser());
-            if (permission.getUser().matches(super.getUser().key())){
+            if (permission.getUser().matches(application.getUser().key())){
                 log("found a permission");
                 Horse sharedHorse = findHorse(permission.getHorse());
                 if (sharedHorse != null){
@@ -154,9 +155,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Context context = getContext();
         Intent i = new Intent(context, EditableHorse.class);
         i.putExtra("horse", selectedHorse);
-        i.putExtra("user", super.getUser());
-        i.putExtra("resources", (Serializable) super.getHorseResources());
-        i.putExtra("permissions", (Serializable) super.getPermissions());
+        i.putExtra("user", application.getUser());
         startActivityForResult(i, 0);
 
         return false;

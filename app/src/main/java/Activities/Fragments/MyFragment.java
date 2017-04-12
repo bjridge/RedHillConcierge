@@ -1,9 +1,11 @@
 package Activities.Fragments;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import java.util.List;
 
+import Application.MyApplication;
 import DataControllers.Contact;
 import DataControllers.Horse;
 import DataControllers.Permission;
@@ -16,6 +18,7 @@ public class MyFragment extends Fragment {
     private Contact contact;
     private List<List<String>> resources;
     private List<Permission> permissions;
+    protected MyApplication application;
 
     public List<Permission> getPermissions() {
         return permissions;
@@ -61,6 +64,12 @@ public class MyFragment extends Fragment {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        application = (MyApplication) getActivity().getApplication();
     }
 
 

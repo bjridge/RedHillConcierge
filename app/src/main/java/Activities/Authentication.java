@@ -29,6 +29,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Date;
 
+import Application.MyApplication;
 import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.User;
@@ -188,8 +189,9 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         Intent i = new Intent(context, BasicUserView.class);
         User appUser = buildAppUser(user);
         Contact appUserContact = buildAppUserContact(user);
-        i.putExtra("user", appUser);
-        i.putExtra("contact", appUserContact);
+        MyApplication application = (MyApplication) this.getApplication();
+        application.setUser(appUser);
+        application.setContact(appUserContact);
         startActivity(i);
     }
     private User buildAppUser(FirebaseUser firebaseUser){

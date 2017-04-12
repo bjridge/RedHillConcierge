@@ -3,6 +3,7 @@ package Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -31,6 +32,7 @@ import Activities.Fragments.HomeTab;
 import Activities.Fragments.MyFragment;
 import Activities.Fragments.MyHorsesTab;
 import Activities.Fragments.SearchTab;
+import Application.MyApplication;
 import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
@@ -42,182 +44,172 @@ import static android.view.View.GONE;
 
 public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
 
-    private boolean isLoaded = false;
-    private boolean userLoaded = false;
-    private boolean contactLoaded = false;
-
-
-    //toolbar resources
+//view resources
+    private CoordinatorLayout layout;
     private Toolbar toolbar;
     private TextView toolbarTitle;
-
-    //tab navigation resources
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ProgressBar loadingIcon;
-
-    ImageButton administratorButton;
-    ImageButton profileButton;
-    ImageButton cameraButton;
-
-    CoordinatorLayout layout;
-
-    DataFetcher controller;
+    private ImageButton administratorButton;
+    private ImageButton profileButton;
+    private ImageButton cameraButton;
 
     int[] drawables;
-
     MyFragment[] fragments;
-
     MyTask listener;
 
-    User user;
-    Contact contact;
-    List<Horse> horses;
-    List<Permission> permissions;
-    List<List<String>> resources;
-
+//logic resources
+    MyApplication application;
     DataFetcher data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__basic_user);
-        log("new main activity");
+
+        initializeResources();
+        loadData();
+    }
+    private void initializeResources(){
+        application = (MyApplication) this.getApplication();
         data = new DataFetcher();
+    }
+    private void loadData(){
+        loadAllHorses();
+        loadAllPermissions();
+        loadAllResources();
+        loadAllContacts();
+        loadAllUsers();
+    }
 
-        checkForNewUser();
-
-        //if that user does not get anywhere, do all of this stuff!
-
+    private void loadAllHorses(){
+        Task<List<DatabaseObject>> getHorsesTask = data.getAll("horse");
+        MyTask fetchHorsesListener = new MyTask("getAllHorses");
+        getHorsesTask.addOnCompleteListener(fetchHorsesListener);
     }
-    private void checkForNewUser(){
-        getUserAndContactFromIntent();
-        if (userJustLoggedIn()){
-            fetchUser();
-        }else{
-            listener = new MyTask();
-            fetchHorses();
-        }
+    private void loadAllPermissions(){
+        Task<List<DatabaseObject>> getPermissionsTask = data.getAll("permission");
+        MyTask fetchPermissionsListener = new MyTask("getAllPermissions");
+        getPermissionsTask.addOnCompleteListener(fetchPermissionsListener);
     }
-    private void getUserAndContactFromIntent(){
-        Intent i = getIntent();
-        user = (User) i.getSerializableExtra("user");
-        contact = (Contact) i.getSerializableExtra("contact");
+    private void loadAllResources(){
+        Task<List<List<String>>> getResourcesTask = data.getResources();
+        MyTask fetchResourcesListener = new MyTask("getAllResources");
+        getResourcesTask.addOnCompleteListener(fetchResourcesListener);
     }
-    private boolean userJustLoggedIn(){
-        boolean userIsIncomplete = user.getType().matches("incomplete");
-        return userIsIncomplete;
+    private void loadAllContacts(){
+        Task<List<DatabaseObject>> getContactsTask = data.getAll("contact");
+        MyTask fetchAllContactsTask = new MyTask("getAllContacts");
+        getContactsTask.addOnCompleteListener(fetchAllContactsTask);
     }
-    private void fetchUser(){
-        Task<DatabaseObject> getUserTask = data.getObject("user", user.key());
-        listener = new MyTask().forUser();
-        getUserTask.addOnCompleteListener(listener);
+    private void loadAllUsers(){
+        Task<List<DatabaseObject>> getUsersTask = data.getAll("user");
+        MyTask fetchAllUsersTask = new MyTask("getAllUsers");
+        getUsersTask.addOnCompleteListener(fetchAllUsersTask);
     }
     private class MyTask implements OnCompleteListener {
-
         String purpose;
-
-        private MyTask(){
+        private MyTask(String type){
+            purpose = type;
         }
-
-        public MyTask forUser(){
-            purpose = "tryToGetUser";
-            return this;
-        }
-        public MyTask forContact(){
-            purpose = "getContact";
-            return this;
-        }
-        public MyTask forHorses(){
-            purpose = "getHorses";
-            return this;
-        }
-        private MyTask forPermissions(){
-            purpose = "getPermissions";
-            return this;
-        }
-        private MyTask forResources(){
-            log("created forResources properly");
-
-            purpose = "getResources";
-            return this;
-        }
-
         @Override
         public void onComplete(@NonNull Task task){
+            log("task completed: " + purpose);
             switch(purpose){
-                case "tryToGetUser":
-                    if (task.getResult() == null){
-                        sendNewUserToProfile();
-                    }else{
-                        user = (User) task.getResult();
-                        log("just got the user" + user.getLastName() + user.getFirstName() + user.key());
-                        fetchContact();
-                    }
+                case "getAllHorses":
+                    getAllHorsesFromTask(task.getResult());
                     break;
-                case "getContact":
-                    contact = (Contact) task.getResult();
-                    log("just got the contact" + contact.getName());
-
-                    fetchHorses();
+                case "getAllPermissions":
+                    getAllPermissionsFromTask(task.getResult());
                     break;
-                case "getHorses":
-                    List<DatabaseObject> objects  = (List<DatabaseObject>) task.getResult();
-                    List<Horse> newHorses = new ArrayList<Horse>();
-                    for (DatabaseObject object: objects){
-                        Horse horse = (Horse) object;
-                        newHorses.add(horse);
-                    }
-                    horses = newHorses;
-                    fetchPermissions();
+                case "getAllResources":
+                    log("get all resources completed");
+                    getAllResourcesFromTask(task.getResult());
                     break;
-                case "getPermissions":
-                    List<DatabaseObject> permissionObjects  = (List<DatabaseObject>) task.getResult();
-                    permissions = new ArrayList<Permission>();
-                    for (DatabaseObject object: permissionObjects){
-                        Permission permission = (Permission) object;
-                        permissions.add(permission);
-                    }
-                    fetchResources();
+                case "getAllContacts":
+                    getAllContactsFromTask(task.getResult());
                     break;
-                case "getResources":
-                    log("got to teh resources");
-                    //get the resources here
-                    List<List<String>> returnedResources = (List<List<String>>) task.getResult();
-                    resources = returnedResources;
-                    completeInitialization();
+                case "getAllUsers":
+                    log("called get all users");
+                    getAllUsersFromTask(task.getResult());
                     break;
                 default:
                     break;
             }
+            checkForCompletion();
         }
     }
-    private void sendNewUserToProfile(){
-        Intent intent = new Intent(getApplicationContext(), Profile.class);
-        user.setType("new user");
-        intent.putExtra("user", user);
-        intent.putExtra("contact", contact);
-        startActivity(intent);
-        finish();
+    private void getAllHorsesFromTask(Object result){
+        List<DatabaseObject> allHorseObjects  = (List<DatabaseObject>) result;
+        List<Horse> newHorses = new ArrayList<Horse>();
+        for (DatabaseObject horseObject: allHorseObjects){
+            Horse horse = (Horse) horseObject;
+            newHorses.add(horse);
+        }
+        application.setAllHorses(newHorses);
+    }
+    private void getAllPermissionsFromTask(Object result){
+        List<DatabaseObject> permissionObjects  = (List<DatabaseObject>) result;
+        List<Permission> permissions = new ArrayList<Permission>();
+        for (DatabaseObject permissionObject: permissionObjects){
+            Permission permission = (Permission) permissionObject;
+            permissions.add(permission);
+        }
+        application.setAllPermissions(permissions);
+    }
+    private void getAllResourcesFromTask(Object result){
+        List<List<String>> returnedResources = (List<List<String>>) result;
+        log("about to set all resources");
+        application.setResources(returnedResources);
+    }
+    private void getAllContactsFromTask(Object result){
+        List<DatabaseObject> contactObjects = (List<DatabaseObject>) result;
+        List<Contact> contacts = new ArrayList<Contact>();
+        for (DatabaseObject contactObject: contactObjects){
+            Contact contact = (Contact) contactObject;
+            contacts.add(contact);
+        }
+        application.setAllContacts(contacts);
+    }
+    private void getAllUsersFromTask(Object result){
+        log("about to get users from results");
+        List<DatabaseObject> userObjects = (List<DatabaseObject>) result;
+        log("cast to results");
+        List<User> users = new ArrayList<User>();
+        for (DatabaseObject userObject: userObjects){
+            User user = (User) userObject;
+            users.add(user);
+        }
+       application.setAllUsers(users);
     }
 
-    private void fetchContact(){
-        Task<DatabaseObject> getContactTask = data.getObject("contact", user.key());
-        getContactTask.addOnCompleteListener(listener.forContact());
+    private void checkForCompletion(){
+        if (application.loadingIsComplete()){
+            log("completed loading");
+            Contact contact = application.getContact(application.getUser().key());
+            if (contact == null){
+                //user does not exist; go to profile!
+                sendNewUserToProfile();
+            }else{
+                application.setContact(contact);
+                log("contact set");
+                User user = application.getUser(contact.key());
+                log("user gotten");
+                application.setUser(user);
+                completeInitialization();
+            }
+        }
     }
-    private void fetchHorses(){
-        Task<List<DatabaseObject>> getHorsesTask = data.getAll("horse");
-        getHorsesTask.addOnCompleteListener(listener.forHorses());
+
+
+    private void sendNewUserToProfile(){
+        Intent intent = new Intent(getApplicationContext(), Profile.class);
+        intent.putExtra("user", application.getUser());
+        startActivityForResult(intent, 0);
     }
-    private void fetchPermissions(){
-        Task<List<DatabaseObject>> getPermissionsTask = data.getAll("permission");
-        getPermissionsTask.addOnCompleteListener(listener.forPermissions());
-    }
-    private void fetchResources(){
-        Task<List<List<String>>> getResourcesTask = data.getResources();
-        getResourcesTask.addOnCompleteListener(listener.forResources());
-        log("set the listener");
-    }
+
+
     private void completeInitialization(){
         initializeViewObjects();
         initializeButtonActions();
@@ -231,9 +223,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private void navigateTo(Class destination){
         Context context = getApplicationContext();
         Intent i = new Intent(context, destination);
-        i.putExtra("user", user);
-        i.putExtra("contact", contact);
-        startActivityForResult(i, 0);
+        startActivityForResult(i, 1);
     }
 
     private void initializeViewObjects(){
@@ -294,28 +284,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         viewPager.setAdapter(adapter);
     }
     private Fragment[] initializeFragments(){
-        log("building tabs");
         fragments = new MyFragment[4];
         fragments[0] = new HomeTab();
         fragments[1] = new MyHorsesTab();
         fragments[2] = new SearchTab();
-        fragments[3] = new EventsTab();
-        log("tabs built; adding user/contact");
-        for (MyFragment frag: fragments){
-            frag.setUser(user);
-            frag.setContact(contact);
-            frag.setResources(resources);
-            frag.setPermissions(permissions);
-        }
-
-
-        log("adding horses to horse tab");
-        MyHorsesTab horseTab = (MyHorsesTab) fragments[1];
-        horseTab.setHorses(horses);
-        horseTab.setPermissions(permissions);
-        SearchTab search = (SearchTab) fragments[2];
-        search.setHorses(horses);
-        log("added horses to horse tab");
+        fragments[3] = new HomeTab();
         return fragments;
     }
     private void addTabIcons(){
@@ -376,9 +349,9 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
     private void configureAdministrativePrivelages(){
-        if (!user.getType().matches("Administrator")){
-            administratorButton.setVisibility(GONE);
-        }
+//        if (!user.getType().matches("Administrator")){
+//            administratorButton.setVisibility(GONE);
+//        }
     }
 
     private void disableAdminPrivelages(){
@@ -396,8 +369,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                     User returnedUser = (User) data.getSerializableExtra("user");
                     Contact returnedContact = (Contact) data.getSerializableExtra("contact");
 
-                    user = returnedUser;
-                    contact = returnedContact;
+//                    user = returnedUser;
+//                    contact = returnedContact;
                 }else if (resultCode == 1){
                     //horse detail view returning
 
@@ -417,7 +390,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private void switchToAdministratorView(){
         Context context = getApplicationContext();
         Intent intent = new Intent(context, AdministratorView.class);
-        intent.putExtra("user", user);
         startActivityForResult(intent, 1);
 
     }

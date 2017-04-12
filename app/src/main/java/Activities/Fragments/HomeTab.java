@@ -2,6 +2,7 @@ package Activities.Fragments;
 
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +44,9 @@ public class HomeTab extends MyFragment {
 
         nameOutput = (TextView) getView().findViewById(R.id.home_name);
         typeOutput = (TextView) getView().findViewById(R.id.home_user_type);
-
-        nameOutput.setText(super.getUser().getFirstName());
-        typeOutput.setText(super.getUser().getType());
+        Log.v("important", "about to get application");
+        nameOutput.setText(application.getUser().getFirstName());
+        typeOutput.setText(application.getUser().getType());
 
     }
 

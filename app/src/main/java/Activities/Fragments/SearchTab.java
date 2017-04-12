@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +49,6 @@ public class SearchTab extends MyFragment {
     public SearchTab() {
         // Required empty public constructor
     }
-    public void setHorses(List<Horse> horses){
-        this.horses = horses;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +64,7 @@ public class SearchTab extends MyFragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         //do shit for this fragment!
+        horses = application.getAllHorses();
         initializeViewResources();
         setupSpinnerValues();
         setInitialValues();
@@ -90,28 +89,34 @@ public class SearchTab extends MyFragment {
     private ArrayAdapter<String>[] buildAdapters(){
         ArrayAdapter<String>[] adapters = new ArrayAdapter[5];
         int resourceListIndex = 0;
-        for (List<String> strings: super.getHorseResources()){
-            //0 breeds, color, grain, hay, sex options
-            strings.add("Any");
-            sortList(strings);
-            String[] values = strings.toArray(new String[strings.size()]);
-            ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getContext(), R.layout.custom_spinner_item_2, strings);
+        List<String> breedOptions = application.getBreedOptions();
+
+        List<String> colorOptions = application.getColorOptions();
+        List<String> sexOptions = application.getSexOptions();
+
+        List<String> names = getAllHorseNames();
+
+        List<String> stallNumbers = getStallNumbers();
+
+        List<List<String>> options = new ArrayList<List<String>>();
+
+        options.add(breedOptions);
+        options.add(colorOptions);
+        options.add(sexOptions);
+        options.add(names);
+        options.add(stallNumbers);
+
+
+
+        for (List<String> eachList: options){
+            eachList.add("Any");
+            sortList(eachList);
+            String[] values = eachList.toArray(new String[eachList.size()]);
+            ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getContext(), R.layout.custom_spinner_item_2, eachList);
             stringAdapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
             adapters[resourceListIndex] = stringAdapter;
             resourceListIndex++;
         }
-
-        //get all horse names
-        List<String> names = getAllHorseNames();
-        names.add("Any");
-        ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getContext(), R.layout.custom_spinner_item_2, names);
-        nameAdapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
-        adapters[2] = nameAdapter;
-
-        List<String> stalls = getStallNumbers();
-        ArrayAdapter<String> stallsAdapter = new ArrayAdapter<String>(getContext(), R.layout.custom_spinner_item_2, names);
-        nameAdapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
-        adapters[3] = stallsAdapter;
         return adapters;
     }
     private List<String> sortList(List<String> list){
