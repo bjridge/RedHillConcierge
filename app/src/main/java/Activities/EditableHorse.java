@@ -20,6 +20,7 @@ import java.util.List;
 
 import Application.MyApplication;
 import DataControllers.Horse;
+import DataControllers.User;
 
 public class EditableHorse extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,6 +40,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
 
     MyApplication application;
 
+    List<User> user;
     Horse horse;
     String userID;
     ArrayList<String> horseKeys;
@@ -60,6 +62,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity__editable_horse);
         application = (MyApplication) getApplication();
         horses = application.getAllHorses();
+        user = application.getAllUsers();
         initializeViewObjects();
         getIntentObjects();
         setButtonOnClickListeners();
@@ -140,6 +143,14 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     }
 
     private void setInitialHorseValues(){
+        String ownerName = "Owner >";
+
+        for(int i = 0; i<user.size(); i++){
+            if(user.get(i).key().toString().equals(horse.getOwner().toString())){
+                ownerName = user.get(i).name() + " > ";
+            }
+        }
+        ownerButton.setText(ownerName);
         nameInput.setText(horse.getName());
         grainAmountInput.setText(horse.getGrainAmount());
         stallInput.setText(horse.getStallNumber());
