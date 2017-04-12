@@ -195,32 +195,66 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void goTo(Class nextView, String buttonClicked){
+        Intent i = new Intent(getApplicationContext(), nextView);
+        i.putStringArrayListExtra("horseList", horseKeys);
+        i.putExtra("userID", userID);
+        Horse selectedHorse;
+        int j = horses.indexOf(horse.key());
+        if(buttonClicked.equals("back")){
+            selectedHorse = horses.get(j-1);
+        }else{
+            selectedHorse = horses.get(j-1);
+        }
+        i.putExtra("horse", selectedHorse);
+    }
+
     @Override
     public void onClick(View v) {
-        int j = horses.indexOf(horse.key());
-
-        if (v.getId() == R.id.horse_owner_button){
-            Intent i = new Intent(this, Profile.class);
-            i.putExtra("user", horse.getOwner());
-            startActivityForResult(i, 2);
-
-        }else if(v.getId() == R.id.next_button){
-            Intent i = new Intent(this, EditableHorse.class);
-            i.putStringArrayListExtra("horseList", horseKeys);
-            i.putExtra("userID", userID);
-            Horse selectedHorse = horses.get(j+1);
-            i.putExtra("horse", selectedHorse);
-
-        }else if(v.getId() == R.id.back_button){
-            Intent i = new Intent(this, EditableHorse.class);
-            i.putStringArrayListExtra("horseList", horseKeys);
-            i.putExtra("userID", userID);
-            Horse selectedHorse = horses.get(j-1);
-            i.putExtra("horse", selectedHorse);
-
-        }else{
-            setResult(1);
-            finish();
+        String button;
+        switch(v.getId()){
+            case R.id.back_button:
+                button="back";
+                goTo(EditableHorse.class, button);
+                break;
+            case R.id.next_button:
+                button ="next";
+                goTo(EditableHorse.class, button);
+                break;
+            case R.id.horse_owner_button:
+                Intent i = new Intent(this, Profile.class);
+                i.putExtra("user", horse.getOwner());
+                startActivityForResult(i, 2);
+                break;
+            default:
+                setResult(1);
+                finish();
         }
+
+//        int j = horses.indexOf(horse.key());
+//
+//        if (v.getId() == R.id.horse_owner_button){
+//            Intent i = new Intent(this, Profile.class);
+//            i.putExtra("user", horse.getOwner());
+//            startActivityForResult(i, 2);
+//
+//        }else if(v.getId() == R.id.next_button){
+//            Intent i = new Intent(this, EditableHorse.class);
+//            i.putStringArrayListExtra("horseList", horseKeys);
+//            i.putExtra("userID", userID);
+//            Horse selectedHorse = horses.get(j+1);
+//            i.putExtra("horse", selectedHorse);
+//
+//        }else if(v.getId() == R.id.back_button){
+//            Intent i = new Intent(this, EditableHorse.class);
+//            i.putStringArrayListExtra("horseList", horseKeys);
+//            i.putExtra("userID", userID);
+//            Horse selectedHorse = horses.get(j-1);
+//            i.putExtra("horse", selectedHorse);
+//
+//        }else{
+//            setResult(1);
+//            finish();
+//        }
     }
 }
