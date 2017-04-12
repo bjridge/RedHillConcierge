@@ -68,6 +68,7 @@ public class HorseList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //get the selected horse
                 Horse horse = horses.get(position);
+
                 //go to next view
                 Intent i = new Intent(getApplicationContext(), EditableHorse.class);
                 i.putExtra("horse", horse);

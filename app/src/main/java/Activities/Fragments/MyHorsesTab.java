@@ -19,6 +19,7 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,6 +32,7 @@ import DataControllers.DataFetcher;
 import DataControllers.Horse;
 import DataControllers.HorseAdapter;
 import DataControllers.Permission;
+import java.util.Collection;
 
 public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChildClickListener {
 
@@ -82,6 +84,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         horseLists.setAdapter(adapter);
 
         horseLists.setOnChildClickListener(this);
+
     }
     private List<Horse> sortList(List<Horse> list){
         Collections.sort(list, new Comparator<Horse>() {
@@ -133,6 +136,17 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Horse selectedHorse = allHorseLists.get(groupPosition).get(childPosition);
         Context context = getContext();
         Intent i = new Intent(context, EditableHorse.class);
+
+        //all horse: for next button to work
+        Collection l  = Collections.singletonList(allHorseLists.get(groupPosition));
+        ArrayList<String> horseKeys =new ArrayList<String>();
+        for(int j = 0; j< allHorseLists.get(groupPosition).size(); j++){
+            horseKeys.add(allHorseLists.get(groupPosition).get(j).key().toString());
+        }
+
+        i.putStringArrayListExtra("horseList", horseKeys);
+
+        i.putExtra("userID", application.getUser().key());
         i.putExtra("horse", selectedHorse);
         startActivityForResult(i, 0);
 
