@@ -2,29 +2,20 @@ package Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import DataControllers.Contact;
-import DataControllers.DataFetcher;
-import DataControllers.DatabaseObject;
+import Application.MyApplication;
 import DataControllers.Horse;
-import DataControllers.Permission;
-import DataControllers.User;
 
 public class EditableHorse extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,13 +30,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     ImageButton exitButton;
     TextView ownerButton;
 
+    MyApplication application;
     Horse horse;
-    User user;
-    Contact contact;
-    List<List<String>> resources;
-    MyListener listener;
-    DataFetcher data;
-    List<Permission> permissions;
+
 
     //restricted changes - 24 hour change only; no permission
         //midication instructions
@@ -60,15 +47,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__editable_horse);
+        application = (MyApplication) getApplication();
 
         initializeViewObjects();
-        getHorseAndResourcesFromIntent();
+        getIntentObjects();
         setButtonOnClickListeners();
         setupSpinnerValues();
 
         setInitialHorseValues();
 
-        getOwner();
 
 
     }
@@ -88,11 +75,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         exitButton.setOnClickListener(this);
         ownerButton.setOnClickListener(this);
     }
-    private void getHorseAndResourcesFromIntent(){
+    private void getIntentObjects(){
         Intent intent = getIntent();
         horse = (Horse) intent.getSerializableExtra("horse");
-        permissions = (List<Permission>) intent.getSerializableExtra("permissions");
-        resources = (List<List<String>>) intent.getSerializableExtra("resources");
     }
     private void setupSpinnerValues(){
         ArrayAdapter<String>[] adapters = buildAdapters();
@@ -105,6 +90,12 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     private ArrayAdapter<String>[] buildAdapters(){
         ArrayAdapter<String>[] adapters = new ArrayAdapter[5];
         int resourceListIndex = 0;
+        List<List<String>> resources = new ArrayList<List<String>>();
+        resources.add(application.getBreedOptions());
+        resources.add(application.getColorOptions());
+        resources.add(application.getGrainOptions());
+        resources.add(application.getHayOptions());
+        resources.add(application.getSexOptions());
         for (List<String> strings: resources){
             //0 breeds, color, grain, hay, sex options
             String[] values = strings.toArray(new String[strings.size()]);
@@ -116,7 +107,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         return adapters;
     }
     private void setInitialHorseValues(){
-        nameInput.setText(horse.getInOutDay());
+        nameInput.setText(horse.getName());
         grainAmountInput.setText(horse.getGrainAmount());
         stallInput.setText(horse.getStallNumber());
         setSpinnerValue(breedSpinner, horse.getBreed());
@@ -142,52 +133,12 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         return index;
     }
 
-    private void getOwner(){
-        data = new DataFetcher();
-        listener = new MyListener().forUser();
-        Task<DatabaseObject> taskToGetContact = data.getObject("user", horse.getOwner());
-        taskToGetContact.addOnCompleteListener(listener);
-    }
-    private void getOwnerContact(){
-        Task<DatabaseObject> taskToGetContact = data.getObject("contact", horse.getOwner());
-        taskToGetContact.addOnCompleteListener(listener.forContact());
-    }
-    private class MyListener implements OnCompleteListener{
-        String purpose = "getContact";
-        private MyListener forUser(){
-            purpose = "getUser";
-            return this;
-        }
-        private MyListener forContact(){
-            purpose = "getContact";
-            return this;
-        }
-        @Override
-        public void onComplete(@NonNull Task task) {
-            switch(purpose){
-                case "getContact":
-                    contact = (Contact) task.getResult();
-                    setContactValues();
-                    break;
-                case "getUser":
-                    user = (User) task.getResult();
-                    getOwnerContact();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    private void setContactValues(){
-        ownerButton.setText(contact.getName());
-    }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.horse_owner_button){
             Intent i = new Intent(this, Profile.class);
-            i.putExtra("user", user);
-            i.putExtra("contact", contact);
+            i.putExtra("user", horse.getOwner());
             startActivityForResult(i, 2);
         }else{
             setResult(1);

@@ -288,7 +288,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         fragments[0] = new HomeTab();
         fragments[1] = new MyHorsesTab();
         fragments[2] = new SearchTab();
-        fragments[3] = new HomeTab();
+        fragments[3] = new EventsTab();
         return fragments;
     }
     private void addTabIcons(){

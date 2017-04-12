@@ -23,6 +23,7 @@ public class MyApplication extends Application {
     List<String> breedOptions;
     List<String> colorOptions;
     List<String> grainOptions;
+    List<String> hayOptions;
     List<String> sexOptions;
 
     public void updateUser(User inputUser){
@@ -118,7 +119,17 @@ public class MyApplication extends Application {
         Log.v("IMPORTANT", "breed options set");
         setColorOptions(resources.get(1));
         setGrainOptions(resources.get(2));
-        setSexOptions(resources.get(3));
+        setSexOptions(resources.get(4));
+        setHayOptions(resources.get(3));
+
+    }
+
+    public List<String> getHayOptions() {
+        return hayOptions;
+    }
+
+    public void setHayOptions(List<String> hayOptions) {
+        this.hayOptions = hayOptions;
     }
 
     public List<String> getBreedOptions() {

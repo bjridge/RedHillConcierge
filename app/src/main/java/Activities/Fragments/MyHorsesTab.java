@@ -20,6 +20,7 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 
@@ -36,8 +37,6 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     List<Horse> horses;
     List<Horse> myHorses;
     List<Horse> sharedHorses;
-    List<Integer> stallNumbers = new ArrayList<Integer>();
-    List<Horse> sortedHorses;
     List<Permission> permissions;
     List<List<Horse>> allHorseLists;
 
@@ -48,25 +47,12 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
 
 
     public MyHorsesTab() {
-        // Required empty public constructor
-        myHorses = new ArrayList<Horse>();
-        sharedHorses = new ArrayList<Horse>();
-        sortedHorses = new ArrayList<Horse>();
+        horses=new ArrayList<Horse>();
     }
-    public void setHorses(List<Horse>  horses){
-        this.horses = horses;
-    }
-    public void setPermissions(List<Permission> permissions){
-        this.permissions = permissions;
-
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,72 +63,65 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        horses = application.getAllHorses();
+        this.application = super.application;
+        horses  = application.getAllHorses();
+        myHorses = filterMyHorses();
+        sharedHorses = filterSharedHorses();
+        allHorseLists = new ArrayList<List<Horse>>();
+        allHorseLists.add(myHorses);
+        allHorseLists.add(sharedHorses);
+        allHorseLists.add(horses);
 
-        //sortMyHorses();
-        //sortSharedHorses();
-        //sortedStallNumbers();
-//        //sortHorses();
-//        allHorseLists = new ArrayList<List<Horse>>();
-//        allHorseLists.add(myHorses);
-//        allHorseLists.add(sharedHorses);
-//        allHorseLists.add(horses);
-//
-//        horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
-//        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, sortedHorses);
-//        horseLists.setAdapter(adapter);
-//
-//        horseLists.setOnChildClickListener(this);
-
-        //how to get all horses, and only display certain ones?
-        //load them into the application during the first stage
-
-        //what horses are yours?
-
-    }
-    private void sortedStallNumbers(){
-        for(Horse horse: horses){
-            stallNumbers.add(Integer.parseInt(horse.getStallNumber()));
+        for(List<Horse> horseList: allHorseLists){
+            sortList(horseList);
         }
-        Collections.sort(stallNumbers);
-    }
 
-    private void sortHorses(){
-        for(int i = 0; stallNumbers.size()>i; i++){
-            for(Horse horse: horses){
-                if(horse.getStallNumber().matches(stallNumbers.get(i).toString())){
-                    sortedHorses.add(horse);
-                }
+
+        horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
+        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, horses);
+        horseLists.setAdapter(adapter);
+
+        horseLists.setOnChildClickListener(this);
+    }
+    private List<Horse> sortList(List<Horse> list){
+        Collections.sort(list, new Comparator<Horse>() {
+            @Override
+            public int compare(Horse o1, Horse o2) {
+                return o1.getStallNumber().compareToIgnoreCase(o2.getStallNumber());
             }
-        }
+        });
+        return list;
     }
-    private void sortMyHorses(){
-        for (Horse horse: horses) {
-            if (horse.getOwner().matches(application.getUser().key())) {
+    private List<Horse> filterMyHorses(){
+        String key = application.getUser().key();
+        List<Horse> myHorses = new ArrayList<Horse>();
+        for (Horse horse: horses){
+            if (horse.getOwner().matches(key)){
                 myHorses.add(horse);
             }
         }
+        return myHorses;
     }
-    private void sortSharedHorses(){
-        for (Permission permission: permissions){
-            log("user: " + permission.getUser());
-            if (permission.getUser().matches(application.getUser().key())){
-                log("found a permission");
-                Horse sharedHorse = findHorse(permission.getHorse());
-                if (sharedHorse != null){
-                    sharedHorses.add(sharedHorse);
-                }
+    private List<Horse> filterSharedHorses(){
+        //get all permissions
+        String key = application.getUser().key();
+        List<Horse> permissions = new ArrayList<Horse>();
+        for (Permission permission: application.getAllPermissions()){
+            if (permission.getUser().matches(key)){
+                Horse horse = findHorse(permission.getHorse());
+                permissions.add(horse);
             }
         }
+        return permissions;
     }
+
+
     private Horse findHorse(String key){
         for (Horse horse: horses){
             if (horse.key().matches(key)){
-                log("found the hourse");
                 return horse;
             }
         }
-        log("didnt find the horse");
         return null;
     }
     private void log(String message){
@@ -155,7 +134,6 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Context context = getContext();
         Intent i = new Intent(context, EditableHorse.class);
         i.putExtra("horse", selectedHorse);
-        i.putExtra("user", application.getUser());
         startActivityForResult(i, 0);
 
         return false;
