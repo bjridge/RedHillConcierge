@@ -23,7 +23,8 @@
         <activity android:name="Activities.Profile"
             android:windowSoftInputMode="stateHidden"
             ></activity>
-        <activity android:name="Activities.EditableHorse"/>
+        <activity android:name="Activities.EditableHorse"
+            android:noHistory="true"/>
         <activity android:name="Activities.HorseList"></activity>
 
     </application>

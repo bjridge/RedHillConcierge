@@ -38,7 +38,9 @@
 
 
         </android.support.v7.widget.Toolbar>
-
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -205,6 +207,21 @@
                 android:textSize="20dp"
                 android:onClick="buttonClicked"/>
 
+            <Button
+                android:id="@+id/save_horse_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_column="0"
+                android:layout_row="10"
+                android:clickable="true"
+                android:layout_columnSpan="2"
+                android:text="Save Changes"
+                android:textAlignment="center"
+                android:textColor="@color/accent"
+                android:onClick="buttonClicked"/>
+
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -215,7 +232,7 @@
                 android:columnCount="3">
 
                 <android.support.design.widget.CheckableImageButton
-                    android:id="@+id/back_button"
+                    android:id="@+id/back_button_clicked"
                     android:layout_column="0"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="5dp"
@@ -259,6 +276,7 @@
 
 
         </GridLayout>
+</ScrollView>
 
     </LinearLayout>
 

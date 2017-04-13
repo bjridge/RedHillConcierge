@@ -381,8 +381,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
-
     @Override
     protected void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

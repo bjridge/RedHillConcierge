@@ -56,6 +56,10 @@ public class Horse extends DatabaseObject{
 
     }
 
+    public Horse(String id){
+        this.setKey(id);
+    }
+
     public String getBreed() {
         return breed;
     }

@@ -1,10 +1,12 @@
 package Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Button;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
@@ -21,8 +24,10 @@ import java.util.List;
 
 import Activities.Fragments.MyHorsesTab;
 import Application.MyApplication;
+import DataControllers.DataFetcher;
 import DataControllers.Horse;
 import DataControllers.User;
+import DataControllers.Change;
 
 public class EditableHorse extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +45,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView stall;
     ImageButton backStall;
     ImageButton nextStall;
+    Button saveChanges;
+
 
     MyApplication application;
 
@@ -70,12 +77,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         getIntentObjects();
         setButtonOnClickListeners();
         setupSpinnerValues();
-
         setInitialHorseValues();
         setStallButtons();
         checkPermissions();
-
-
     }
     private void initializeViewObjects(){
         nameInput = (TextView) findViewById(R.id.horse_name_input);
@@ -90,7 +94,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         ownerButton = (TextView) findViewById(R.id.horse_owner_button);
         stall = (TextView) findViewById(R.id.stall_on);
         nextStall = (ImageButton) findViewById(R.id.next_button);
-        backStall = (ImageButton) findViewById(R.id.back_button);
+        backStall = (ImageButton) findViewById(R.id.back_button_clicked);
+        saveChanges = (Button) findViewById(R.id.save_horse_button);
     }
     private void setStallButtons(){
         keyIndex = horseKeys.indexOf(horse.key());
@@ -98,9 +103,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             backStall.setVisibility(View.GONE);
         }else if(keyIndex==(horseKeys.size()-1)){
             nextStall.setVisibility(View.GONE);
-        }else{
-            backStall.setVisibility(View.VISIBLE);
-            nextStall.setVisibility(View.VISIBLE);
+        }else if(horseKeys.size()==1){
+            nextStall.setVisibility(View.GONE);
+            backStall.setVisibility(View.GONE);
         }
     }
     private void setButtonOnClickListeners(){
@@ -108,11 +113,13 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         ownerButton.setOnClickListener(this);
         nextStall.setOnClickListener(this);
         backStall.setOnClickListener(this);
+        saveChanges.setOnClickListener(this);
+
     }
     private void getIntentObjects(){
         Intent intent = getIntent();
         horse = (Horse) intent.getSerializableExtra("horse");
-        userID = (String) intent.getSerializableExtra("userID");
+        userID = intent.getStringExtra("userID");
         horseKeys= intent.getExtras().getStringArrayList("horseList");
     }
 
@@ -195,22 +202,110 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             grainTypeSpinner.setOnKeyListener(null);
             haySpinner.setOnKeyListener(null);
             sexSpinner.setOnKeyListener(null);
+            saveChanges.setVisibility(View.GONE);
         }
+    }
+
+    //save changes
+    public void setSaveChanges(){
+        if(thereAreNoEmptyFields()){
+            setChanges();
+        }
+    }
+    public void setChanges() {
+        DataFetcher data = new DataFetcher();
+        Horse newHorseData = getInputHorseValues();
+        data.updateObject(newHorseData);
+        horse = newHorseData;
+        application.updateHorse(horse);
+
+        showDialog("Saved Changes", "All changes to feed, medication, & staying In/Out will take place next day. Please contact todays worker if need changed sooner.", false);
+    }
+    public Horse getInputHorseValues(){
+        Horse newHorseData = new Horse(horse.key());
+
+        newHorseData.setBreed(breedSpinner.getSelectedItem().toString());
+        newHorseData.setColor(colorSpinner.getSelectedItem().toString());
+        newHorseData.setGrainAmount(grainAmountInput.getText().toString());
+        newHorseData.setGrainType(grainTypeSpinner.getSelectedItem().toString());
+        newHorseData.setHay(haySpinner.getSelectedItem().toString());
+        newHorseData.setName(nameInput.getText().toString());
+        newHorseData.setSex(sexSpinner.getSelectedItem().toString());
+        newHorseData.setNotes("testing");
+        newHorseData.setOwner(userID.toString());
+        newHorseData.setMedicationInstructions("nothing");
+        newHorseData.setStallInstructions("null");
+        newHorseData.setStallNumber(stallInput.getText().toString());
+
+        return newHorseData;
+    }
+    private boolean thereAreNoEmptyFields(){
+        String title = "Missing Information";
+        String prefix = "Please complete the ";
+        String body;
+        String suffix = " field.";
+        if(nameInput.getText().toString().matches("")){
+            body = "Horse's Name";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }else if(grainAmountInput.getText().toString().matches("")) {
+            body = "Grain Amount";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }else if(stallInput.getText().toString().matches("")) {
+            body = "Horse's Name";
+            showDialog(title, prefix + body + suffix, false);
+            return false;
+        }else{
+            return true;
+        }
+    }
+    private void showDialog(String title, String text, final boolean shouldExit){
+        AlertDialog alertDialog = new AlertDialog.Builder(EditableHorse.this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(text);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (shouldExit){
+                            goBackToMainActivity();
+                        }
+                    }
+                });
+        alertDialog.show();
+    }
+    private void goBackToMainActivity(){
+        Intent i = new Intent(getApplicationContext(), EditableHorse.class);
+        i.putStringArrayListExtra("horseList", horseKeys);
+        Horse selectedHorse =horses.get(keyIndex);
+        i.putExtra("userID", userID);
+        i.putExtra("horse", selectedHorse);
+        startActivity(i);
     }
 
     @Override
     public void onClick(View v) {
         Intent i;
+        Horse selectedHorse;
         switch(v.getId()){
-            case R.id.horse_exit_button:
-                //needs fixed
-//                i = new Intent(this, BasicUserView.class);
-//                setResult(1,i);
-//                finish();
+            case R.id.save_horse_button:
+                setSaveChanges();
+                break;
+            case R.id.back_button_clicked:
+                i = new Intent(this, EditableHorse.class);
+                i.putStringArrayListExtra("horseList", horseKeys);
+                keyIndex = keyIndex-1;
+                selectedHorse = horses.get(keyIndex);
+                Log.e( "keyIndex: ", Integer.toString(keyIndex));
+                Log.e("selectedHorse: ", selectedHorse.key());
+                i.putExtra("userID", userID);
+                i.putExtra("horse", selectedHorse);
+                startActivity(i);
             case R.id.next_button:
                 i = new Intent(getApplicationContext(), EditableHorse.class);
                 i.putStringArrayListExtra("horseList", horseKeys);
-                Horse selectedHorse =horses.get(keyIndex+1);
+                selectedHorse =horses.get(keyIndex+1);
 
                 i.putExtra("userID", userID);
                 i.putExtra("horse", selectedHorse);
@@ -222,7 +317,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 startActivity(i);
                 break;
             default:
-                setResult(1);
                 finish();
         }
     }
