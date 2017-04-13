@@ -24,9 +24,7 @@
             android:id="@+id/editable_horse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@drawable/background__authentication"
-
-            >
+            android:background="@drawable/background__authentication">
 
             <TextView
                 android:id="@+id/editable_horse_toolbar_title"
