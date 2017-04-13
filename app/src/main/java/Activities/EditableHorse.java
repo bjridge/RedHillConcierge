@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,12 +19,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import Activities.Fragments.MyHorsesTab;
 import Application.MyApplication;
 import DataControllers.Horse;
 import DataControllers.User;
 
 public class EditableHorse extends AppCompatActivity implements View.OnClickListener {
 
+    public int keyIndex;
     TextView nameInput;
     Spinner breedSpinner;
     Spinner colorSpinner;
@@ -90,7 +93,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         backStall = (ImageButton) findViewById(R.id.back_button);
     }
     private void setStallButtons(){
-        int keyIndex = horseKeys.indexOf(horse.key());
+        keyIndex = horseKeys.indexOf(horse.key());
         if(keyIndex==0){
             backStall.setVisibility(View.GONE);
         }else if(keyIndex==(horseKeys.size()-1)){
@@ -195,66 +198,32 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void goTo(Class nextView, String buttonClicked){
-        Intent i = new Intent(getApplicationContext(), nextView);
-        i.putStringArrayListExtra("horseList", horseKeys);
-        i.putExtra("userID", userID);
-        Horse selectedHorse;
-        int j = horses.indexOf(horse.key());
-        if(buttonClicked.equals("back")){
-            selectedHorse = horses.get(j-1);
-        }else{
-            selectedHorse = horses.get(j-1);
-        }
-        i.putExtra("horse", selectedHorse);
-    }
-
     @Override
     public void onClick(View v) {
-        String button;
+        Intent i;
         switch(v.getId()){
-            case R.id.back_button:
-                button="back";
-                goTo(EditableHorse.class, button);
-                break;
+            case R.id.horse_exit_button:
+                //needs fixed
+//                i = new Intent(this, BasicUserView.class);
+//                setResult(1,i);
+//                finish();
             case R.id.next_button:
-                button ="next";
-                goTo(EditableHorse.class, button);
+                i = new Intent(getApplicationContext(), EditableHorse.class);
+                i.putStringArrayListExtra("horseList", horseKeys);
+                Horse selectedHorse =horses.get(keyIndex+1);
+
+                i.putExtra("userID", userID);
+                i.putExtra("horse", selectedHorse);
+                startActivity(i);
                 break;
             case R.id.horse_owner_button:
-                Intent i = new Intent(this, Profile.class);
+                i = new Intent(this, Profile.class);
                 i.putExtra("user", horse.getOwner());
-                startActivityForResult(i, 2);
+                startActivity(i);
                 break;
             default:
                 setResult(1);
                 finish();
         }
-
-//        int j = horses.indexOf(horse.key());
-//
-//        if (v.getId() == R.id.horse_owner_button){
-//            Intent i = new Intent(this, Profile.class);
-//            i.putExtra("user", horse.getOwner());
-//            startActivityForResult(i, 2);
-//
-//        }else if(v.getId() == R.id.next_button){
-//            Intent i = new Intent(this, EditableHorse.class);
-//            i.putStringArrayListExtra("horseList", horseKeys);
-//            i.putExtra("userID", userID);
-//            Horse selectedHorse = horses.get(j+1);
-//            i.putExtra("horse", selectedHorse);
-//
-//        }else if(v.getId() == R.id.back_button){
-//            Intent i = new Intent(this, EditableHorse.class);
-//            i.putStringArrayListExtra("horseList", horseKeys);
-//            i.putExtra("userID", userID);
-//            Horse selectedHorse = horses.get(j-1);
-//            i.putExtra("horse", selectedHorse);
-//
-//        }else{
-//            setResult(1);
-//            finish();
-//        }
     }
 }
