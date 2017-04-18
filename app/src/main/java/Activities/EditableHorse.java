@@ -301,28 +301,22 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        Intent i;
-        Horse selectedHorse;
         switch(v.getId()){
             case R.id.save_horse_button:
                 setSaveChanges();
                 break;
             case R.id.back_button_clicked:
-                //update firebase horse values
-
-                //get current horse
-                //get previous horse
-                //update horse values
-
+                Horse previousHorse = getNextHorse(false);
+                horse = previousHorse;
+                Log.v("IMPORTANT", "NEW HORSE NAME: " + horse.getName());
+                setInitialHorseValues();
                 break;
             case R.id.next_button:
-                //update firebase horse values
-                //get current horse
-                //get next horse
-                //update horse values
+                horse = getNextHorse(true);
+                setInitialHorseValues();
                 break;
             case R.id.horse_owner_button:
-                i = new Intent(this, Profile.class);
+                Intent i = new Intent(this, Profile.class);
                 i.putExtra("user", application.getUser(horse.getOwner()));
                 i.putExtra("contact", application.getContact(horse.getOwner()));
                 startActivity(i);
@@ -330,5 +324,26 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             default:
                 finish();
         }
+    }
+
+    private Horse getNextHorse(boolean next){
+        int newHorseIndex = getCurrentHorseIndex();
+        if (next){
+            newHorseIndex++;
+            return horseList.get(newHorseIndex);
+        }
+        newHorseIndex--;
+        return horseList.get(newHorseIndex);
+    }
+    private int getCurrentHorseIndex(){
+        int index = 0;
+        for(Horse listedHorse: horseList){
+            if (horse.key().matches(listedHorse.key())){
+                Log.v("IMPORTANT", "current horse index: " + index);
+                return index;
+            }
+            index++;
+        }
+        return 0;
     }
 }
