@@ -144,15 +144,18 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             }
             index++;
         }
-        if(keyIndex==0){
+        if(horseList.size()==1){
+            nextStall.setVisibility(View.GONE);
+            backStall.setVisibility(View.GONE);
+        }else if(keyIndex==0){
             backStall.setVisibility(View.GONE);
             nextStall.setVisibility(View.VISIBLE);
         }else if(keyIndex==(horseList.size()-1)){
             nextStall.setVisibility(View.GONE);
             backStall.setVisibility(View.VISIBLE);
-        }else if(horseList.size()==1){
-            nextStall.setVisibility(View.GONE);
-            backStall.setVisibility(View.GONE);
+        }else{
+            backStall.setVisibility(View.VISIBLE);
+            nextStall.setVisibility(View.VISIBLE);
         }
     }
     private void setButtonOnClickListeners(){
@@ -402,7 +405,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setNotes(notes.getText().toString());
         newHorseData.setOwner(userID.toString());
         newHorseData.setMedicationInstructions(medication.getText().toString());
-        newHorseData.setStallInstructions(stallInstuction.getText().toString());
         newHorseData.setStallNumber(stallInput.getText().toString());
         newHorseData.setPicture(pictureURL.getText().toString());
 
@@ -456,8 +458,11 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         StringBuilder nightBuilder = new StringBuilder();
         for (int i : day) {
             dayBuilder.append(i);
+        }
+        for(int i : night){
             nightBuilder.append(i);
         }
+        Log.e( "getInputHorseValues: ", "testing" + nightBuilder.toString());
         newHorseData.setInOutDay(dayBuilder.toString());
         newHorseData.setInOutNight(nightBuilder.toString());
 
@@ -508,7 +513,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     }
     @Override
     public void onClick(View v) {
-        Log.e( "onCreate: ", userID);
         switch(v.getId()){
             case R.id.save_horse_button:
                 setSaveChanges();
@@ -516,7 +520,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             case R.id.back_button_clicked:
                 Horse previousHorse = getNextHorse(false);
                 horse = previousHorse;
-                Log.v("IMPORTANT", "NEW HORSE NAME: " + horse.getName());
                 setStallButtons();
                 checkPermissions();
                 setInitialHorseValues();
@@ -550,7 +553,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         int index = 0;
         for(Horse listedHorse: horseList){
             if (horse.key().matches(listedHorse.key())){
-                Log.v("IMPORTANT", "current horse index: " + index);
                 return index;
             }
             index++;

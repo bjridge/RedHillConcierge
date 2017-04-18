@@ -15,7 +15,6 @@ public class Horse extends DatabaseObject{
     private String name = " ";
     private String notes = " ";
     private String sex = " ";
-    private String stallInstructions = " ";
     private String stallNumber = "0";
     private String owner = "0";
     private String inOutDay = "1111111";
@@ -132,14 +131,6 @@ public class Horse extends DatabaseObject{
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    public String getStallInstructions() {
-        return stallInstructions;
-    }
-
-    public void setStallInstructions(String stallInstructions) {
-        this.stallInstructions = stallInstructions;
     }
 
     public String getStallNumber() {
