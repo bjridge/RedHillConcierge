@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,8 @@ import android.widget.Button;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -44,15 +47,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView stallInput;
     ImageButton exitButton;
     TextView ownerButton;
-    TextView stall;
     ImageButton backStall;
     ImageButton nextStall;
     Button saveChanges;
-    //TextView medication;
-    //TextView notes;
-    //TextView stallInstuction;
-    //TextView pictureURL;
-    //ImageView horsePicture;
+    TextView stallNumber;
+    TextView medication;
+    TextView notes;
+    TextView stallInstuction;
+    TextView pictureURL;
+    ImageView horsePicture;
 
     MyApplication application;
 
@@ -71,6 +74,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         user = application.getAllUsers();
         initializeViewObjects();
         getIntentObjects();
+        Log.e( "onCreate: ", userID);
         setButtonOnClickListeners();
         setupSpinnerValues();
         setInitialHorseValues();
@@ -88,22 +92,31 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         stallInput = (TextView) findViewById(R.id.horse_stall_input);
         exitButton = (ImageButton) findViewById(R.id.horse_exit_button);
         ownerButton = (TextView) findViewById(R.id.horse_owner_button);
-        stall = (TextView) findViewById(R.id.horse_stall_input);
         nextStall = (ImageButton) findViewById(R.id.next_button);
         backStall = (ImageButton) findViewById(R.id.back_button_clicked);
         saveChanges = (Button) findViewById(R.id.save_horse_button);
-        //medication = (TextView) findViewById(R.id.horse_medication);
-        //notes = (TextView) findViewById(R.id.horse_notes);
-        //stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
-        //pictureURL = (TextView) findViewById(R.id.horse_photo_input);
-        //horsePicture = (ImageView) findViewById(R.id.horse_image);
+        stallNumber = (TextView) findViewById(R.id.stall_Number);
+        medication = (TextView) findViewById(R.id.horse_medication);
+        notes = (TextView) findViewById(R.id.horse_notes);
+        stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
+        pictureURL = (TextView) findViewById(R.id.horse_photo_input);
+        horsePicture = (ImageView) findViewById(R.id.horse_image);
     }
     private void setStallButtons(){
-        keyIndex = horseList.indexOf(horse.key());
+
+        int index = 0;
+        for(Horse listedHorse: horseList){
+            if (horse.key().matches(listedHorse.key())) {
+                keyIndex = index;
+            }
+            index++;
+        }
         if(keyIndex==0){
             backStall.setVisibility(View.GONE);
+            nextStall.setVisibility(View.VISIBLE);
         }else if(keyIndex==(horseList.size()-1)){
             nextStall.setVisibility(View.GONE);
+            backStall.setVisibility(View.VISIBLE);
         }else if(horseList.size()==1){
             nextStall.setVisibility(View.GONE);
             backStall.setVisibility(View.GONE);
@@ -122,7 +135,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         userID = intent.getStringExtra("userID");
         horseList = (List<Horse>) intent.getSerializableExtra("horseList");
     }
-
     private void setupSpinnerValues(){
         ArrayAdapter<String>[] adapters = buildAdapters();
         breedSpinner.setAdapter(adapters[0]);
@@ -131,7 +143,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         haySpinner.setAdapter(adapters[3]);
         sexSpinner.setAdapter(adapters[4]);
     }
-
     private ArrayAdapter<String>[] buildAdapters(){
         ArrayAdapter<String>[] adapters = new ArrayAdapter[5];
         int resourceListIndex = 0;
@@ -151,7 +162,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         }
         return adapters;
     }
-
     private void setInitialHorseValues(){
         String ownerName = "Owner >";
 
@@ -170,25 +180,23 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         setSpinnerValue(haySpinner, horse.getHay());
         setSpinnerValue(haySpinner, "hay");
         String stallOutput="Stall " + horse.getStallNumber();
-        stall.setText(stallOutput);
         setSpinnerValue(sexSpinner, horse.getSex());
-        //notes.setText(horse.getNotes());
-        //medication.setText(horse.getMedicationInstructions());
-        //stallInstuction.setText(horse.getStallInstructions());
-        //setImage(pictureURL.toString());
+        stallNumber.setText(stallOutput);
+        notes.setText(horse.getNotes());
+        medication.setText(horse.getMedicationInstructions());
+        stallInstuction.setText(horse.getStallInstructions());
+        pictureURL.setText(horse.getPicture());
+        setImage(pictureURL.toString());
     }
-
     private void setImage(String profilePictureURL){
-        if (!profilePictureURL.matches("")){
-          //  Picasso.with(getApplicationContext()).load(horse.getPicture()).into(horsePicture);
+        if(!horse.getPicture().equals(null)){
+            Picasso.with(getApplicationContext()).load(horse.getPicture()).into(horsePicture);
         }
     }
-
     private void setSpinnerValue(Spinner spinner, String input){
         int index = getIndex(spinner, input);
         spinner.setSelection(index);
     }
-
     private int getIndex(Spinner spinner, String value){
         int index = 0;
         for (int i=0;i<spinner.getCount();i++){
@@ -199,26 +207,39 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         }
         return index;
     }
-
     private void checkPermissions(){
         if(!userID.equals(horse.getOwner())){
             //make fields not editable
-            nameInput.setKeyListener(null);
-            grainAmountInput.setKeyListener(null);
-            stallInput.setKeyListener(null);
-            breedSpinner.setOnKeyListener(null);
-            colorSpinner.setOnKeyListener(null);
-            grainTypeSpinner.setOnKeyListener(null);
-            haySpinner.setOnKeyListener(null);
-            sexSpinner.setOnKeyListener(null);
+            nameInput.setEnabled(false);
+            grainAmountInput.setEnabled(false);
+            stallInput.setEnabled(false);
+            breedSpinner.setEnabled(false);
+            colorSpinner.setEnabled(false);
+            grainTypeSpinner.setEnabled(false);
+            haySpinner.setEnabled(false);
+            sexSpinner.setEnabled(false);
             saveChanges.setVisibility(View.GONE);
-//            medication.setKeyListener(null);
-//            notes.setKeyListener(null);
-//            stallInstuction.setKeyListener(null);
-//            pictureURL.setVisibility(View.GONE);
+            medication.setEnabled(false);
+            notes.setEnabled(false);;
+            stallInstuction.setEnabled(false);;
+            pictureURL.setVisibility(View.GONE);
+        }else{
+            //make fields not editable
+            nameInput.setEnabled(true);
+            grainAmountInput.setEnabled(true);
+            stallInput.setEnabled(true);
+            breedSpinner.setEnabled(true);
+            colorSpinner.setEnabled(true);
+            grainTypeSpinner.setEnabled(true);
+            haySpinner.setEnabled(true);
+            sexSpinner.setEnabled(true);
+            saveChanges.setVisibility(View.VISIBLE);
+            medication.setEnabled(true);
+            notes.setEnabled(true);
+            stallInstuction.setEnabled(true);;
+            pictureURL.setVisibility(View.VISIBLE);
         }
     }
-
     //save changes
     public void setSaveChanges(){
         if(thereAreNoEmptyFields()){
@@ -234,7 +255,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
 
         showDialog("Saved Changes", "All changes to feed, medication, & staying In/Out will take place next day. Please contact todays worker if need changed sooner.", false);
     }
-
     public Horse getInputHorseValues(){
         Horse newHorseData = new Horse(horse.key());
 
@@ -245,16 +265,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setHay(haySpinner.getSelectedItem().toString());
         newHorseData.setName(nameInput.getText().toString());
         newHorseData.setSex(sexSpinner.getSelectedItem().toString());
-        newHorseData.setNotes("testing");
+        newHorseData.setNotes(notes.getText().toString());
         newHorseData.setOwner(userID.toString());
-        newHorseData.setMedicationInstructions("nothing");
-        newHorseData.setStallInstructions("null");
+        newHorseData.setMedicationInstructions(medication.getText().toString());
+        newHorseData.setStallInstructions(stallInstuction.getText().toString());
         newHorseData.setStallNumber(stallInput.getText().toString());
-        //newHorseData.setPicture(pictureURL.getText().toString());
+        newHorseData.setPicture(pictureURL.getText().toString());
 
         return newHorseData;
     }
-
     private boolean thereAreNoEmptyFields(){
         String title = "Missing Information";
         String prefix = "Please complete the ";
@@ -298,9 +317,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         i.putExtra("horse", selectedHorse);
         startActivity(i);
     }
-
     @Override
     public void onClick(View v) {
+        Log.e( "onCreate: ", userID);
         switch(v.getId()){
             case R.id.save_horse_button:
                 setSaveChanges();
@@ -309,10 +328,14 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 Horse previousHorse = getNextHorse(false);
                 horse = previousHorse;
                 Log.v("IMPORTANT", "NEW HORSE NAME: " + horse.getName());
+                setStallButtons();
+                checkPermissions();
                 setInitialHorseValues();
                 break;
             case R.id.next_button:
                 horse = getNextHorse(true);
+                setStallButtons();
+                checkPermissions();
                 setInitialHorseValues();
                 break;
             case R.id.horse_owner_button:
@@ -325,7 +348,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 finish();
         }
     }
-
     private Horse getNextHorse(boolean next){
         int newHorseIndex = getCurrentHorseIndex();
         if (next){

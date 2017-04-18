@@ -206,6 +206,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 logOut();
                 goTo(Authentication.class);
                 break;
+            case R.id.back_button_clicked:
+                finish();
+                break;
             default:
                 if (thereAreNoEmptyFields()){
                     updateUserAndContact();
