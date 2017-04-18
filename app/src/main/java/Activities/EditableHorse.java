@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -49,6 +51,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView medication;
     TextView notes;
     TextView stallInstuction;
+    TextView pictureURL;
+    ImageView horsePicture;
 
     MyApplication application;
 
@@ -91,6 +95,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         medication = (TextView) findViewById(R.id.horse_medication);
         notes = (TextView) findViewById(R.id.horse_notes);
         stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
+        pictureURL = (TextView) findViewById(R.id.horse_photo_input);
+        horsePicture = (ImageView) findViewById(R.id.horse_image);
     }
     private void setStallButtons(){
         keyIndex = horseKeys.indexOf(horse.key());
@@ -169,6 +175,13 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         notes.setText(horse.getNotes());
         medication.setText(horse.getMedicationInstructions());
         stallInstuction.setText(horse.getStallInstructions());
+        setImage(pictureURL.toString());
+    }
+
+    private void setImage(String profilePictureURL){
+        if (!profilePictureURL.matches("")){
+            Picasso.with(getApplicationContext()).load(horse.getPicture()).into(horsePicture);
+        }
     }
 
     private void setSpinnerValue(Spinner spinner, String input){
@@ -202,6 +215,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             medication.setKeyListener(null);
             notes.setKeyListener(null);
             stallInstuction.setKeyListener(null);
+            pictureURL.setVisibility(View.GONE);
         }
     }
 
@@ -236,6 +250,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setMedicationInstructions(medication.toString());
         newHorseData.setStallInstructions(stallInstuction.toString());
         newHorseData.setStallNumber(stallInput.getText().toString());
+        newHorseData.setPicture(pictureURL.getText().toString());
 
         return newHorseData;
     }
