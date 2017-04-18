@@ -308,12 +308,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 setSaveChanges();
                 break;
             case R.id.back_button_clicked:
+                //update firebase horse values
+
                 //get current horse
                 //get previous horse
                 //update horse values
 
                 break;
             case R.id.next_button:
+                //update firebase horse values
                 //get current horse
                 //get next horse
                 //update horse values

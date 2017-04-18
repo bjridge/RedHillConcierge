@@ -19,7 +19,6 @@ public class MyApplication extends Application {
     List<Permission> allPermissions;
     User user;
     Contact contact;
-    Horse horse;
     boolean resourcesLoaded;
     List<String> breedOptions;
     List<String> colorOptions;
@@ -57,9 +56,6 @@ public class MyApplication extends Application {
     }
 
     public void updateHorse(Horse inputHorse) {
-        if (horse.key().matches(inputHorse.key())) {
-            horse = inputHorse;
-        }
         int index = 0;
         for (Horse eachHorse : allHorses) {
             if (eachHorse.key().matches(inputHorse.key())) {

@@ -90,7 +90,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Collections.sort(list, new Comparator<Horse>() {
             @Override
             public int compare(Horse o1, Horse o2) {
-                return o1.getStallNumber().compareToIgnoreCase(o2.getStallNumber());
+                return o1.getStallNumber().compareTo(o2.getStallNumber());
             }
         });
         return list;

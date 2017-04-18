@@ -68,7 +68,7 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         TextView horseSex = (TextView) convertView.findViewById(R.id.horse_sex);
 
         horseName.setText(horse.getName());
-        horseStall.setText("Stall: "+horse.getStallNumber());
+        horseStall.setText(horse.getStallNumber());
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
         horseSex.setText(horse.getSex());
 
