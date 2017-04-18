@@ -1,17 +1,15 @@
 package Activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -21,18 +19,17 @@ import android.widget.Button;
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
-import Activities.Fragments.MyHorsesTab;
 import Application.MyApplication;
 import DataControllers.DataFetcher;
 import DataControllers.Horse;
 import DataControllers.User;
-import DataControllers.Change;
 
 public class EditableHorse extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,8 +51,26 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView medication;
     TextView notes;
     TextView stallInstuction;
+    TextView lblStall;
     TextView pictureURL;
     ImageView horsePicture;
+
+    //checkboxes
+    GridLayout gridInOut;
+    CheckBox sunDay;
+    CheckBox sunNight;
+    CheckBox monDay;
+    CheckBox monNight;
+    CheckBox tuesDay;
+    CheckBox tuesNight;
+    CheckBox wedDay;
+    CheckBox wedNight;
+    CheckBox thuDay;
+    CheckBox thuNight;
+    CheckBox friDay;
+    CheckBox friNight;
+    CheckBox satDay;
+    CheckBox satNight;
 
     MyApplication application;
 
@@ -74,14 +89,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         user = application.getAllUsers();
         initializeViewObjects();
         getIntentObjects();
-        Log.e( "onCreate: ", userID);
         setButtonOnClickListeners();
         setupSpinnerValues();
         setInitialHorseValues();
         setStallButtons();
         checkPermissions();
+
     }
     private void initializeViewObjects(){
+        gridInOut = (GridLayout) findViewById(R.id.grid_in_out);
         nameInput = (TextView) findViewById(R.id.horse_name_input);
         breedSpinner = (Spinner) findViewById(R.id.horse_breed_spinner);
         colorSpinner = (Spinner) findViewById(R.id.horse_color_spinner);
@@ -98,9 +114,26 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         stallNumber = (TextView) findViewById(R.id.stall_Number);
         medication = (TextView) findViewById(R.id.horse_medication);
         notes = (TextView) findViewById(R.id.horse_notes);
+        lblStall = (TextView) findViewById(R.id.lblStall);
         stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
         pictureURL = (TextView) findViewById(R.id.horse_photo_input);
         horsePicture = (ImageView) findViewById(R.id.horse_image);
+
+        //check boxes
+        sunDay = (CheckBox) findViewById(R.id.Day_Sun);
+        sunNight = (CheckBox) findViewById(R.id.Night_Sun);
+        monDay = (CheckBox) findViewById(R.id.Day_Mon);
+        monNight = (CheckBox) findViewById(R.id.Night_Mon);
+        tuesDay = (CheckBox) findViewById(R.id.Day_Tues);
+        tuesNight = (CheckBox) findViewById(R.id.Night_Tues);
+        wedDay = (CheckBox) findViewById(R.id.Day_Wed);
+        wedNight = (CheckBox) findViewById(R.id.Night_Wed);
+        thuDay = (CheckBox) findViewById(R.id.Day_Thu);
+        thuNight = (CheckBox) findViewById(R.id.Night_Thu);
+        friDay = (CheckBox) findViewById(R.id.Day_Fri);
+        friNight = (CheckBox) findViewById(R.id.Night_Fri);
+        satDay = (CheckBox) findViewById(R.id.Day_Sat);
+        satNight = (CheckBox) findViewById(R.id.Night_Sat);
     }
     private void setStallButtons(){
 
@@ -184,9 +217,104 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         stallNumber.setText(stallOutput);
         notes.setText(horse.getNotes());
         medication.setText(horse.getMedicationInstructions());
-        stallInstuction.setText(horse.getStallInstructions());
         pictureURL.setText(horse.getPicture());
         setImage(pictureURL.toString());
+
+        //checkboxes
+        String[] day = (horse.getInOutDay().toString().split(""));
+        String[] night = (horse.getInOutNight().toString().split(""));
+
+        if(day[1].equals("1")){
+            sunDay.setChecked(true);
+        } else{
+            sunDay.setChecked(false);
+        }
+        if(night[1].equals("1")){
+            sunNight.setChecked(true);
+        }else{
+            sunNight.setChecked(false);
+        }
+        if(day[2].equals("1")){
+            monDay.setChecked(true);
+        } else{
+            monDay.setChecked(false);
+        }
+        if(night[2].equals("1")){
+            monNight.setChecked(true);
+        }else{
+            monNight.setChecked(false);
+        }
+        if(day[3].equals("1")){
+            tuesDay.setChecked(true);
+        } else{
+            tuesDay.setChecked(false);
+        }
+        if(night[3].equals("1")){
+            tuesNight.setChecked(true);
+        } else{
+            tuesNight.setChecked(false);
+        }
+        if(day[4].equals("1")){
+            wedDay.setChecked(true);
+        }else{
+            wedDay.setChecked(false);
+        }
+        if(night[4].equals("1")){
+            wedNight.setChecked(true);
+        }else{
+            wedNight.setChecked(false);
+        }
+        if(day[5].equals("1")){
+            thuDay.setChecked(true);
+        }else{
+            thuDay.setChecked(false);
+        }
+        if(night[5].equals("1")){
+            thuNight.setChecked(true);
+        }else{
+            thuNight.setChecked(false);
+        }
+        if(day[6].equals("1")){
+            friDay.setChecked(true);
+        }else{
+            friDay.setChecked(false);
+        }
+        if(night[6].equals("1")){
+            friNight.setChecked(true);
+        }else {
+            friNight.setChecked(false);
+        }
+        if(day[7].equals("1")){
+            satDay.setChecked(true);
+        }else{
+            satDay.setChecked(false);
+        }
+        if(night[7].equals("1")){
+            satNight.setChecked(true);
+        }else{
+            satNight.setChecked(false);
+        }
+
+        //todays stall needs
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String today = new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime());
+        String[] daysOfWeek = {"Sun", "Mon", "Tues", "Wed", "Thurs","Fri","Sat" };
+        String dayInOut = "Out";
+        String nightInOut = "Out";
+        for(int i = 0; i<daysOfWeek.length;i++){
+            if(daysOfWeek[i].equals(today)){
+                if(day[i].equals("1")){
+                    dayInOut="Inside";
+                }
+                if(night[i].equals("1")){
+                    nightInOut="Inside";
+                }
+            }
+        }
+        lblStall.setText(today + " Stalled?");
+        stallInstuction.setText("Day " + dayInOut + " Night " +nightInOut);
+
     }
     private void setImage(String profilePictureURL){
         if(!horse.getPicture().equals(null)){
@@ -223,6 +351,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             notes.setEnabled(false);;
             stallInstuction.setEnabled(false);;
             pictureURL.setVisibility(View.GONE);
+            gridInOut.setVisibility(View.GONE);
+            stallInstuction.setVisibility(View.VISIBLE);
+            lblStall.setVisibility(View.VISIBLE);
         }else{
             //make fields not editable
             nameInput.setEnabled(true);
@@ -238,6 +369,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             notes.setEnabled(true);
             stallInstuction.setEnabled(true);;
             pictureURL.setVisibility(View.VISIBLE);
+            gridInOut.setVisibility(View.VISIBLE);
+            stallInstuction.setVisibility(View.GONE);
+            lblStall.setVisibility(View.GONE);
         }
     }
     //save changes
@@ -271,6 +405,61 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setStallInstructions(stallInstuction.getText().toString());
         newHorseData.setStallNumber(stallInput.getText().toString());
         newHorseData.setPicture(pictureURL.getText().toString());
+
+        Integer[] day = {0,0,0,0,0,0,0};
+        Integer[] night = {0,0,0,0,0,0,0};
+        if(sunDay.isChecked()){
+            day[0]=1;
+        }
+        if(monDay.isChecked()){
+            day[1]=1;
+        }
+        if(tuesDay.isChecked()){
+            day[2]=1;
+        }
+        if(wedDay.isChecked()){
+            day[3]=1;
+        }
+        if(thuDay.isChecked()){
+            day[4]=1;
+        }
+        if(friDay.isChecked()){
+            day[5]=1;
+        }
+        if(satDay.isChecked()){
+            day[6]=1;
+        }
+
+        if(sunNight.isChecked()){
+            night[0]=1;
+        }
+        if(monNight.isChecked()){
+            night[1]=1;
+        }
+        if(tuesNight.isChecked()){
+            night[2]=1;
+        }
+        if(wedNight.isChecked()){
+            night[3]=1;
+        }
+        if(thuNight.isChecked()){
+            night[4]=1;
+        }
+        if(friNight.isChecked()){
+            night[5]=1;
+        }
+        if(satNight.isChecked()){
+            night[6]=1;
+        }
+
+        StringBuilder dayBuilder = new StringBuilder();
+        StringBuilder nightBuilder = new StringBuilder();
+        for (int i : day) {
+            dayBuilder.append(i);
+            nightBuilder.append(i);
+        }
+        newHorseData.setInOutDay(dayBuilder.toString());
+        newHorseData.setInOutNight(nightBuilder.toString());
 
         return newHorseData;
     }
