@@ -53,7 +53,9 @@ public class Horse extends DatabaseObject{
         this.inOutNight = inOutNight;
     }
 
-    public Horse(){}
+    public Horse(){
+
+    }
 
     public Horse(String id){
         this.setKey(id);

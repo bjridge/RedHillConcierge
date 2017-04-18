@@ -48,11 +48,11 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     ImageButton backStall;
     ImageButton nextStall;
     Button saveChanges;
-    TextView medication;
-    TextView notes;
-    TextView stallInstuction;
-    TextView pictureURL;
-    ImageView horsePicture;
+    //TextView medication;
+    //TextView notes;
+    //TextView stallInstuction;
+    //TextView pictureURL;
+    //ImageView horsePicture;
 
     MyApplication application;
 
@@ -88,15 +88,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         stallInput = (TextView) findViewById(R.id.horse_stall_input);
         exitButton = (ImageButton) findViewById(R.id.horse_exit_button);
         ownerButton = (TextView) findViewById(R.id.horse_owner_button);
-        stall = (TextView) findViewById(R.id.stall_on);
+        stall = (TextView) findViewById(R.id.horse_stall_input);
         nextStall = (ImageButton) findViewById(R.id.next_button);
         backStall = (ImageButton) findViewById(R.id.back_button_clicked);
         saveChanges = (Button) findViewById(R.id.save_horse_button);
-        medication = (TextView) findViewById(R.id.horse_medication);
-        notes = (TextView) findViewById(R.id.horse_notes);
-        stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
-        pictureURL = (TextView) findViewById(R.id.horse_photo_input);
-        horsePicture = (ImageView) findViewById(R.id.horse_image);
+        //medication = (TextView) findViewById(R.id.horse_medication);
+        //notes = (TextView) findViewById(R.id.horse_notes);
+        //stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
+        //pictureURL = (TextView) findViewById(R.id.horse_photo_input);
+        //horsePicture = (ImageView) findViewById(R.id.horse_image);
     }
     private void setStallButtons(){
         keyIndex = horseKeys.indexOf(horse.key());
@@ -172,15 +172,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         String stallOutput="Stall " + horse.getStallNumber();
         stall.setText(stallOutput);
         setSpinnerValue(sexSpinner, horse.getSex());
-        notes.setText(horse.getNotes());
-        medication.setText(horse.getMedicationInstructions());
-        stallInstuction.setText(horse.getStallInstructions());
-        setImage(pictureURL.toString());
+        //notes.setText(horse.getNotes());
+        //medication.setText(horse.getMedicationInstructions());
+        //stallInstuction.setText(horse.getStallInstructions());
+        //setImage(pictureURL.toString());
     }
 
     private void setImage(String profilePictureURL){
         if (!profilePictureURL.matches("")){
-            Picasso.with(getApplicationContext()).load(horse.getPicture()).into(horsePicture);
+          //  Picasso.with(getApplicationContext()).load(horse.getPicture()).into(horsePicture);
         }
     }
 
@@ -212,10 +212,10 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             haySpinner.setOnKeyListener(null);
             sexSpinner.setOnKeyListener(null);
             saveChanges.setVisibility(View.GONE);
-            medication.setKeyListener(null);
-            notes.setKeyListener(null);
-            stallInstuction.setKeyListener(null);
-            pictureURL.setVisibility(View.GONE);
+//            medication.setKeyListener(null);
+//            notes.setKeyListener(null);
+//            stallInstuction.setKeyListener(null);
+//            pictureURL.setVisibility(View.GONE);
         }
     }
 
@@ -245,12 +245,12 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setHay(haySpinner.getSelectedItem().toString());
         newHorseData.setName(nameInput.getText().toString());
         newHorseData.setSex(sexSpinner.getSelectedItem().toString());
-        newHorseData.setNotes(notes.toString());
+        newHorseData.setNotes("testing");
         newHorseData.setOwner(userID.toString());
-        newHorseData.setMedicationInstructions(medication.toString());
-        newHorseData.setStallInstructions(stallInstuction.toString());
+        newHorseData.setMedicationInstructions("nothing");
+        newHorseData.setStallInstructions("null");
         newHorseData.setStallNumber(stallInput.getText().toString());
-        newHorseData.setPicture(pictureURL.getText().toString());
+        //newHorseData.setPicture(pictureURL.getText().toString());
 
         return newHorseData;
     }
