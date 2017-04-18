@@ -6,6 +6,7 @@ public class Horse extends DatabaseObject{
 
     //added comment to test pushing
     private String breed = " ";
+    private String pictureURL=" ";
     private String color = " ";
     private String grainAmount = " ";
     private String grainType = " ";
@@ -52,13 +53,15 @@ public class Horse extends DatabaseObject{
         this.inOutNight = inOutNight;
     }
 
-    public Horse(){
-
-    }
+    public Horse(){}
 
     public Horse(String id){
         this.setKey(id);
     }
+
+    public String getPicture(){return pictureURL;}
+
+    public void setPicture(String pictureURL){ this.pictureURL = pictureURL; }
 
     public String getBreed() {
         return breed;

@@ -46,7 +46,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     ImageButton backStall;
     ImageButton nextStall;
     Button saveChanges;
-
+    TextView medication;
+    TextView notes;
+    TextView stallInstuction;
 
     MyApplication application;
 
@@ -55,16 +57,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     String userID;
     ArrayList<String> horseKeys;
     List<Horse> horses;
-
-
-    //restricted changes - 24 hour change only; no permission
-        //midication instructions
-        //hay
-        //grain
-        //inOutDay
-        //inOutNight
-
-    //if emergency, contact today's employee
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +88,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         nextStall = (ImageButton) findViewById(R.id.next_button);
         backStall = (ImageButton) findViewById(R.id.back_button_clicked);
         saveChanges = (Button) findViewById(R.id.save_horse_button);
+        medication = (TextView) findViewById(R.id.horse_medication);
+        notes = (TextView) findViewById(R.id.horse_notes);
+        stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
     }
     private void setStallButtons(){
         keyIndex = horseKeys.indexOf(horse.key());
@@ -114,7 +109,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         nextStall.setOnClickListener(this);
         backStall.setOnClickListener(this);
         saveChanges.setOnClickListener(this);
-
     }
     private void getIntentObjects(){
         Intent intent = getIntent();
@@ -172,6 +166,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         String stallOutput="Stall " + horse.getStallNumber();
         stall.setText(stallOutput);
         setSpinnerValue(sexSpinner, horse.getSex());
+        notes.setText(horse.getNotes());
+        medication.setText(horse.getMedicationInstructions());
+        stallInstuction.setText(horse.getStallInstructions());
     }
 
     private void setSpinnerValue(Spinner spinner, String input){
@@ -181,7 +178,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
 
     private int getIndex(Spinner spinner, String value){
         int index = 0;
-
         for (int i=0;i<spinner.getCount();i++){
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(value)){
                 index = i;
@@ -203,6 +199,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             haySpinner.setOnKeyListener(null);
             sexSpinner.setOnKeyListener(null);
             saveChanges.setVisibility(View.GONE);
+            medication.setKeyListener(null);
+            notes.setKeyListener(null);
+            stallInstuction.setKeyListener(null);
         }
     }
 
@@ -221,6 +220,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
 
         showDialog("Saved Changes", "All changes to feed, medication, & staying In/Out will take place next day. Please contact todays worker if need changed sooner.", false);
     }
+
     public Horse getInputHorseValues(){
         Horse newHorseData = new Horse(horse.key());
 
@@ -231,14 +231,15 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setHay(haySpinner.getSelectedItem().toString());
         newHorseData.setName(nameInput.getText().toString());
         newHorseData.setSex(sexSpinner.getSelectedItem().toString());
-        newHorseData.setNotes("testing");
+        newHorseData.setNotes(notes.toString());
         newHorseData.setOwner(userID.toString());
-        newHorseData.setMedicationInstructions("nothing");
-        newHorseData.setStallInstructions("null");
+        newHorseData.setMedicationInstructions(medication.toString());
+        newHorseData.setStallInstructions(stallInstuction.toString());
         newHorseData.setStallNumber(stallInput.getText().toString());
 
         return newHorseData;
     }
+
     private boolean thereAreNoEmptyFields(){
         String title = "Missing Information";
         String prefix = "Please complete the ";

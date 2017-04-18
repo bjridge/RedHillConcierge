@@ -61,6 +61,4 @@ public class HorseAdapter extends ArrayAdapter {
         TextView descriptionInput;
         TextView sexInput;
     }
-
-
 }
