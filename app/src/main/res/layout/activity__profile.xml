@@ -6,16 +6,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageButton
-        android:id="@+id/horse_exit_button"
-        android:layout_width="@dimen/toolbar_height"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@color/transparent"
-        android:clickable="true"
-        android:elevation="24dp"
-        android:scaleType="fitCenter"
-        android:tint="@color/accent"
-        app:srcCompat="@drawable/ic_down" />
 
     <ScrollView
         android:layout_width="match_parent"

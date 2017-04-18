@@ -254,7 +254,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                // navigateTo(AdministratorView.class);
                 break;
             case R.id.profile_button:
-                navigateTo(Profile.class);
+                Context context = getApplicationContext();
+                Intent i = new Intent(context, Profile.class);
+                i.putExtra("user", application.getUser());
+                i.putExtra("contact", application.getContact());
+                startActivityForResult(i, 1);
                 break;
             case R.id.camera_button:
                 //go to camera view

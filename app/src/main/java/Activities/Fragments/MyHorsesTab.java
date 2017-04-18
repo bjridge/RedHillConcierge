@@ -135,6 +135,10 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Horse selectedHorse = allHorseLists.get(groupPosition).get(childPosition);
         Context context = getContext();
+
+        ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) allHorseLists.get(groupPosition);
+
+
         Intent i = new Intent(context, EditableHorse.class);
 
         //all horse: for next button to work
@@ -144,7 +148,8 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
             horseKeys.add(allHorseLists.get(groupPosition).get(j).key().toString());
         }
 
-        i.putStringArrayListExtra("horseList", horseKeys);
+        i.putExtra("horseList", selectedHorseList);
+
 
         i.putExtra("userID", application.getUser().key());
         i.putExtra("horse", selectedHorse);

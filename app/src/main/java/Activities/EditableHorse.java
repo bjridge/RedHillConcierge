@@ -59,7 +59,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     List<User> user;
     Horse horse;
     String userID;
-    ArrayList<String> horseKeys;
+    List<Horse> horseList;
     List<Horse> horses;
 
     @Override
@@ -99,12 +99,12 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         //horsePicture = (ImageView) findViewById(R.id.horse_image);
     }
     private void setStallButtons(){
-        keyIndex = horseKeys.indexOf(horse.key());
+        keyIndex = horseList.indexOf(horse.key());
         if(keyIndex==0){
             backStall.setVisibility(View.GONE);
-        }else if(keyIndex==(horseKeys.size()-1)){
+        }else if(keyIndex==(horseList.size()-1)){
             nextStall.setVisibility(View.GONE);
-        }else if(horseKeys.size()==1){
+        }else if(horseList.size()==1){
             nextStall.setVisibility(View.GONE);
             backStall.setVisibility(View.GONE);
         }
@@ -120,7 +120,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         horse = (Horse) intent.getSerializableExtra("horse");
         userID = intent.getStringExtra("userID");
-        horseKeys= intent.getExtras().getStringArrayList("horseList");
+        horseList = (List<Horse>) intent.getSerializableExtra("horseList");
     }
 
     private void setupSpinnerValues(){
@@ -293,7 +293,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     }
     private void goBackToMainActivity(){
         Intent i = new Intent(getApplicationContext(), EditableHorse.class);
-        i.putStringArrayListExtra("horseList", horseKeys);
         Horse selectedHorse =horses.get(keyIndex);
         i.putExtra("userID", userID);
         i.putExtra("horse", selectedHorse);
@@ -309,27 +308,20 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 setSaveChanges();
                 break;
             case R.id.back_button_clicked:
-                i = new Intent(this, EditableHorse.class);
-                i.putStringArrayListExtra("horseList", horseKeys);
-                keyIndex = keyIndex-1;
-                selectedHorse = horses.get(keyIndex);
-                Log.e( "keyIndex: ", Integer.toString(keyIndex));
-                Log.e("selectedHorse: ", selectedHorse.key());
-                i.putExtra("userID", userID);
-                i.putExtra("horse", selectedHorse);
-                startActivity(i);
-            case R.id.next_button:
-                i = new Intent(getApplicationContext(), EditableHorse.class);
-                i.putStringArrayListExtra("horseList", horseKeys);
-                selectedHorse =horses.get(keyIndex+1);
+                //get current horse
+                //get previous horse
+                //update horse values
 
-                i.putExtra("userID", userID);
-                i.putExtra("horse", selectedHorse);
-                startActivity(i);
+                break;
+            case R.id.next_button:
+                //get current horse
+                //get next horse
+                //update horse values
                 break;
             case R.id.horse_owner_button:
                 i = new Intent(this, Profile.class);
-                i.putExtra("user", horse.getOwner());
+                i.putExtra("user", application.getUser(horse.getOwner()));
+                i.putExtra("contact", application.getContact(horse.getOwner()));
                 startActivity(i);
                 break;
             default:
