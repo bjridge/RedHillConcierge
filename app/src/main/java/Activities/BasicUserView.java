@@ -56,7 +56,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private ImageButton cameraButton;
 
     int[] drawables;
-    MyFragment[] fragments;
+    Fragment[] fragments;
     MyTask listener;
 
 //logic resources
@@ -67,7 +67,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__basic_user);
-
         initializeResources();
         loadData();
     }
