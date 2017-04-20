@@ -216,21 +216,6 @@
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/lblStall"
-                style="@style/MyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stalled Today? "
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/horse_stall_instruction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:textSize="20dp" />
-
-            <TextView
                 android:id="@+id/notes"
                 style="@style/MyText"
                 android:layout_width="wrap_content"
@@ -293,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:layout_row="0"
-                    android:text="Sun | "
+                    android:text="Sun "
                     android:textSize="20dp" />
                 <TextView
                     style="@style/MyText"
@@ -301,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:layout_row="0"
-                    android:text="M | "
+                    android:text="| M | "
                     android:textSize="20dp" />
                 <TextView
                     style="@style/MyText"

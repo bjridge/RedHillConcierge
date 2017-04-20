@@ -50,27 +50,13 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView stallNumber;
     TextView medication;
     TextView notes;
-    TextView stallInstuction;
-    TextView lblStall;
     TextView pictureURL;
     ImageView horsePicture;
 
     //checkboxes
     GridLayout gridInOut;
-    CheckBox sunDay;
-    CheckBox sunNight;
-    CheckBox monDay;
-    CheckBox monNight;
-    CheckBox tuesDay;
-    CheckBox tuesNight;
-    CheckBox wedDay;
-    CheckBox wedNight;
-    CheckBox thuDay;
-    CheckBox thuNight;
-    CheckBox friDay;
-    CheckBox friNight;
-    CheckBox satDay;
-    CheckBox satNight;
+    List<CheckBox> night = new ArrayList<CheckBox>(7);
+    List<CheckBox> day= new ArrayList<CheckBox>(7);
 
     MyApplication application;
 
@@ -114,26 +100,26 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         stallNumber = (TextView) findViewById(R.id.stall_Number);
         medication = (TextView) findViewById(R.id.horse_medication);
         notes = (TextView) findViewById(R.id.horse_notes);
-        lblStall = (TextView) findViewById(R.id.lblStall);
-        stallInstuction = (TextView) findViewById(R.id.horse_stall_instruction);
         pictureURL = (TextView) findViewById(R.id.horse_photo_input);
         horsePicture = (ImageView) findViewById(R.id.horse_image);
 
         //check boxes
-        sunDay = (CheckBox) findViewById(R.id.Day_Sun);
-        sunNight = (CheckBox) findViewById(R.id.Night_Sun);
-        monDay = (CheckBox) findViewById(R.id.Day_Mon);
-        monNight = (CheckBox) findViewById(R.id.Night_Mon);
-        tuesDay = (CheckBox) findViewById(R.id.Day_Tues);
-        tuesNight = (CheckBox) findViewById(R.id.Night_Tues);
-        wedDay = (CheckBox) findViewById(R.id.Day_Wed);
-        wedNight = (CheckBox) findViewById(R.id.Night_Wed);
-        thuDay = (CheckBox) findViewById(R.id.Day_Thu);
-        thuNight = (CheckBox) findViewById(R.id.Night_Thu);
-        friDay = (CheckBox) findViewById(R.id.Day_Fri);
-        friNight = (CheckBox) findViewById(R.id.Night_Fri);
-        satDay = (CheckBox) findViewById(R.id.Day_Sat);
-        satNight = (CheckBox) findViewById(R.id.Night_Sat);
+        day.add((CheckBox) findViewById(R.id.Day_Sun));
+        night.add((CheckBox) findViewById(R.id.Night_Sun));
+        day.add((CheckBox) findViewById(R.id.Day_Mon));
+        night.add((CheckBox) findViewById(R.id.Night_Mon));
+        day.add((CheckBox) findViewById(R.id.Day_Tues));
+        night.add((CheckBox) findViewById(R.id.Night_Tues));
+        day.add((CheckBox) findViewById(R.id.Day_Wed));
+        night.add((CheckBox) findViewById(R.id.Night_Wed));
+        day.add((CheckBox) findViewById(R.id.Day_Thu));
+        night.add((CheckBox) findViewById(R.id.Night_Thu));
+        day.add((CheckBox) findViewById(R.id.Day_Fri));
+        night.add((CheckBox) findViewById(R.id.Night_Fri));
+        day.add((CheckBox) findViewById(R.id.Day_Sat));
+        night.add((CheckBox) findViewById(R.id.Night_Sat));
+
+
     }
     private void setStallButtons(){
 
@@ -224,100 +210,24 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         setImage(pictureURL.toString());
 
         //checkboxes
-        String[] day = (horse.getInOutDay().toString().split(""));
-        String[] night = (horse.getInOutNight().toString().split(""));
+        String[] dayList = (horse.getInOutDay().toString().split(""));
+        String[] nightList = (horse.getInOutNight().toString().split(""));
 
-        if(day[1].equals("1")){
-            sunDay.setChecked(true);
-        } else{
-            sunDay.setChecked(false);
-        }
-        if(night[1].equals("1")){
-            sunNight.setChecked(true);
-        }else{
-            sunNight.setChecked(false);
-        }
-        if(day[2].equals("1")){
-            monDay.setChecked(true);
-        } else{
-            monDay.setChecked(false);
-        }
-        if(night[2].equals("1")){
-            monNight.setChecked(true);
-        }else{
-            monNight.setChecked(false);
-        }
-        if(day[3].equals("1")){
-            tuesDay.setChecked(true);
-        } else{
-            tuesDay.setChecked(false);
-        }
-        if(night[3].equals("1")){
-            tuesNight.setChecked(true);
-        } else{
-            tuesNight.setChecked(false);
-        }
-        if(day[4].equals("1")){
-            wedDay.setChecked(true);
-        }else{
-            wedDay.setChecked(false);
-        }
-        if(night[4].equals("1")){
-            wedNight.setChecked(true);
-        }else{
-            wedNight.setChecked(false);
-        }
-        if(day[5].equals("1")){
-            thuDay.setChecked(true);
-        }else{
-            thuDay.setChecked(false);
-        }
-        if(night[5].equals("1")){
-            thuNight.setChecked(true);
-        }else{
-            thuNight.setChecked(false);
-        }
-        if(day[6].equals("1")){
-            friDay.setChecked(true);
-        }else{
-            friDay.setChecked(false);
-        }
-        if(night[6].equals("1")){
-            friNight.setChecked(true);
-        }else {
-            friNight.setChecked(false);
-        }
-        if(day[7].equals("1")){
-            satDay.setChecked(true);
-        }else{
-            satDay.setChecked(false);
-        }
-        if(night[7].equals("1")){
-            satNight.setChecked(true);
-        }else{
-            satNight.setChecked(false);
-        }
-
-        //todays stall needs
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        String today = new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime());
-        String[] daysOfWeek = {"Sun", "Mon", "Tues", "Wed", "Thurs","Fri","Sat" };
-        String dayInOut = "Out";
-        String nightInOut = "Out";
-        for(int i = 0; i<daysOfWeek.length;i++){
-            if(daysOfWeek[i].equals(today)){
-                if(day[i].equals("1")){
-                    dayInOut="Inside";
-                }
-                if(night[i].equals("1")){
-                    nightInOut="Inside";
-                }
+        for(int iDay= 0; iDay<day.size();iDay++){
+            if(dayList[iDay+1].equals("1")){
+                day.get(iDay).setChecked(true);
+            }else{
+                day.get(iDay).setChecked(false);
             }
         }
-        lblStall.setText(today + " Stalled?");
-        stallInstuction.setText("Day " + dayInOut + " Night " +nightInOut);
 
+        for(int iNight=0; iNight<night.size();iNight++){
+            if(nightList[iNight+1].equals("1")){
+                night.get(iNight).setChecked(true);
+            }else{
+                night.get(iNight).setChecked(false);
+            }
+        }
     }
     private void setImage(String profilePictureURL){
         if(!horse.getPicture().equals(null)){
@@ -352,11 +262,12 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             saveChanges.setVisibility(View.GONE);
             medication.setEnabled(false);
             notes.setEnabled(false);;
-            stallInstuction.setEnabled(false);;
             pictureURL.setVisibility(View.GONE);
-            gridInOut.setVisibility(View.GONE);
-            stallInstuction.setVisibility(View.VISIBLE);
-            lblStall.setVisibility(View.VISIBLE);
+            gridInOut.setEnabled(false);
+            for(int i = 0; i<day.size();i++){
+                day.get(i).setEnabled(false);
+                night.get(i).setEnabled(false);
+            }
         }else{
             //make fields not editable
             nameInput.setEnabled(true);
@@ -370,11 +281,12 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             saveChanges.setVisibility(View.VISIBLE);
             medication.setEnabled(true);
             notes.setEnabled(true);
-            stallInstuction.setEnabled(true);;
             pictureURL.setVisibility(View.VISIBLE);
-            gridInOut.setVisibility(View.VISIBLE);
-            stallInstuction.setVisibility(View.GONE);
-            lblStall.setVisibility(View.GONE);
+            gridInOut.setEnabled(true);
+            for(int i = 0; i<day.size();i++){
+                day.get(i).setEnabled(true);
+                night.get(i).setEnabled(true);
+            }
         }
     }
     //save changes
@@ -408,61 +320,28 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setStallNumber(stallInput.getText().toString());
         newHorseData.setPicture(pictureURL.getText().toString());
 
-        Integer[] day = {0,0,0,0,0,0,0};
-        Integer[] night = {0,0,0,0,0,0,0};
-        if(sunDay.isChecked()){
-            day[0]=1;
-        }
-        if(monDay.isChecked()){
-            day[1]=1;
-        }
-        if(tuesDay.isChecked()){
-            day[2]=1;
-        }
-        if(wedDay.isChecked()){
-            day[3]=1;
-        }
-        if(thuDay.isChecked()){
-            day[4]=1;
-        }
-        if(friDay.isChecked()){
-            day[5]=1;
-        }
-        if(satDay.isChecked()){
-            day[6]=1;
+        Integer[] dayList = {0,0,0,0,0,0,0};
+        Integer[] nightList = {0,0,0,0,0,0,0};
+        for(int i= 0; i<day.size();i++){
+            if(day.get(i).isChecked()) {
+                dayList[i] = 1;
+            }
         }
 
-        if(sunNight.isChecked()){
-            night[0]=1;
-        }
-        if(monNight.isChecked()){
-            night[1]=1;
-        }
-        if(tuesNight.isChecked()){
-            night[2]=1;
-        }
-        if(wedNight.isChecked()){
-            night[3]=1;
-        }
-        if(thuNight.isChecked()){
-            night[4]=1;
-        }
-        if(friNight.isChecked()){
-            night[5]=1;
-        }
-        if(satNight.isChecked()){
-            night[6]=1;
+        for(int n= 0; n<night.size();n++) {
+            if (night.get(n).isChecked()) {
+                nightList[n] = 1;
+            }
         }
 
         StringBuilder dayBuilder = new StringBuilder();
         StringBuilder nightBuilder = new StringBuilder();
-        for (int i : day) {
+        for (int i : dayList) {
             dayBuilder.append(i);
         }
-        for(int i : night){
+        for(int i : nightList){
             nightBuilder.append(i);
         }
-        Log.e( "getInputHorseValues: ", "testing" + nightBuilder.toString());
         newHorseData.setInOutDay(dayBuilder.toString());
         newHorseData.setInOutNight(nightBuilder.toString());
 
