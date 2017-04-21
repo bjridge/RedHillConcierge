@@ -1,5 +1,6 @@
 package Activities.Fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.ListView;
+import android.support.v7.app.AppCompatActivity;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
@@ -20,8 +24,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import Activities.Fragments.HorseListAdapter;
+import Activities.EditableHorse;
 import Activities.HorseList;
 import DataControllers.Horse;
+import DataControllers.Permission;
 import DataControllers.User;
 
 public class SearchTab extends MyFragment {
@@ -36,6 +43,10 @@ public class SearchTab extends MyFragment {
 
     List<Horse> horses;
     List<User> owners;
+    List<Permission> permissions;
+    User user;
+
+    ListView displayedHorses;
 
     public SearchTab() {
         // Required empty public constructor
@@ -61,6 +72,7 @@ public class SearchTab extends MyFragment {
         setupSpinnerValues();
         setInitialValues();
         setButtonListener();
+        //addOnClickListener();
     }
     private void initializeViewResources(){
         breedSpinner = (Spinner) getView().findViewById(R.id.search_breed_spinner);
@@ -70,6 +82,7 @@ public class SearchTab extends MyFragment {
         nameSpinner = (Spinner) getView().findViewById(R.id.search_name_spinner);
         ownerSpinner = (Spinner) getView().findViewById(R.id.search_owner_name_spinner);
         searchButton = (Button) getView().findViewById(R.id.search_button);
+        displayedHorses = (ListView) getView().findViewById((R.id.horse_list));
     }
     private void setupSpinnerValues(){
         ArrayAdapter<String>[] adapters = buildAdapters();
@@ -263,13 +276,18 @@ public class SearchTab extends MyFragment {
     private void goToSearchResults(List<Horse> results){
         if (results.size() == 0){
             showDialog("No Results Found", "");
+
         }else{
             //go the next view with those necessary search results!
-            Intent i = new Intent(getContext(), HorseList.class);
-            i.putExtra("user", getUser());
-            i.putExtra("horses", (Serializable) results);
-            i.putExtra("permissions", (Serializable) getPermissions());
-            startActivityForResult(i,  10);
+            Collections.sort(results, new Comparator<Horse>() {
+                @Override
+                public int compare(Horse o1, Horse o2) {
+                    return o1.compareTo(o2);
+                }
+            });
+            user = (User) getUser();
+            permissions = (List<Permission>) getPermissions();
+            showHorses(results);
         }
     }
     private void showDialog(String title, String text){
@@ -283,5 +301,33 @@ public class SearchTab extends MyFragment {
                     }
                 });
         alertDialog.show();
+    }
+
+    private void showHorses(List<Horse> results){
+        //display them in the horse view!
+        HorseListAdapter adapter = new HorseListAdapter(getActivity().getApplicationContext(), results);
+        displayedHorses.setAdapter(adapter);
+        addOnClickListener(results);
+    }
+
+    private void addOnClickListener(final List<Horse> results){
+        displayedHorses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //get the selected horse
+                Horse horse = results.get(position);
+                ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) results;
+                Log.e("onItemClick: ", Integer.toString(selectedHorseList.size()));
+                Context context = getContext();
+                //go to next view
+
+
+                Intent i = new Intent(context, EditableHorse.class);
+                i.putExtra("horseList", selectedHorseList);
+                i.putExtra("horse", horse);
+                i.putExtra("user", application.getUser().key());
+                //startActivityForResult(i, 0);
+            }
+        });
     }
 }

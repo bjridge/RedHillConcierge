@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
 import java.io.Serializable;
 import java.util.Collections;

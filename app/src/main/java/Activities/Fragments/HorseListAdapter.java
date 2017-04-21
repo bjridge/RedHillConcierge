@@ -1,6 +1,7 @@
 package Activities.Fragments;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class HorseListAdapter extends BaseAdapter {
         TextView horseSex = (TextView) convertView.findViewById(R.id.horse_sex);
 
         horseName.setText(horse.getName());
-        horseStall.setText(horse.getStallNumber());
+        horseStall.setText("Stall " + horse.getStallNumber());
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
         horseSex.setText(horse.getSex());
 

@@ -137,19 +137,9 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Context context = getContext();
 
         ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) allHorseLists.get(groupPosition);
-
-
         Intent i = new Intent(context, EditableHorse.class);
 
-        //all horse: for next button to work
-        Collection l  = Collections.singletonList(allHorseLists.get(groupPosition));
-        ArrayList<String> horseKeys =new ArrayList<String>();
-        for(int j = 0; j< allHorseLists.get(groupPosition).size(); j++){
-            horseKeys.add(allHorseLists.get(groupPosition).get(j).key().toString());
-        }
-
         i.putExtra("horseList", selectedHorseList);
-
 
         i.putExtra("userID", application.getUser().key());
         i.putExtra("horse", selectedHorse);
