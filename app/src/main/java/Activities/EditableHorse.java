@@ -123,8 +123,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         night.add((CheckBox) findViewById(R.id.Night_Fri));
         day.add((CheckBox) findViewById(R.id.Day_Sat));
         night.add((CheckBox) findViewById(R.id.Night_Sat));
-
-
     }
     private void setStallButtons(){
 
@@ -328,6 +326,11 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setStallNumber(stallInput.getText().toString());
         newHorseData.setPicture(pictureURL.getText().toString());
         newHorseData.setPermittedRiders(permittedRiders.getText().toString());
+
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat dfN = new SimpleDateFormat("yyMdd");
+        String todayNum = dfN.format(date.getTime());
+        newHorseData.setChangesMade(todayNum);
 
         Integer[] dayList = {0,0,0,0,0,0,0};
         Integer[] nightList = {0,0,0,0,0,0,0};

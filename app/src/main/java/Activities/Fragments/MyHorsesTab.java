@@ -126,7 +126,6 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Intent i = new Intent(context, EditableHorse.class);
 
         i.putExtra("horseList", selectedHorseList);
-
         i.putExtra("userID", application.getUser().key());
         i.putExtra("horse", selectedHorse);
         startActivityForResult(i, 0);

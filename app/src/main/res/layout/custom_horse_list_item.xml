@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         >
@@ -23,7 +22,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="left"
             android:text="Black Stallion" />
+
+        <TextView
+            android:id="@+id/changes_made"
+            style="@style/MyHorseListItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#88FF0000"
+            android:layout_gravity="center_horizontal"
+            android:text=" " />
 
         <TextView
             android:id="@+id/horse_stall"
@@ -33,8 +43,7 @@
             android:layout_gravity="end"
             android:layout_weight="1"
             android:text="Stall 24"
-            android:textAlignment="textEnd"
-            android:gravity="center_vertical"/>
+            android:textAlignment="textEnd" />
     </LinearLayout>
 
     <LinearLayout

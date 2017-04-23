@@ -1,5 +1,6 @@
 package Activities.Fragments;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.BaseExpandableListAdapter;
 
@@ -7,7 +8,9 @@ import android.widget.BaseExpandableListAdapter;
  * Created by BradleyRidge on 3/30/2017.
  */
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
@@ -66,11 +69,26 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         TextView horseStall = (TextView) convertView.findViewById(R.id.horse_stall);
         TextView horseDescription = (TextView) convertView.findViewById(R.id.horse_description);
         TextView horseSex = (TextView) convertView.findViewById(R.id.horse_sex);
+        TextView dateChangesMade = (TextView) convertView.findViewById(R.id.changes_made);
 
         horseName.setText(horse.getName());
         horseStall.setText("Stall: " + horse.getStallNumber());
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
         horseSex.setText(horse.getSex());
+
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat dfN = new SimpleDateFormat("yyMdd");
+        String todayNum = dfN.format(date.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("MMM-dd");
+        String today = df.format(date.getTime());
+
+        if((Integer.parseInt(horse.getChangesMade())+2)> Integer.parseInt(todayNum)){
+            dateChangesMade.setText("Changed: " + today);
+            dateChangesMade.setVisibility(View.VISIBLE);
+        }else{
+            dateChangesMade.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

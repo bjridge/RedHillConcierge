@@ -20,6 +20,7 @@ public class Horse extends DatabaseObject{
     private String inOutDay = "1111111";
     private String inOutNight = "1111111";
     private String permittedRiders=" ";
+    private String dateChangesMade="0";
 
 
     public int compareTo(@NonNull Horse another) {
@@ -32,6 +33,9 @@ public class Horse extends DatabaseObject{
         }
     }
 
+    public String getChangesMade(){return dateChangesMade;}
+
+    public void setChangesMade(String dateChangesMade){this.dateChangesMade = dateChangesMade;}
 
     public String getHay() {
         return hay;
