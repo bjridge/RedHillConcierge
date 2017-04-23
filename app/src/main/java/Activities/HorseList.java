@@ -9,11 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import Activities.Fragments.HorseListAdapter;
@@ -49,12 +46,6 @@ public class HorseList extends AppCompatActivity {
     private void getResourcesFromIntent(){
         Intent i = getIntent();
         horses = (List<Horse>) i.getSerializableExtra("horses");
-        Collections.sort(horses, new Comparator<Horse>() {
-            @Override
-            public int compare(Horse o1, Horse o2) {
-                return o1.compareTo(o2);
-            }
-        });
         user = (User) i.getSerializableExtra("user");
         permissions = (List<Permission>) i.getSerializableExtra("permissions");
     }

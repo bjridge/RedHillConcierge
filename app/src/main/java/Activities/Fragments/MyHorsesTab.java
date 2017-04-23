@@ -2,44 +2,30 @@ package Activities.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
 
 import Activities.EditableHorse;
 import Application.MyApplication;
-import DataControllers.Contact;
-import DataControllers.DataFetcher;
 import DataControllers.Horse;
-import DataControllers.HorseAdapter;
 import DataControllers.Permission;
-import java.util.Collection;
 
 public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChildClickListener {
 
     List<Horse> horses;
     List<Horse> myHorses;
     List<Horse> sharedHorses;
-    List<Permission> permissions;
     List<List<Horse>> allHorseLists;
 
     MyApplication application;
@@ -90,7 +76,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         Collections.sort(list, new Comparator<Horse>() {
             @Override
             public int compare(Horse o1, Horse o2) {
-                return o1.getStallNumber().compareTo(o2.getStallNumber());
+                return Integer.valueOf(Integer.parseInt(o1.getStallNumber())).compareTo(Integer.parseInt(o2.getStallNumber()));
             }
         });
         return list;

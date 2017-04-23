@@ -19,6 +19,7 @@ public class Horse extends DatabaseObject{
     private String owner = "0";
     private String inOutDay = "1111111";
     private String inOutNight = "1111111";
+    private String permittedRiders=" ";
 
 
     public int compareTo(@NonNull Horse another) {
@@ -39,6 +40,10 @@ public class Horse extends DatabaseObject{
     public String getInOutDay() {
         return inOutDay;
     }
+
+    public String getPermittedRiders() {return permittedRiders;}
+
+    public void setPermittedRiders(String permittedRiders) {this.permittedRiders = permittedRiders;}
 
     public void setInOutDay(String inOutDay) {
         this.inOutDay = inOutDay;

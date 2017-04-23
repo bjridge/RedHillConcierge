@@ -14,19 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.ListView;
-import android.support.v7.app.AppCompatActivity;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import Activities.Fragments.HorseListAdapter;
 import Activities.EditableHorse;
-import Activities.HorseList;
 import DataControllers.Horse;
 import DataControllers.Permission;
 import DataControllers.User;
@@ -211,7 +207,6 @@ public class SearchTab extends MyFragment {
                         }
                     }
                     results = newResults;
-
                 }
                 if (!sexInput.matches("<Any>")){
                     List<Horse> newResults = new ArrayList<Horse>();
@@ -321,8 +316,7 @@ public class SearchTab extends MyFragment {
                 Context context = getContext();
                 //go to next view
 
-
-                Intent i = new Intent(context, EditableHorse.class);
+                Intent i = new Intent(getContext().getApplicationContext(), EditableHorse.class);
                 i.putExtra("horseList", selectedHorseList);
                 i.putExtra("horse", horse);
                 i.putExtra("user", application.getUser().key());

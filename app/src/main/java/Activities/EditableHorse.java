@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import android.widget.Button;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView notes;
     TextView pictureURL;
     ImageView horsePicture;
+    EditText permittedRiders;
 
     //checkboxes
     GridLayout gridInOut;
@@ -102,6 +106,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         notes = (TextView) findViewById(R.id.horse_notes);
         pictureURL = (TextView) findViewById(R.id.horse_photo_input);
         horsePicture = (ImageView) findViewById(R.id.horse_image);
+        permittedRiders = (EditText) findViewById(R.id.permitted_riders);
 
         //check boxes
         day.add((CheckBox) findViewById(R.id.Day_Sun));
@@ -208,6 +213,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         medication.setText(horse.getMedicationInstructions());
         pictureURL.setText(horse.getPicture());
         setImage(pictureURL.toString());
+        permittedRiders.setText(horse.getPermittedRiders());
 
         //checkboxes
         String[] dayList = (horse.getInOutDay().toString().split(""));
@@ -268,6 +274,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 day.get(i).setEnabled(false);
                 night.get(i).setEnabled(false);
             }
+            permittedRiders.setEnabled(false);
         }else{
             //make fields not editable
             nameInput.setEnabled(true);
@@ -287,6 +294,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
                 day.get(i).setEnabled(true);
                 night.get(i).setEnabled(true);
             }
+            permittedRiders.setEnabled(true);
         }
     }
     //save changes
@@ -319,6 +327,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setMedicationInstructions(medication.getText().toString());
         newHorseData.setStallNumber(stallInput.getText().toString());
         newHorseData.setPicture(pictureURL.getText().toString());
+        newHorseData.setPermittedRiders(permittedRiders.getText().toString());
 
         Integer[] dayList = {0,0,0,0,0,0,0};
         Integer[] nightList = {0,0,0,0,0,0,0};

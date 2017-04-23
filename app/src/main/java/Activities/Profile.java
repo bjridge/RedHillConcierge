@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
@@ -49,6 +50,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private EditText cityInput;
     private Spinner stateSpinner;
     private EditText zipCodeInput;
+    private TextView pictureLabel;
 
     private MyApplication application;
     private User user;
@@ -70,7 +72,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         application = (MyApplication) getApplication();
 
         getIntentObjects();
-
         initializeViewResources();
         setupSpinners();
         setupButton();
@@ -86,6 +87,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             userIsNew = false;
             setupProfileForExistingUser();
         }
+        checkUser();
     }
     private void getIntentObjects(){
         Intent i = getIntent();
@@ -155,7 +157,44 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         cityInput = (EditText) findViewById(R.id.profile_city_input);
         stateSpinner = (Spinner) findViewById(R.id.profile_state_spinner);
         zipCodeInput = (EditText) findViewById(R.id.profile_zip_code_input);
+        pictureLabel = (TextView) findViewById(R.id.lblPicture);
+
     }
+
+    private void checkUser(){
+        String loggedInUser = application.getUser().key();
+
+        if(!loggedInUser.equals(user.key())){
+            logOffButton.setVisibility(View.GONE);
+            nextButton.setVisibility(View.GONE);
+            pictureInput.setVisibility(View.GONE);
+            pictureLabel.setVisibility(View.GONE);
+            userTypeSpinner.setEnabled(false);
+            firstNameInput.setEnabled(false);
+            lastNameInput.setEnabled(false);
+            phoneOneInput.setEnabled(false);
+            phoneTwoInput.setEnabled(false);
+            streetAddressInput.setEnabled(false);
+            cityInput.setEnabled(false);
+            stateSpinner.setEnabled(false);
+            zipCodeInput.setEnabled(false);
+        }else{
+            logOffButton.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+            pictureInput.setVisibility(View.VISIBLE);
+            pictureLabel.setVisibility(View.VISIBLE);
+            userTypeSpinner.setEnabled(true);
+            firstNameInput.setEnabled(true);
+            lastNameInput.setEnabled(true);
+            phoneOneInput.setEnabled(true);
+            phoneTwoInput.setEnabled(true);
+            streetAddressInput.setEnabled(true);
+            cityInput.setEnabled(true);
+            stateSpinner.setEnabled(true);
+            zipCodeInput.setEnabled(true);
+        }
+    }
+
     private void setupSpinners(){
         ArrayAdapter<CharSequence> userTypeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.user_types, R.layout.custom_spinner_item);
