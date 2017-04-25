@@ -8,24 +8,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
-
         >
-        <activity android:name="Activities.Authentication" >
+        <activity android:name="Activities.Authentication" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
-        <activity android:name="Activities.BasicUserView"
+        <activity android:name="Activities.BasicUserView" android:screenOrientation="portrait"
             />
-        <activity android:name="Activities.AdministratorView"/>
+        <activity android:name="Activities.AdministratorView" android:screenOrientation="portrait"/>
         <activity android:name="Activities.Profile"
             android:windowSoftInputMode="stateHidden"
             ></activity>
         <activity android:name="Activities.EditableHorse"
-            android:noHistory="true"/>
-        <activity android:name="Activities.HorseList"></activity>
+            android:noHistory="true" android:screenOrientation="portrait"/>
+        <activity android:name="Activities.HorseList" android:screenOrientation="portrait"></activity>
 
     </application>
 </manifest>

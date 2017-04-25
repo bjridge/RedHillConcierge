@@ -351,8 +351,8 @@ public class SearchTab extends MyFragment {
                 Intent i = new Intent(getContext().getApplicationContext(), EditableHorse.class);
                 i.putExtra("horseList", selectedHorseList);
                 i.putExtra("horse", horse);
-                i.putExtra("user", application.getUser().key());
-                //startActivityForResult(i, 0);
+                i.putExtra("userID", application.getUser().key());
+                startActivityForResult(i,0);
             }
         });
     }
