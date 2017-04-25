@@ -48,10 +48,34 @@ public class DataFetcher {
         return newString.toLowerCase();
     }
     private void incrementCounter(DatabaseObject object){
-        String objectType = getObjectType(object);
-        DatabaseReference reference = db.getReference("counts/" + objectType);
-        reference.setValue(object.key());
+        DatabaseReference reference = db.getReference("counts/horse");
+        reference.setValue(Integer.parseInt(object.key()));
     }
+    public void addHorse(final Horse horse){
+        final Horse newHorse = horse;
+        DatabaseReference countRef = db.getReference("counts/horse");
+        countRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //fetch the count from the data snapshot
+                int horseCount = (int) dataSnapshot.getValue(int.class);
+                horseCount++;
+                addHorseWithKey(horse, horseCount + "");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void addHorseWithKey(Horse horse, String key){
+        horse.setKey(key);
+        final Horse finalHorse = horse;
+        incrementCounter(horse);
+        updateObject(horse);
+    }
+
 
 
     //gets all of any object one time

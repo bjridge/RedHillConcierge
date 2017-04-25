@@ -69,6 +69,34 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity__basic_user);
         initializeResources();
         loadData();
+
+        Horse test = new Horse();
+        test.setBreed("Friesian");
+        test.setChangesMade("17423");
+        test.setColor("Black");
+        test.setGrainType("2");
+        test.setGrainType("Soybeans");
+        test.setHay("Alfalfa");
+        test.setInOutDay("0000000");
+        test.setInOutNight("000000");
+        test.setMedicationInstructions("take it all");
+        test.setName("test horse");
+        test.setOwner(application.getUser().key());
+        test.setPermittedRiders("Rachel");
+        test.setSex("Mare");
+        test.setStallNumber("3");
+        test.setPicture("https://scontent.xx.fbcdn.net/v/l/t1.0-9/1482954_865764286809102_4185013482102571086_n.jpg?oh=be1069f7cde11b3c6c58d02b5a330111&oe=5975AE64");
+
+        for (int i = 0; i < 50; i++){
+            Horse h = test;
+            h.setName("test horse " + i);
+            data.addHorse(h);
+        }
+
+
+
+
+
     }
     private void initializeResources(){
         application = (MyApplication) this.getApplication();
