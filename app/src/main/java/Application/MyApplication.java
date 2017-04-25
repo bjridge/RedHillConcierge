@@ -3,6 +3,7 @@ package Application;
 import android.app.Application;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import DataControllers.Contact;
@@ -25,6 +26,18 @@ public class MyApplication extends Application {
     List<String> grainOptions;
     List<String> hayOptions;
     List<String> sexOptions;
+
+    public List<String> getLimitedBreedOptions(){
+        List<String> breedOptions = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            if (!breedOptions.contains(horse.getBreed())){
+                breedOptions.add(horse.getBreed());
+            }
+        }
+        return breedOptions;
+    }
+    //do this with breed, color, grain, hay, sex, and names
+    //name them "getLimited____Options"
 
     public void updateUser(User inputUser){
         if (user.key().matches(inputUser.key())){
