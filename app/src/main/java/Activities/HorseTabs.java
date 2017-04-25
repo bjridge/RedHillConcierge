@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.util.List;
 
+import Activities.Fragments.HorseDetails;
 import ListAdapters.HorseListAdapter;
 import Application.MyApplication;
 import DataControllers.Horse;
@@ -47,6 +49,7 @@ public class HorseTabs extends AppCompatActivity {
         tabAdapter =
                 new HorseTabPagerAdapter(getSupportFragmentManager());
         horseTabs.setAdapter(tabAdapter);
+        tabs.setupWithViewPager(horseTabs);
 
     }
     private void getResourcesFromIntent(){
@@ -63,9 +66,6 @@ public class HorseTabs extends AppCompatActivity {
     }
 
 
-    public class HorseTabActivity extends FragmentActivity {
-
-    }
 
     public class HorseTabPagerAdapter extends FragmentStatePagerAdapter {
         public HorseTabPagerAdapter(FragmentManager fm){
@@ -73,7 +73,7 @@ public class HorseTabs extends AppCompatActivity {
         }
         @Override
         public Fragment getItem(int i){
-            Fragment fragment = new HorseTabFragment();
+            Fragment fragment = new HorseDetails().forHorse(horses.get(i));
             Bundle args = new Bundle();
             args.putSerializable("horse", horses.get(i));
             fragment.setArguments(args);
@@ -84,22 +84,11 @@ public class HorseTabs extends AppCompatActivity {
             return horses.size();
         }
         @Override
-        public CharSequence getPageTitle(int position){
+        public String getPageTitle(int position){
             return "Stall " + horses.get(position).getStallNumber();
         }
+
     }
-
-    public static class HorseTabFragment extends Fragment {
-        public static final String ARG_Object = "object";
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.tab__horse_details, container, false);
-            Bundle args =  getArguments();
-
-            return rootView;
-        }
-    }
-
 }
 
 

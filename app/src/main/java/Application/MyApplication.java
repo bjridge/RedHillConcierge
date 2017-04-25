@@ -48,24 +48,6 @@ public class MyApplication extends Application {
         }
         return colorOptions;
     }
-    public List<String> getLimitedGrainOptions(){
-        List<String> grainOptions = new ArrayList<String>();
-        for (Horse horse: allHorses){
-            if(!grainOptions.contains(horse.getGrainType())){
-                grainOptions.add(horse.getGrainType());
-            }
-        }
-        return grainOptions;
-    }
-    public List<String> getLimitedHayOptions(){
-        List<String> hayOptions = new ArrayList<String>();
-        for (Horse horse: allHorses){
-            if(!hayOptions.contains(horse.getHay())){
-                hayOptions.add(horse.getHay());
-            }
-        }
-        return hayOptions;
-    }
     public List<String> getLimitedSexOptions(){
         List<String> sexOptions = new ArrayList<String>();
         for (Horse horse: allHorses){
@@ -237,6 +219,7 @@ public class MyApplication extends Application {
     }
 
     public void setBreedOptions(List<String> breedOptions) {
+        Collections.sort(breedOptions);
         this.breedOptions = breedOptions;
 
     }
@@ -246,6 +229,7 @@ public class MyApplication extends Application {
     }
 
     public void setColorOptions(List<String> colorOptions) {
+        Collections.sort(colorOptions);
         this.colorOptions = colorOptions;
     }
 
@@ -254,6 +238,7 @@ public class MyApplication extends Application {
     }
 
     public void setGrainOptions(List<String> grainOptions) {
+        Collections.sort(grainOptions);
         this.grainOptions = grainOptions;
     }
 
@@ -262,6 +247,7 @@ public class MyApplication extends Application {
     }
 
     public void setSexOptions(List<String> sexOptions) {
+        Collections.sort(sexOptions);
         this.sexOptions = sexOptions;
     }
 

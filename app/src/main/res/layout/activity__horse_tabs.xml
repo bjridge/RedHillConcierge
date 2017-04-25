@@ -12,6 +12,10 @@
         android:layout_gravity="top"
         android:background="@color/headerOne"
         android:clickable="true"
+        app:tabMinWidth="85dp"
+        app:tabMode="scrollable"
+        app:tabTextColor="@color/white"
+        app:tabSelectedTextColor="@color/accent"
         app:tabGravity="fill"></android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
