@@ -155,7 +155,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     private void getIntentObjects(){
         Intent intent = getIntent();
         horse = (Horse) intent.getSerializableExtra("horse");
-        userID = intent.getStringExtra("userID");
         horseList = (List<Horse>) intent.getSerializableExtra("horseList");
     }
     private void setupSpinnerValues(){

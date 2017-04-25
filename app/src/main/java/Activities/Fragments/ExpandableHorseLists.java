@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import Activities.EditableHorse;
+import Activities.HorseTabs;
 import Application.MyApplication;
 import DataControllers.Horse;
 import DataControllers.Permission;
@@ -123,14 +124,17 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Horse selectedHorse = allHorseLists.get(groupPosition).get(childPosition);
         Context context = getContext();
+        Log.v("IMPORTANT", "TRIED TO CLICK ON A HORSE " + selectedHorse.getName());
 
         ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) allHorseLists.get(groupPosition);
-        Intent i = new Intent(context, EditableHorse.class);
-
-        i.putExtra("horseList", selectedHorseList);
-        i.putExtra("userID", application.getUser().key());
+        Intent i = new Intent(context, HorseTabs.class);
+//
+        if (selectedHorseList == null){
+            Log.v("IMPORTANT", "the selected list is null");
+        }
+        i.putExtra("horses", selectedHorseList);
         i.putExtra("horse", selectedHorse);
-        startActivityForResult(i, 0);
+        startActivity(i);
 
         return false;
     }

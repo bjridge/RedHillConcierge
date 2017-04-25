@@ -26,7 +26,7 @@
     <color name="statusBar">#303f9f</color>
     <color name="headerOne">#3f51b5</color>
     <color name="emphasis">#2b377b</color>
-    <color name="headerTwo">#0ffffff4</color>
+    <color name="headerTwo">#6c6c6c</color>
     <color name="body">#ffffff</color>
     <color name="accent">#00bcd4</color>
     <color name="ripple">#3200bcd4</color>

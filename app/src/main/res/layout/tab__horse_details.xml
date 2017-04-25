@@ -18,14 +18,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/headerTwo">
 
         <LinearLayout
             android:id="@+id/image_and_name_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/headerOne"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <ImageView
                 android:id="@+id/horse_detail_picture"
@@ -63,18 +67,23 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/headerTwo"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/body"
+                android:layout_marginBottom="5dp">
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
-
+                    android:background="@color/body"
                     android:columnCount="2">
 
                     <TextView
@@ -282,12 +291,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="0"
-                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_row="12"
                     android:text="Inside During Daytime"
-                    android:textSize="20dp"
-                    />
+                    android:textSize="20dp" />
 
                 <GridLayout
                     android:id="@+id/grid_in_out"
@@ -295,141 +303,140 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="5dp"
-                    android:layout_row="13"
-                    >
+                    android:layout_row="13">
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="1"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="Sun "
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="M"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="3"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="T"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:textSize="20dp" />
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="4"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="W"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="5"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="Th"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:textSize="20dp" />
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="6"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="F"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:textSize="20dp" />
 
                     <TextView
                         style="@style/MyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="7"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="0"
                         android:text="Sat"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Sun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="1"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Mon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal"/>
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Tues"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="3"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Wed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="4"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Thu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="5"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Fri"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="6"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:id="@+id/Day_Sat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="7"
+                        android:layout_gravity="center_horizontal"
                         android:layout_row="1"
-                        android:textSize="20dp"
-                        android:layout_gravity="center_horizontal" />
+                        android:textSize="20dp" />
 
 
                 </GridLayout>
@@ -439,9 +446,9 @@
                     style="@style/MyText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_column="0"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_row="12"
                     android:text="Inside During Night Time"
                     android:textSize="20dp" />
@@ -451,11 +458,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_row="13"
-                    >
+                    android:layout_row="13">
 
                     <TextView
                         style="@style/MyText"
@@ -526,7 +532,6 @@
                         android:layout_row="0"
                         android:text="Sat"
                         android:textSize="20dp" />
-
 
 
                     <CheckBox

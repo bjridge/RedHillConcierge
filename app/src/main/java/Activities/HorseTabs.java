@@ -36,8 +36,9 @@ public class HorseTabs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__horse_tabs);
 
-        initializeViewObjects();
         getResourcesFromIntent();
+        initializeViewObjects();
+
     }
     private void initializeViewObjects(){
         horseTabs = (ViewPager) findViewById(R.id.horse_tabs_view_pager);

@@ -310,7 +310,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         fragments = new Fragment[4];
         fragments[0] = new HomeTab();
         fragments[1] = new SearchTab();
-        fragments[2] = new HomeTab();
+        fragments[2] = new ExpandableHorseLists();
         fragments[3] = new HomeTab();
         return fragments;
     }
