@@ -26,6 +26,7 @@ public class MyApplication extends Application {
     List<String> grainOptions;
     List<String> hayOptions;
     List<String> sexOptions;
+    List<String> nameOptions;
 
     public List<String> getLimitedBreedOptions(){
         List<String> breedOptions = new ArrayList<String>();
@@ -36,7 +37,52 @@ public class MyApplication extends Application {
         }
         return breedOptions;
     }
-    //do this with breed, color, grain, hay, sex, and names
+    public List<String> getLimitedColorOptions(){
+        List<String> colorOptions = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            if(!colorOptions.contains(horse.getColor())){
+                colorOptions.add(horse.getColor());
+            }
+        }
+        return colorOptions;
+    }
+    public List<String> getLimitedGrainOptions(){
+        List<String> grainOptions = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            if(!grainOptions.contains(horse.getGrainType())){
+                grainOptions.add(horse.getGrainType());
+            }
+        }
+        return grainOptions;
+    }
+    public List<String> getLimitedHayOptions(){
+        List<String> hayOptions = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            if(!hayOptions.contains(horse.getHay())){
+                hayOptions.add(horse.getHay());
+            }
+        }
+        return hayOptions;
+    }
+    public List<String> getLimitedSexOptions(){
+        List<String> sexOptions = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            if(!sexOptions.contains(horse.getSex())){
+                sexOptions.add(horse.getSex());
+            }
+        }
+        return sexOptions;
+    }
+    public List<String> getLimitedNameOptions(){
+        List<String> nameOptions = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            if(!nameOptions.contains(horse.getName())){
+                nameOptions.add(horse.getName());
+            }
+        }
+        return nameOptions;
+    }
+    //do this with names
     //name them "getLimited____Options"
 
     public void updateUser(User inputUser){
@@ -146,7 +192,14 @@ public class MyApplication extends Application {
         setGrainOptions(resources.get(2));
         setSexOptions(resources.get(4));
         setHayOptions(resources.get(3));
+    }
 
+    public List<String> getNameOptions() {
+        return nameOptions;
+    }
+
+    public void setNameOptions(List<String> nameOptions) {
+        this.nameOptions = nameOptions;
     }
 
     public List<String> getHayOptions() {
