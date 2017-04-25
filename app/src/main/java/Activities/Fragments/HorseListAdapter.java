@@ -22,6 +22,7 @@ public class HorseListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
 
     public HorseListAdapter(Context context, List<Horse> data) {
+        Log.v("important", "horse list size: " + data.size());
         this.context = context;
         this.horses = data;
         inflater = (LayoutInflater) context

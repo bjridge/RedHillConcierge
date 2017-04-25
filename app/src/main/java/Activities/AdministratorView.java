@@ -23,10 +23,13 @@ import java.util.List;
 
 import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
+import Activities.Fragments.HorseAdminTab;
+import Activities.Fragments.HorseListTab;
 import Activities.Fragments.MyFragment;
 import Activities.Fragments.MyHorsesTab;
 import Activities.Fragments.SearchTab;
 import Activities.Fragments.TodayTab;
+import Application.MyApplication;
 import DataControllers.User;
 
 public class AdministratorView extends AppCompatActivity implements View.OnClickListener{
@@ -85,8 +88,9 @@ public class AdministratorView extends AppCompatActivity implements View.OnClick
     }
 
     private Fragment[] buildFragments(){
+        MyApplication ap = (MyApplication) getApplication();
         MyFragment[] fragments = new MyFragment[3];
-        fragments[0] = new HomeTab();
+        fragments[0] = new HorseListTab().withHorses(ap.getAllHorses());
         fragments[1] = new MyHorsesTab();
         fragments[2] = new SearchTab();
         return fragments;

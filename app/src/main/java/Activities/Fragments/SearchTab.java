@@ -84,17 +84,17 @@ public class SearchTab extends MyFragment {
         ArrayAdapter<String>[] adapters = buildAdapters();
         breedSpinner.setAdapter(adapters[0]);
         colorSpinner.setAdapter(adapters[1]);
-        nameSpinner.setAdapter(adapters[2]);
+        sexSpinner.setAdapter(adapters[2]);
         stallSpinner.setAdapter(adapters[3]);
-        sexSpinner.setAdapter(adapters[4]);
+        nameSpinner.setAdapter(adapters[4]);
         ownerSpinner.setAdapter(adapters[5]);
     }
     private ArrayAdapter<String>[] buildAdapters(){
         ArrayAdapter<String>[] adapters = new ArrayAdapter[6];
         int resourceListIndex = 0;
-        List<String> breedOptions = application.getBreedOptions();
-        List<String> colorOptions = application.getColorOptions();
-        List<String> sexOptions = application.getSexOptions();
+        List<String> breedOptions = getBreedOptions();
+        List<String> colorOptions = getColorOptions();
+        List<String> sexOptions = getSexOptions();
         List<String> names = getAllHorseNames();
         List<String> stallNumbers = getStallNumbers();
         List<String> ownerNames = getOwnerNames();
@@ -103,8 +103,8 @@ public class SearchTab extends MyFragment {
         options.add(breedOptions);
         options.add(colorOptions);
         options.add(sexOptions);
-        options.add(names);
         options.add(stallNumbers);
+        options.add(names);
         options.add(ownerNames);
 
         for (List<String> eachList: options){
@@ -118,6 +118,38 @@ public class SearchTab extends MyFragment {
         }
         return adapters;
     }
+    private List<String> getColorOptions(){
+        List<String> options = new ArrayList<>();
+        for(Horse horse: horses){
+            String color = horse.getColor();
+            if (!options.contains(color)){
+                options.add(color);
+            }
+        }
+        return options;
+    }
+    private List<String> getSexOptions(){
+        List<String> options = new ArrayList<>();
+        for (Horse horse: horses){
+            String sex = horse.getSex();
+            if(!options.contains(sex)){
+                options.add(sex);
+            }
+        }
+        return options;
+    }
+
+    private List<String> getBreedOptions(){
+        List<String> options = new ArrayList<>();
+        for (Horse horse: horses){
+            String breed = horse.getBreed();
+            if (!options.contains(breed)){
+                options.add(horse.getBreed());
+            }
+        }
+        return options;
+    }
+
     private List<String> sortList(List<String> list){
         Collections.sort(list, new Comparator<String>() {
             @Override
@@ -137,14 +169,14 @@ public class SearchTab extends MyFragment {
     private List<String> getStallNumbers(){
         List<String> stalls = new ArrayList<String>();
         for (Horse horse: horses){
-            stalls.add(horse.getName());
+            stalls.add(horse.getStallNumber());
         }
         return stalls;
     }
     private List<String> getOwnerNames(){
         List<String> ownerNames = new ArrayList<String>();
         for(User owner: owners){
-            ownerNames.add(owner.getFirstName());
+            ownerNames.add(owner.getFirstName() + " " + owner.getLastName());
         }
         return ownerNames;
     }

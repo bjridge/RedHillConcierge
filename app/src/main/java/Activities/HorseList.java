@@ -36,7 +36,6 @@ public class HorseList extends AppCompatActivity {
             //user who is logged in
             //list of permissions
         getResourcesFromIntent();
-        Log.v("IMPORTANT", "HORSE COUNT: " + horses.size());
         showHorses();
         addOnClickListener();
     }
