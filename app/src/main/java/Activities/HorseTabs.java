@@ -2,49 +2,51 @@ package Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-import java.io.Serializable;
 import java.util.List;
 
-import Activities.Fragments.HorseListAdapter;
+import ListAdapters.HorseListAdapter;
 import Application.MyApplication;
 import DataControllers.Horse;
-import DataControllers.Permission;
-import DataControllers.User;
 
-public class HorseList extends AppCompatActivity {
+public class HorseTabs extends AppCompatActivity {
+
+
+    ViewPager horseTabs;
+    TabLayout tabs;
+    HorseTabPagerAdapter tabAdapter;
+
     List<Horse> horses;
-    ListView displayedHorses;
     Horse selectedHorse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__horse_list);
+        setContentView(R.layout.activity__horse_tabs);
 
         initializeViewObjects();
-        //what we'll need from the intent:
-            //list of horses to display
-            //user who is logged in
-            //list of permissions
         getResourcesFromIntent();
-        showHorses();
     }
     private void initializeViewObjects(){
-        displayedHorses = (ListView) findViewById(R.id.horse_list);
+        horseTabs = (ViewPager) findViewById(R.id.horse_tabs_view_pager);
+        tabs = (TabLayout) findViewById(R.id.horse_tabs);
+
+        tabAdapter =
+                new HorseTabPagerAdapter(getSupportFragmentManager());
+        horseTabs.setAdapter(tabAdapter);
+
     }
     private void getResourcesFromIntent(){
         MyApplication application = (MyApplication) getApplication();
@@ -58,11 +60,7 @@ public class HorseList extends AppCompatActivity {
             selectedHorse = horses.get(0);
         }
     }
-    private void showHorses(){
-        //display them in the horse view!
-        HorseListAdapter adapter = new HorseListAdapter(getApplicationContext(), horses);
-        displayedHorses.setAdapter(adapter);
-    }
+
 
     public class HorseTabActivity extends FragmentActivity {
 
@@ -94,9 +92,9 @@ public class HorseList extends AppCompatActivity {
         public static final String ARG_Object = "object";
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.tab__horse_list, container, false);
+            View rootView = inflater.inflate(R.layout.tab__horse_details, container, false);
             Bundle args =  getArguments();
-            //populate information here!
+
             return rootView;
         }
     }

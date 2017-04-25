@@ -3,7 +3,6 @@ package Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -29,8 +28,7 @@ import java.util.List;
 
 import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
-import Activities.Fragments.MyFragment;
-import Activities.Fragments.MyHorsesTab;
+import Activities.Fragments.ExpandableHorseLists;
 import Activities.Fragments.SearchTab;
 import Application.MyApplication;
 import DataControllers.Contact;
@@ -309,11 +307,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         viewPager.setAdapter(adapter);
     }
     private Fragment[] initializeFragments(){
-        fragments = new MyFragment[4];
+        fragments = new Fragment[4];
         fragments[0] = new HomeTab();
-        fragments[1] = new MyHorsesTab();
-        fragments[2] = new SearchTab();
-        fragments[3] = new EventsTab();
+        fragments[1] = new SearchTab();
+        fragments[2] = new HomeTab();
+        fragments[3] = new HomeTab();
         return fragments;
     }
     private void addTabIcons(){

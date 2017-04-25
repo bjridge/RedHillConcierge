@@ -3,7 +3,6 @@ package Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,14 +20,10 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import java.util.ArrayList;
 import java.util.List;
 
-import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
-import Activities.Fragments.HorseAdminTab;
-import Activities.Fragments.HorseListTab;
-import Activities.Fragments.MyFragment;
-import Activities.Fragments.MyHorsesTab;
+import Activities.Fragments.HorseList;
+import Activities.Fragments.ExpandableHorseLists;
 import Activities.Fragments.SearchTab;
-import Activities.Fragments.TodayTab;
 import Application.MyApplication;
 import DataControllers.User;
 
@@ -89,9 +84,9 @@ public class AdministratorView extends AppCompatActivity implements View.OnClick
 
     private Fragment[] buildFragments(){
         MyApplication ap = (MyApplication) getApplication();
-        MyFragment[] fragments = new MyFragment[3];
-        fragments[0] = new HorseListTab().withHorses(ap.getAllHorses());
-        fragments[1] = new MyHorsesTab();
+        Fragment[] fragments = new Fragment[3];
+        fragments[0] = new HorseList().withHorses(ap.getAllHorses());
+        fragments[1] = new ExpandableHorseLists();
         fragments[2] = new SearchTab();
         return fragments;
     }

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import DataControllers.Contact;
@@ -82,6 +84,26 @@ public class MyApplication extends Application {
         }
         return nameOptions;
     }
+    public List<String> getLimitedStalls(){
+        List<String> options = new ArrayList<String>();
+        for(Horse horse: allHorses){
+            if (!options.contains(horse.getStallNumber())){
+                options.add(horse.getStallNumber());
+            }
+        }
+        return options;
+    }
+    public List<String> getLimitedOwners(){
+        List<String> options = new ArrayList<String>();
+        for (Horse horse: allHorses){
+            Log.v("IMPORTANT", "trying to get owner " + horse.getOwner() + " for horse " + horse.key());
+            User owner = getUser(horse.getOwner());
+            if (!options.contains(owner.getFirstName() + " " + owner.getLastName())){
+                options.add(owner.getFirstName() + " " + owner.getLastName());
+            }
+        }
+        return options;
+    }
     //do this with names
     //name them "getLimited____Options"
 
@@ -144,7 +166,7 @@ public class MyApplication extends Application {
                 return eachUser;
             }
         }
-        Log.v("IMPORTANT", "NEVER found a user");
+        Log.v("IMPORTANT", "NEVER found user " + key);
 
         return null;
     }

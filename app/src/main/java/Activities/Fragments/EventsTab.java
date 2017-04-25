@@ -3,6 +3,7 @@ package Activities.Fragments;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
@@ -21,39 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import DataControllers.Contact;
 import DataControllers.User;
 
-public class EventsTab extends MyFragment {
-
+public class EventsTab extends Fragment{
 
     private WebView web_view;
-    private User user;
-    private Contact contact;
 
-    CoordinatorLayout layout;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
-    int[] drawables;
-    MyFragment[] fragments;
-
-    //toolbar resources
-    private Toolbar toolbar;
-    private TextView toolbarTitle;
-
-    ImageButton administratorButton;
-    ImageButton profileButton;
-    ImageButton cameraButton;
-
-    GoogleApiClient mGoogleApiClient;
-    FirebaseAuth mAuth;
-
-
-
-
-
-
-    public EventsTab() {
-        // Required empty public constructor
-    }
+    public EventsTab() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

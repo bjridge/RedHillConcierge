@@ -1,4 +1,4 @@
-package Activities.Fragments;
+package ListAdapters;
 
 import android.content.Intent;
 import android.util.Log;

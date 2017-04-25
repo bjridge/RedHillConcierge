@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +24,16 @@ import java.util.Comparator;
 import java.util.List;
 
 import Activities.EditableHorse;
+import Activities.HorseTabs;
+import Application.MyApplication;
 import DataControllers.Horse;
 import DataControllers.Permission;
 import DataControllers.User;
+import ListAdapters.HorseListAdapter;
 
-public class SearchTab extends MyFragment {
+public class SearchTab extends Fragment {
+
+    MyApplication application;
 
     Spinner breedSpinner;
     Spinner colorSpinner;
@@ -61,13 +67,12 @@ public class SearchTab extends MyFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        //do shit for this fragment!
-        horses = application.getAllHorses();
-        owners = application.getAllUsers();
+        application = (MyApplication) getActivity().getApplication();
         initializeViewResources();
-        setupSpinnerValues();
-        setInitialValues();
-        setButtonListener();
+        initializeDataResources();
+        initializeSpinnerValues();
+        setInitialSpinnerValuesToAny();
+        setSearchButtonListener();
         //addOnClickListener();
     }
     private void initializeViewResources(){
@@ -80,7 +85,11 @@ public class SearchTab extends MyFragment {
         searchButton = (Button) getView().findViewById(R.id.search_button);
         displayedHorses = (ListView) getView().findViewById((R.id.horse_list));
     }
-    private void setupSpinnerValues(){
+    private void initializeDataResources(){
+        horses = application.getAllHorses();
+        owners = application.getAllUsers();
+    }
+    private void initializeSpinnerValues(){
         ArrayAdapter<String>[] adapters = buildAdapters();
         breedSpinner.setAdapter(adapters[0]);
         colorSpinner.setAdapter(adapters[1]);
@@ -91,66 +100,40 @@ public class SearchTab extends MyFragment {
     }
     private ArrayAdapter<String>[] buildAdapters(){
         ArrayAdapter<String>[] adapters = new ArrayAdapter[6];
-        int resourceListIndex = 0;
-        List<String> breedOptions = getBreedOptions();
-        List<String> colorOptions = getColorOptions();
-        List<String> sexOptions = getSexOptions();
-        List<String> names = getAllHorseNames();
-        List<String> stallNumbers = getStallNumbers();
-        List<String> ownerNames = getOwnerNames();
+        List<List<String>> allOptions = buildAllOptions();
+        setAdapterOptions(adapters, allOptions);
+        return adapters;
+    }
+    private List<List<String>> buildAllOptions(){
+        List<String> breedOptions = application.getLimitedBreedOptions();
+        List<String> colorOptions = application.getLimitedColorOptions();
+        List<String> sexOptions = application.getLimitedSexOptions();
+        List<String> names = application.getLimitedNameOptions();
+        List<String> stallNumbers = application.getLimitedStalls();
+        List<String> ownerNames = application.getLimitedOwners();
         List<List<String>> options = new ArrayList<List<String>>();
-
         options.add(breedOptions);
         options.add(colorOptions);
         options.add(sexOptions);
         options.add(stallNumbers);
         options.add(names);
         options.add(ownerNames);
-
+        sortAdapterOptions(options);
+        sortStalls(options.get(3));
+        addAnyValueToEachAdapter(options);
+        return options;
+    }
+    private void addAnyValueToEachAdapter(List<List<String>> options){
         for (List<String> eachList: options){
             eachList.add("<Any>");
-            sortList(eachList);
-            String[] values = eachList.toArray(new String[eachList.size()]);
-            ArrayAdapter<String> stringAdapter = new ArrayAdapter<String>(getContext(), R.layout.custom_spinner_item_2, eachList);
-            stringAdapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
-            adapters[resourceListIndex] = stringAdapter;
-            resourceListIndex++;
         }
-        return adapters;
     }
-    private List<String> getColorOptions(){
-        List<String> options = new ArrayList<>();
-        for(Horse horse: horses){
-            String color = horse.getColor();
-            if (!options.contains(color)){
-                options.add(color);
-            }
+    private void sortAdapterOptions(List<List<String>> options){
+        for (List<String> strings: options){
+            sortStrings(strings);
         }
-        return options;
     }
-    private List<String> getSexOptions(){
-        List<String> options = new ArrayList<>();
-        for (Horse horse: horses){
-            String sex = horse.getSex();
-            if(!options.contains(sex)){
-                options.add(sex);
-            }
-        }
-        return options;
-    }
-
-    private List<String> getBreedOptions(){
-        List<String> options = new ArrayList<>();
-        for (Horse horse: horses){
-            String breed = horse.getBreed();
-            if (!options.contains(breed)){
-                options.add(horse.getBreed());
-            }
-        }
-        return options;
-    }
-
-    private List<String> sortList(List<String> list){
+    private List<String> sortStrings(List<String> list){
         Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
@@ -159,28 +142,33 @@ public class SearchTab extends MyFragment {
         });
         return list;
     }
-    private List<String> getAllHorseNames(){
-        List<String> names = new ArrayList<String>();
-        for(Horse horse: horses){
-            names.add(horse.getName());
-        }
-        return names;
+    private void sortStalls(List<String> stalls){
+        Collections.sort(stalls, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int itemA = Integer.parseInt(o1);
+                int itemB = Integer.parseInt(o2);
+                if (Integer.valueOf(o1) < Integer.valueOf(o2)){
+                    return -1;
+                }
+                return 1;
+            }
+        });
     }
-    private List<String> getStallNumbers(){
-        List<String> stalls = new ArrayList<String>();
-        for (Horse horse: horses){
-            stalls.add(horse.getStallNumber());
+
+    private void setAdapterOptions(ArrayAdapter<String>[] adapters, List<List<String>> options){
+        int adapterIndex = 0;
+        for(List<String> eachList: options){
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item_2, eachList);
+            adapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
+            adapters[adapterIndex] = adapter;
+            adapterIndex++;
         }
-        return stalls;
     }
-    private List<String> getOwnerNames(){
-        List<String> ownerNames = new ArrayList<String>();
-        for(User owner: owners){
-            ownerNames.add(owner.getFirstName() + " " + owner.getLastName());
-        }
-        return ownerNames;
-    }
-    private void setInitialValues(){
+
+
+
+    private void setInitialSpinnerValuesToAny(){
         setSpinnerValue(breedSpinner, "<Any>");
         setSpinnerValue(colorSpinner, "<Any>");
         setSpinnerValue(sexSpinner, "<Any>");
@@ -189,12 +177,11 @@ public class SearchTab extends MyFragment {
         setSpinnerValue(ownerSpinner, "<Any>");
     }
     private void setSpinnerValue(Spinner spinner, String input){
-        int index = getIndex(spinner, input);
+        int index = getSpinnerOptionIndex(spinner, input);
         spinner.setSelection(index);
     }
-    private int getIndex(Spinner spinner, String value){
+    private int getSpinnerOptionIndex(Spinner spinner, String value){
         int index = 0;
-
         for (int i=0;i<spinner.getCount();i++){
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(value)){
                 index = i;
@@ -203,13 +190,10 @@ public class SearchTab extends MyFragment {
         }
         return index;
     }
-    private void setButtonListener(){
+    private void setSearchButtonListener(){
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //get spinner values
-                //set search parameters
-                //go to next list with results
                 List<Horse> results = new ArrayList<Horse>();
                 results.addAll(horses);
                 String breedInput = getSelection(breedSpinner);
@@ -219,82 +203,61 @@ public class SearchTab extends MyFragment {
                 String nameInput = getSelection(nameSpinner);
                 String ownerInput = getSelection(ownerSpinner);
 
+
+
                 if (!breedInput.matches("<Any>")){
-                    //limit results by breed
-                    List<Horse> newResults = new ArrayList<Horse>();
-                    newResults.addAll(results);
-                    for(Horse horse: results){
-                        if (!horse.getBreed().matches(breedInput)){
-                            newResults.remove(horse);
-                        }
-                    }
-                    results = newResults;
+                    results = filterHorseList(results, "breed", breedInput);
                 }
                 if (!colorInput.matches("<Any>")){
-                    List<Horse> newResults = new ArrayList<Horse>();
-                    newResults.addAll(results);
-                    for (Horse horse: results){
-                        if (!horse.getColor().matches(colorInput)){
-                            newResults.remove(horse);
-                        }
-                    }
-                    results = newResults;
+                    results = filterHorseList(results, "color", colorInput);
                 }
                 if (!sexInput.matches("<Any>")){
-                    List<Horse> newResults = new ArrayList<Horse>();
-                    newResults.addAll(results);
-                    for (Horse horse: results){
-                        if (!horse.getSex().matches(sexInput)){
-                            newResults.remove(horse);
-                        }
-                    }
-                    results = newResults;
+                    results = filterHorseList(results, "sex", sexInput);
                 }
                 if (!stallInput.matches("<Any>")){
-                    List<Horse> newResults = new ArrayList<Horse>();
-                    newResults.addAll(results);
-                    for (Horse horse: results){
-                        if (!horse.getStallNumber().matches(stallInput)){
-                            newResults.remove(horse);
-                        }
-                    }
-                    results = newResults;
+                    results = filterHorseList(results, "stall", stallInput);
                 }
                 if (!nameInput.matches("<Any>")){
-                    List<Horse> newResults = new ArrayList<Horse>();
-                    newResults.addAll(results);
-                    for (Horse horse:results){
-                        if (!horse.getName().matches(nameInput)){
-                            newResults.remove(horse);
-                        }
-                    }
-                    results = newResults;
+                    results = filterHorseList(results, "name", nameInput);
                 }
 
                 if (!ownerInput.matches("<Any>")){
-                    List<User> ownerResult = new ArrayList<User>();
-                    ownerResult.addAll(owners);
-                    List<String> userID = new ArrayList<String>();
-                    for(User user: ownerResult){
-                        if(user.getFirstName().equals(ownerInput)){
-                            userID.add(user.key());
-                        }
-                    }
-
-                    List<Horse> newResults = new ArrayList<Horse>();
-                    newResults.addAll(results);
-                    for (Horse horse: results){
-                        for(int i = 0; i<userID.size(); i++){
-                            if (!horse.getOwner().matches(userID.get(i))) {
-                                newResults.remove(horse);
-                            }
-                        }
-                    }
-                    results = newResults;
+                    results = filterHorseList(results, "owner", ownerInput);
                 }
                 goToSearchResults(results);
             }
         });
+    }
+    private List<Horse> filterHorseList(List<Horse> results, String field, String expectedValue){
+        List<Horse> newResults = new ArrayList<Horse>();
+        for(Horse horse: results){
+            String currentHorseValue;
+            switch (field){
+                case "breed":
+                    currentHorseValue = horse.getBreed();
+                    break;
+                case "color":
+                    currentHorseValue = horse.getColor();
+                    break;
+                case "sex":
+                    currentHorseValue = horse.getSex();
+                    break;
+                case "stall":
+                    currentHorseValue = horse.getStallNumber();
+                    break;
+                case "name":
+                    currentHorseValue = horse.getName();
+                    break;
+                default:
+                    User user = application.getUser(horse.getOwner());
+                    currentHorseValue = user.getFirstName() + " " + user.getLastName();
+                    break;
+            }
+            if (currentHorseValue.matches(expectedValue)){
+                newResults.add(horse);
+            }
+        }
+        return newResults;
     }
 
     private String getSelection(Spinner spinner){
@@ -303,18 +266,18 @@ public class SearchTab extends MyFragment {
     private void goToSearchResults(List<Horse> results){
         if (results.size() == 0){
             showDialog("No Results Found", "");
+            results = new ArrayList<Horse>();
+            displayResults(results);
 
         }else{
-            //go the next view with those necessary search results!
             Collections.sort(results, new Comparator<Horse>() {
                 @Override
                 public int compare(Horse o1, Horse o2) {
                     return o1.compareTo(o2);
                 }
             });
-            user = (User) getUser();
-            permissions = (List<Permission>) getPermissions();
-            showHorses(results);
+
+            displayResults(results);
         }
     }
     private void showDialog(String title, String text){
@@ -330,8 +293,7 @@ public class SearchTab extends MyFragment {
         alertDialog.show();
     }
 
-    private void showHorses(List<Horse> results){
-        //display them in the horse view!
+    private void displayResults(List<Horse> results){
         HorseListAdapter adapter = new HorseListAdapter(getActivity().getApplicationContext(), results);
         displayedHorses.setAdapter(adapter);
         addOnClickListener(results);
@@ -341,18 +303,12 @@ public class SearchTab extends MyFragment {
         displayedHorses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //get the selected horse
                 Horse horse = results.get(position);
                 ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) results;
-                Log.e("onItemClick: ", Integer.toString(selectedHorseList.size()));
-                Context context = getContext();
-                //go to next view
-
-                Intent i = new Intent(getContext().getApplicationContext(), EditableHorse.class);
-                i.putExtra("horseList", selectedHorseList);
+                Intent i = new Intent(getContext().getApplicationContext(), HorseTabs.class);
+                i.putExtra("horses", selectedHorseList);
                 i.putExtra("horse", horse);
-                i.putExtra("userID", application.getUser().key());
-                startActivityForResult(i,0);
+                startActivity(i);
             }
         });
     }

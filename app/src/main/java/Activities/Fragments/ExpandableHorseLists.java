@@ -3,6 +3,7 @@ package Activities.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,9 @@ import Activities.EditableHorse;
 import Application.MyApplication;
 import DataControllers.Horse;
 import DataControllers.Permission;
+import ListAdapters.MyHorsesExpandableListAdapter;
 
-public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChildClickListener {
+public class ExpandableHorseLists extends Fragment implements ExpandableListView.OnChildClickListener {
 
     List<Horse> horses;
     List<Horse> myHorses;
@@ -34,27 +36,24 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
     MyHorsesExpandableListAdapter adapter;
 
 
-    public MyHorsesTab() {
-        horses=new ArrayList<Horse>();
-    }
+    public ExpandableHorseLists() {}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.tab__my_horses, container, false);
     }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        this.application = super.application;
+        application = (MyApplication) getActivity().getApplication();
+        initializeHorseLists();
         horses  = application.getAllHorses();
-        myHorses = filterMyHorses();
-        sharedHorses = filterSharedHorses();
+        myHorses = getMyHorses();
+        sharedHorses = getSharedHorses();
         allHorseLists = new ArrayList<List<Horse>>();
         allHorseLists.add(myHorses);
         allHorseLists.add(sharedHorses);
@@ -72,6 +71,9 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         horseLists.setOnChildClickListener(this);
 
     }
+    private void initializeHorseLists(){
+
+    }
     private List<Horse> sortList(List<Horse> list){
         Collections.sort(list, new Comparator<Horse>() {
             @Override
@@ -81,7 +83,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         });
         return list;
     }
-    private List<Horse> filterMyHorses(){
+    private List<Horse> getMyHorses(){
         String key = application.getUser().key();
         List<Horse> myHorses = new ArrayList<Horse>();
         for (Horse horse: horses){
@@ -91,7 +93,7 @@ public class MyHorsesTab extends MyFragment implements ExpandableListView.OnChil
         }
         return myHorses;
     }
-    private List<Horse> filterSharedHorses(){
+    private List<Horse> getSharedHorses(){
         //get all permissions
         String key = application.getUser().key();
         List<Horse> permissions = new ArrayList<Horse>();

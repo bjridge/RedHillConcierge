@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-public class TodayTab extends MyFragment {
+public class TodayTab extends Fragment {
 
     public TodayTab() {
         // Required empty public constructor
