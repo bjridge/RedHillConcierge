@@ -160,7 +160,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         pictureLabel = (TextView) findViewById(R.id.lblPicture);
 
     }
-
     private void checkUser(){
         String loggedInUser = application.getUser().key();
 

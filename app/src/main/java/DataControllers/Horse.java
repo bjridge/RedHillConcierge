@@ -33,7 +33,6 @@ public class Horse extends DatabaseObject{
             return 1;
         }
     }
-
     public String getWaterAmount(){return waterAmount;}
 
     public void setWaterAmount(String waterAmount){this.waterAmount = waterAmount;}
