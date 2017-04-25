@@ -21,7 +21,8 @@ public class Horse extends DatabaseObject{
     private String inOutNight = "1111111";
     private String permittedRiders=" ";
     private String dateChangesMade="0";
-
+    private String waterAmount = " ";
+    private String hayAmount = " ";
 
     public int compareTo(@NonNull Horse another) {
         if (stallNumber == another.stallNumber) {
@@ -32,6 +33,14 @@ public class Horse extends DatabaseObject{
             return 1;
         }
     }
+
+    public String getWaterAmount(){return waterAmount;}
+
+    public void setWaterAmount(String waterAmount){this.waterAmount = waterAmount;}
+
+    public String getHayAmount(){return hayAmount;}
+
+    public void setHayAmount(String hayAmount){this.hayAmount = hayAmount;}
 
     public String getChangesMade(){return dateChangesMade;}
 

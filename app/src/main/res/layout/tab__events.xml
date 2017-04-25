@@ -5,13 +5,15 @@
 
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
     <WebView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="bottom"
-        android:id="@+id/workers_cal">
+        android:id="@+id/workers_cal"
+        android:foregroundGravity="center_vertical">
     </WebView>
 
 

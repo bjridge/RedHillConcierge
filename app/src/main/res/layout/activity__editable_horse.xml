@@ -139,7 +139,7 @@
                 style="@style/MyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Grain Amount"
+                android:text="Grain Amt."
                 android:textSize="20dp" />
 
             <EditText
@@ -185,7 +185,37 @@
                 style="@style/MyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Medical"
+                android:text="Hay Amt."
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/hay_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Water Amt."
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/water_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp" />
+
+            <TextView
+                style="@style/MyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Supplements"
                 android:textSize="20dp" />
 
             <EditText
@@ -202,7 +232,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
-                android:layout_row="8"
+                android:layout_row="10"
                 android:text="Stall Number"
                 android:textSize="20dp" />
 
@@ -211,7 +241,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_row="8"
+                android:layout_row="10"
                 android:ems="10"
                 android:textSize="20dp" />
 
@@ -221,7 +251,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
-                android:layout_row="10"
+                android:layout_row="11"
                 android:text="Other Notes"
                 android:textSize="20dp" />
 
@@ -230,7 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_row="10"
+                android:layout_row="11"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:textSize="20dp" />
@@ -241,7 +271,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_marginTop="5dp"
-                android:layout_row="11"
+                android:layout_row="12"
                 android:text="Rider(s)"
                 android:textSize="20dp" />
 
@@ -250,7 +280,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:layout_row="11"
+                android:layout_row="12"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:textSize="20dp" />
@@ -263,7 +293,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:layout_marginTop="5dp"
-                android:layout_row="12"
+                android:layout_row="13"
                 android:text="owner"
                 android:textSize="20dp" />
 
@@ -275,7 +305,7 @@
                 android:layout_column="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:layout_row="12"
+                android:layout_row="13"
                 android:clickable="true"
                 android:onClick="buttonClicked"
                 android:text="Some Owner Name >"
@@ -291,7 +321,7 @@
                 android:layout_gravity="left"
                 android:layout_margin="5dp"
                 android:layout_columnSpan="2"
-                android:layout_row="13"
+                android:layout_row="14"
                 android:columnCount="8">
                 <TextView
                     style="@style/MyText"
@@ -489,7 +519,7 @@
                 android:layout_columnSpan="2"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:layout_row="14"
+                android:layout_row="15"
                 android:clickable="true"
                 android:onClick="buttonClicked"
                 android:text="Save Changes"
@@ -502,7 +532,7 @@
                     android:layout_column="1"
                     android:layout_gravity="left"
                     android:layout_margin="5dp"
-                    android:layout_row="15"
+                    android:layout_row="16"
                     android:columnCount="3">
 
                     <android.support.design.widget.CheckableImageButton

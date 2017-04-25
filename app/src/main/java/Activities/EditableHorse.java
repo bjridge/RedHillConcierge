@@ -20,13 +20,9 @@ import android.widget.Button;
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.text.SimpleDateFormat;
 
 import Application.MyApplication;
@@ -56,6 +52,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
     TextView pictureURL;
     ImageView horsePicture;
     EditText permittedRiders;
+    EditText hayAmount;
+    EditText waterAmount;
 
     //checkboxes
     GridLayout gridInOut;
@@ -84,7 +82,6 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         setInitialHorseValues();
         setStallButtons();
         checkPermissions();
-
     }
     private void initializeViewObjects(){
         gridInOut = (GridLayout) findViewById(R.id.grid_in_out);
@@ -107,6 +104,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         pictureURL = (TextView) findViewById(R.id.horse_photo_input);
         horsePicture = (ImageView) findViewById(R.id.horse_image);
         permittedRiders = (EditText) findViewById(R.id.permitted_riders);
+        waterAmount = (EditText) findViewById(R.id.water_amount);
+        hayAmount = (EditText) findViewById(R.id.hay_amount);
 
         //check boxes
         day.add((CheckBox) findViewById(R.id.Day_Sun));
@@ -212,6 +211,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         pictureURL.setText(horse.getPicture());
         setImage(pictureURL.toString());
         permittedRiders.setText(horse.getPermittedRiders());
+        hayAmount.setText(horse.getHayAmount());
+        waterAmount.setText(horse.getWaterAmount());
 
         //checkboxes
         String[] dayList = (horse.getInOutDay().toString().split(""));
@@ -268,6 +269,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             notes.setEnabled(false);;
             pictureURL.setVisibility(View.GONE);
             gridInOut.setEnabled(false);
+            waterAmount.setEnabled(false);
+            hayAmount.setEnabled(false);
             for(int i = 0; i<day.size();i++){
                 day.get(i).setEnabled(false);
                 night.get(i).setEnabled(false);
@@ -275,7 +278,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             permittedRiders.setEnabled(false);
         }else{
             //make fields not editable
-            nameInput.setEnabled(true);
+            nameInput.setEnabled(false);
             grainAmountInput.setEnabled(true);
             stallInput.setEnabled(true);
             breedSpinner.setEnabled(true);
@@ -288,6 +291,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
             notes.setEnabled(true);
             pictureURL.setVisibility(View.VISIBLE);
             gridInOut.setEnabled(true);
+            waterAmount.setEnabled(true);
+            hayAmount.setEnabled(true);
             for(int i = 0; i<day.size();i++){
                 day.get(i).setEnabled(true);
                 night.get(i).setEnabled(true);
@@ -308,9 +313,9 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         horse = newHorseData;
         application.updateHorse(horse);
 
-        showDialog("Saved Changes", "All changes to feed, medication, & staying In/Out will take place next day. Please contact todays worker if need changed sooner.", false);
+        showDialog("Saved Changes", "All changes to feed, supplements, & stall will take place next day. Please contact todays worker if changes need to be sooner.", false);
     }
-    public Horse getInputHorseValues(){
+    public Horse getInputHorseValues() {
         Horse newHorseData = new Horse(horse.key());
 
         newHorseData.setBreed(breedSpinner.getSelectedItem().toString());
@@ -326,6 +331,8 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         newHorseData.setStallNumber(stallInput.getText().toString());
         newHorseData.setPicture(pictureURL.getText().toString());
         newHorseData.setPermittedRiders(permittedRiders.getText().toString());
+        newHorseData.setHayAmount(hayAmount.getText().toString());
+        newHorseData.setWaterAmount(waterAmount.getText().toString());
 
         Calendar date = Calendar.getInstance();
         SimpleDateFormat dfN = new SimpleDateFormat("yyMdd");

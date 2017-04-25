@@ -184,8 +184,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             pictureInput.setVisibility(View.VISIBLE);
             pictureLabel.setVisibility(View.VISIBLE);
             userTypeSpinner.setEnabled(true);
-            firstNameInput.setEnabled(true);
-            lastNameInput.setEnabled(true);
+            firstNameInput.setEnabled(false);
+            lastNameInput.setEnabled(false);
             phoneOneInput.setEnabled(true);
             phoneTwoInput.setEnabled(true);
             streetAddressInput.setEnabled(true);
