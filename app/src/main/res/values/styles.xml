@@ -95,7 +95,6 @@
     </style>
     <style name="MyText">
         <item name="android:textSize">18sp</item>
-
     </style>
 
 

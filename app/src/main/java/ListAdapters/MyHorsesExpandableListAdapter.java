@@ -10,7 +10,10 @@ import android.widget.BaseExpandableListAdapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,25 +71,26 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
         horseSex.setText(horse.getSex());
 
-        //we only need to display those dates if the user is an admin or employee or owns the horse
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat readableFormat = new SimpleDateFormat("MMM-dd");
+        String lastDateString = horse.getLastRevisionDate();
+        Date lastRevisionDate;
+        try{
+            lastRevisionDate = format.parse(lastDateString);
+            Calendar c = Calendar.getInstance();
+            Long difference = c.getTimeInMillis() - lastRevisionDate.getTime();
+            Long days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
+            if (days <= 2){
+                    dateChangesMade.setText("Changed: " + readableFormat.format(lastRevisionDate));
+                    dateChangesMade.setVisibility(View.VISIBLE);
 
-        Calendar date = Calendar.getInstance();
-        SimpleDateFormat dfN = new SimpleDateFormat("yyMdd");
-        String todayNum = dfN.format(date.getTime());
-
-        SimpleDateFormat df = new SimpleDateFormat("MMM-dd");
-        String today = df.format(date.getTime());
-
-
-        if((Integer.parseInt(horse.getLastRevisionDate())+2)> Integer.parseInt(todayNum)){
-            dateChangesMade.setText("Changed: " + today);
-            dateChangesMade.setVisibility(View.VISIBLE);
-        }else{
-            dateChangesMade.setVisibility(View.GONE);
+            }
+        }catch (Exception e){
         }
 
         return convertView;
     }
+
 
     @Override
     public int getChildrenCount(int listPosition) {

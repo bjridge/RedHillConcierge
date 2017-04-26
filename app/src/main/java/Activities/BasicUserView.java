@@ -73,6 +73,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
 
+
+
     }
     private void initializeResources(){
         application = (MyApplication) this.getApplication();
@@ -122,6 +124,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             switch(purpose){
                 case "getAllHorses":
                     getAllHorsesFromTask(task.getResult());
+                    for (Horse horse: application.getAllHorses()){
+                        horse.setLastRevisionDate("2017-04-25");
+                        data.updateObject(horse);
+                    }
                     break;
                 case "getAllPermissions":
                     getAllPermissionsFromTask(task.getResult());

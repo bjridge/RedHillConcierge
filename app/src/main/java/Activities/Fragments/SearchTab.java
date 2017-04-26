@@ -122,7 +122,7 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
     }
     private void addAnyValueToEachAdapter(List<List<String>> options){
         for (List<String> eachList: options){
-            eachList.add("<Any>");
+            eachList.add("Any");
         }
     }
     private void sortAdapterOptions(List<List<String>> options){
@@ -166,12 +166,12 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
 
 
     private void setInitialSpinnerValuesToAny(){
-        setSpinnerValue(breedSpinner, "<Any>");
-        setSpinnerValue(colorSpinner, "<Any>");
-        setSpinnerValue(sexSpinner, "<Any>");
-        setSpinnerValue(stallSpinner, "<Any>");
-        setSpinnerValue(nameSpinner, "<Any>");
-        setSpinnerValue(ownerSpinner, "<Any>");
+        setSpinnerValue(breedSpinner, "Any");
+        setSpinnerValue(colorSpinner, "Any");
+        setSpinnerValue(sexSpinner, "Any");
+        setSpinnerValue(stallSpinner, "Any");
+        setSpinnerValue(nameSpinner, "Any");
+        setSpinnerValue(ownerSpinner, "Any");
     }
     private void setSpinnerValue(Spinner spinner, String input){
         int index = getSpinnerOptionIndex(spinner, input);
@@ -205,23 +205,23 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
         String nameInput = getSelection(nameSpinner);
         String ownerInput = getSelection(ownerSpinner);
 
-        if (!breedInput.matches("<Any>")){
+        if (!breedInput.matches("Any")){
             results = filterHorseList(results, "breed", breedInput);
         }
-        if (!colorInput.matches("<Any>")){
+        if (!colorInput.matches("Any")){
             results = filterHorseList(results, "color", colorInput);
         }
-        if (!sexInput.matches("<Any>")){
+        if (!sexInput.matches("Any")){
             results = filterHorseList(results, "sex", sexInput);
         }
-        if (!stallInput.matches("<Any>")){
+        if (!stallInput.matches("Any")){
             results = filterHorseList(results, "stall", stallInput);
         }
-        if (!nameInput.matches("<Any>")){
+        if (!nameInput.matches("Any")){
             results = filterHorseList(results, "name", nameInput);
         }
 
-        if (!ownerInput.matches("<Any>")){
+        if (!ownerInput.matches("Any")){
             results = filterHorseList(results, "owner", ownerInput);
         }
         goToSearchResults(results);
