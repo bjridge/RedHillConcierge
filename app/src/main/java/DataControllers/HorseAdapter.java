@@ -40,7 +40,6 @@ public class HorseAdapter extends ArrayAdapter {
             holder.nameInput = (TextView) row.findViewById(R.id.horse_name);
             holder.stallInput = (TextView) row.findViewById(R.id.horse_stall);
             holder.descriptionInput = (TextView) row.findViewById(R.id.horse_description);
-            holder.sexInput = (TextView) row.findViewById(R.id.horse_sex);
 
             row.setTag(holder);
         }else{

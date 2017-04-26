@@ -63,13 +63,11 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         TextView horseName = (TextView) convertView.findViewById(R.id.horse_name);
         TextView horseStall = (TextView) convertView.findViewById(R.id.horse_stall);
         TextView horseDescription = (TextView) convertView.findViewById(R.id.horse_description);
-        TextView horseSex = (TextView) convertView.findViewById(R.id.horse_sex);
         TextView dateChangesMade = (TextView) convertView.findViewById(R.id.changes_made);
 
         horseName.setText(horse.getName());
         horseStall.setText("Stall: " + horse.getStallNumber());
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
-        horseSex.setText(horse.getSex());
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat readableFormat = new SimpleDateFormat("MMM-dd");
@@ -84,6 +82,8 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
                     dateChangesMade.setText("Changed: " + readableFormat.format(lastRevisionDate));
                     dateChangesMade.setVisibility(View.VISIBLE);
 
+            }else{
+                dateChangesMade.setVisibility(View.GONE);
             }
         }catch (Exception e){
         }

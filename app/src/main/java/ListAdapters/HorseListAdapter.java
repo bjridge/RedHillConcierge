@@ -59,12 +59,10 @@ public class HorseListAdapter extends BaseAdapter {
         TextView horseName = (TextView) convertView.findViewById(R.id.horse_name);
         TextView horseStall = (TextView) convertView.findViewById(R.id.horse_stall);
         TextView horseDescription = (TextView) convertView.findViewById(R.id.horse_description);
-        TextView horseSex = (TextView) convertView.findViewById(R.id.horse_sex);
 
         horseName.setText(horse.getName());
         horseStall.setText("Stall " + horse.getStallNumber());
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
-        horseSex.setText(horse.getSex());
 
         return convertView;
     }

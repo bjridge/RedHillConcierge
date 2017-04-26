@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
@@ -298,6 +299,8 @@ public class HorseDetails extends Fragment {
             }
             DataFetcher df = new DataFetcher();
             df.updateObject(inputValues);
+            Toast.makeText(getActivity(), "Horse updated",
+                    Toast.LENGTH_LONG).show();
             horse = inputValues;
             initializeAllFieldValues();
             application.updateHorse(horse);
