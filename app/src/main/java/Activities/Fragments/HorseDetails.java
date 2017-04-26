@@ -290,7 +290,9 @@ public class HorseDetails extends Fragment {
         //if any changes occured
         if (!inputValues.equals(horse)){
             if (restrictedChangeOccurred(inputValues)){
-                showDialog("Warning!", "Some changes might take up to 24 hours to take effect.  Please call an employee in the case of an emergency.", false);
+                if (!userIsAdministrator()){
+                    showDialog("Warning!", "Some changes might take up to 24 hours to take effect.  Please call an employee in the case of an emergency.", false);
+                }
             }
             if (ownerChangeOccurred(inputValues) && !userIsAdministrator()){
                 showDialog("Admin Permission Required", "A request has been sent to an administrator to change the owner of this horse.", false);

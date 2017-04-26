@@ -9,8 +9,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|right"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_save_white" />
@@ -31,7 +31,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:background="@color/body"
                 android:orientation="vertical">
 
@@ -93,19 +92,19 @@
                 <TextView
                     android:id="@+id/textView11"
                     style="@style/MyText"
+                    android:textColor="@color/emphasis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="0"
                     android:text="Inside During Daytime"
-
+                    android:layout_margin="5dp"
                     android:textSize="20dp" />
 
                 <GridLayout
                     android:id="@+id/grid_in_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp">
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         style="@style/MyText"
@@ -184,6 +183,9 @@
                         android:layout_column="1"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -193,6 +195,10 @@
                         android:layout_column="2"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -202,6 +208,10 @@
                         android:layout_column="3"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -211,6 +221,10 @@
                         android:layout_column="4"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -220,6 +234,10 @@
                         android:layout_column="5"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -229,6 +247,10 @@
                         android:layout_column="6"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:scaleY="1.4"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -238,6 +260,9 @@
                         android:layout_column="7"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="1"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
                         android:textSize="20dp" />
 
 
@@ -246,11 +271,13 @@
                 <TextView
                     android:id="@+id/textView12"
                     style="@style/MyText"
+                    android:textColor="@color/emphasis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="0"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_row="12"
                     android:text="Inside During Night Time"
                     android:textSize="20dp" />
@@ -260,7 +287,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_row="13"
@@ -351,6 +377,9 @@
                         android:layout_column="1"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -360,6 +389,10 @@
                         android:layout_column="2"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -369,6 +402,10 @@
                         android:layout_column="3"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -378,6 +415,10 @@
                         android:layout_column="4"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -387,6 +428,10 @@
                         android:layout_column="5"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -396,6 +441,10 @@
                         android:layout_column="6"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:textSize="20dp" />
 
                     <CheckBox
@@ -405,6 +454,9 @@
                         android:layout_column="7"
                         android:layout_gravity="center_horizontal"
                         android:layout_row="2"
+                        android:scaleX="1.4"
+                        android:scaleY="1.4"
+                        android:layout_marginLeft="5dp"
                         android:textSize="20dp" />
                 </GridLayout>
 

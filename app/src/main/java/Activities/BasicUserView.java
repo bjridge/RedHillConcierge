@@ -49,13 +49,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ProgressBar loadingIcon;
-    private ImageButton administratorButton;
     private ImageButton profileButton;
     private ImageButton cameraButton;
 
     int[] drawables;
     Fragment[] fragments;
-    MyTask listener;
 
 //logic resources
     MyApplication application;
@@ -220,7 +218,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         initializeButtonActions();
         initializeTabNavigation();
         initializeTabMonitor();
-        configureAdministrativePrivelages();
         stopLoadingIcon();
     }
 
@@ -235,7 +232,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         layout = (CoordinatorLayout) findViewById(R.id.layout);
         loadingIcon = (ProgressBar) findViewById(R.id.loading_icon);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        administratorButton = (ImageButton) findViewById(R.id.administrator_button);
         cameraButton = (ImageButton) findViewById(R.id.camera_button);
         profileButton = (ImageButton) findViewById(R.id.profile_button);
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -250,14 +246,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private void initializeButtonActions(){
         cameraButton.setOnClickListener(this);
         profileButton.setOnClickListener(this);
-        administratorButton.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.administrator_button:
-               // navigateTo(AdministratorView.class);
-                break;
             case R.id.profile_button:
                 Context context = getApplicationContext();
                 Intent i = new Intent(context, Profile.class);
@@ -287,9 +279,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             default:
                 //do nothing
                 break;
-        }
-        if (v.getId() == R.id.administrator_button){
-            switchToAdministratorView();
         }
     }
     private void initializeTabNavigation(){
@@ -371,19 +360,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
 
-
-
-    private void configureAdministrativePrivelages(){
-//        if (!user.getType().matches("Administrator")){
-//            administratorButton.setVisibility(GONE);
-//        }
-    }
-
-    private void disableAdminPrivelages(){
-        administratorButton.setVisibility(GONE);
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
@@ -410,14 +386,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
 
 
-
-
-    private void switchToAdministratorView(){
-        Context context = getApplicationContext();
-        Intent intent = new Intent(context, AdministratorView.class);
-        startActivityForResult(intent, 1);
-
-    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

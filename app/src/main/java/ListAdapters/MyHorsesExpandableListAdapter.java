@@ -1,11 +1,15 @@
 package ListAdapters;
 
+import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
 
-/**
- * Created by BradleyRidge on 3/30/2017.
- */
+import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,15 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-
-import Application.MyApplication;
 import DataControllers.Horse;
 
 public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
@@ -45,12 +40,10 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
     public Object getChild(int listPosition, int expandedListPosition) {
         return this.horseLists.get(listPosition).get(expandedListPosition);
     }
-
     @Override
     public long getChildId(int listPosition, int expandedListPosition) {
         return expandedListPosition;
     }
-
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -90,28 +83,22 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
 
         return convertView;
     }
-
-
     @Override
     public int getChildrenCount(int listPosition) {
         return this.horseLists.get(listPosition).size();
     }
-
     @Override
     public Object getGroup(int listPosition) {
         return this.horseListTitles.get(listPosition);
     }
-
     @Override
     public int getGroupCount() {
         return this.horseLists.size();
     }
-
     @Override
     public long getGroupId(int listPosition) {
         return listPosition;
     }
-
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {

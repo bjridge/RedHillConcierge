@@ -70,14 +70,5 @@
         app:srcCompat="@drawable/ic_profile_white"
         android:background="@drawable/my__ripple_light_accent"
         />
-    <ImageButton
-        android:id="@+id/administrator_button"
-        android:layout_width="@dimen/toolbar_height"
-        android:layout_height="@dimen/toolbar_height"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="@dimen/toolbar_height"
-        app:srcCompat="@drawable/ic_administrator_white"
-        android:background="@drawable/my__ripple_light_accent"
-        />
 
 </android.support.design.widget.CoordinatorLayout>
