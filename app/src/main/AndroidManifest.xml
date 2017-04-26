@@ -9,6 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         >
+        <uses-permission android:name="android.permission.CALL_PHONE" />
+
         <activity android:name="Activities.Authentication" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +27,10 @@
             ></activity>
         <activity android:name="Activities.EditableHorse"
             android:noHistory="true" android:screenOrientation="portrait"/>
-        <activity android:name="Activities.HorseTabs" android:screenOrientation="portrait"></activity>
+        <activity android:name="Activities.HorseTabs" android:screenOrientation="portrait">
+            <uses-permission android:name="android.permission.CALL_PHONE" />
+
+        </activity>
 
     </application>
 </manifest>

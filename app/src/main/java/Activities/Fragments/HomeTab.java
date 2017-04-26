@@ -1,6 +1,5 @@
 package Activities.Fragments;
 
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,12 +10,7 @@ import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import Application.MyApplication;
-import DataControllers.Contact;
-import DataControllers.User;
 
 public class HomeTab extends Fragment {
 

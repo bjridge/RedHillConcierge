@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/headerTwo">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/headerOne"
+        android:elevation="8dp"
+        >
+
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/horse_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="top|center_horizontal"
         android:background="@color/headerOne"
         android:clickable="true"
-        app:tabMinWidth="85dp"
+        android:elevation="8dp"
+
+        app:tabGravity="center"
         app:tabMode="scrollable"
-        app:tabTextColor="@color/white"
         app:tabSelectedTextColor="@color/accent"
-        app:tabGravity="fill"></android.support.design.widget.TabLayout>
+        app:tabTextColor="@color/white"></android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/horse_tabs_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         android:background="@color/headerTwo">
 
     </android.support.v4.view.ViewPager>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

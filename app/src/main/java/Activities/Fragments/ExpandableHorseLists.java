@@ -17,18 +17,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import Activities.EditableHorse;
 import Activities.HorseTabs;
 import Application.MyApplication;
 import DataControllers.Horse;
-import DataControllers.Permission;
 import ListAdapters.MyHorsesExpandableListAdapter;
 
 public class ExpandableHorseLists extends Fragment implements ExpandableListView.OnChildClickListener {
 
     List<Horse> horses;
     List<Horse> myHorses;
-    List<Horse> sharedHorses;
     List<List<Horse>> allHorseLists;
 
     MyApplication application;
@@ -45,35 +42,33 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tab__my_horses, container, false);
+        return inflater.inflate(R.layout.tab__expandable_horse_lists, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         application = (MyApplication) getActivity().getApplication();
         initializeHorseLists();
+        initializeAdapter();
+
+        horseLists.setOnChildClickListener(this);
+    }
+    private void initializeHorseLists(){
         horses  = application.getAllHorses();
         myHorses = getMyHorses();
-        sharedHorses = getSharedHorses();
         allHorseLists = new ArrayList<List<Horse>>();
         allHorseLists.add(myHorses);
-        allHorseLists.add(sharedHorses);
         allHorseLists.add(horses);
-
         for(List<Horse> horseList: allHorseLists){
             sortList(horseList);
         }
-
-
-        horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
-        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, sharedHorses, horses);
-        horseLists.setAdapter(adapter);
-
-        horseLists.setOnChildClickListener(this);
-
     }
-    private void initializeHorseLists(){
-
+    private void initializeAdapter(){
+        horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
+        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, horses);
+        horseLists.setAdapter(adapter);
+        horseLists.expandGroup(0);
+        horseLists.expandGroup(1);
     }
     private List<Horse> sortList(List<Horse> list){
         Collections.sort(list, new Comparator<Horse>() {
@@ -94,44 +89,25 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
         }
         return myHorses;
     }
-    private List<Horse> getSharedHorses(){
-        //get all permissions
-        String key = application.getUser().key();
-        List<Horse> permissions = new ArrayList<Horse>();
-        for (Permission permission: application.getAllPermissions()){
-            if (permission.getUser().matches(key)){
-                Horse horse = findHorse(permission.getHorse());
-                permissions.add(horse);
-            }
-        }
-        return permissions;
-    }
 
 
-    private Horse findHorse(String key){
-        for (Horse horse: horses){
-            if (horse.key().matches(key)){
-                return horse;
-            }
-        }
-        return null;
-    }
-    private void log(String message){
-        Log.v("IMPORTANT", message);
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //get lists again
+        initializeHorseLists();
+        initializeAdapter();
     }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Horse selectedHorse = allHorseLists.get(groupPosition).get(childPosition);
         Context context = getContext();
-        Log.v("IMPORTANT", "TRIED TO CLICK ON A HORSE " + selectedHorse.getName());
 
         ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) allHorseLists.get(groupPosition);
         Intent i = new Intent(context, HorseTabs.class);
-//
-        if (selectedHorseList == null){
-            Log.v("IMPORTANT", "the selected list is null");
-        }
+
         i.putExtra("horses", selectedHorseList);
         i.putExtra("horse", selectedHorse);
         startActivity(i);

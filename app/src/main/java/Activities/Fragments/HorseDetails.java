@@ -1,19 +1,18 @@
 package Activities.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,15 +20,13 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-import Activities.HorseTabs;
 import Application.MyApplication;
+import DataControllers.Change;
+import DataControllers.DataFetcher;
 import DataControllers.Horse;
 import DataControllers.User;
-import ListAdapters.HorseListAdapter;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
@@ -43,19 +40,22 @@ public class HorseDetails extends Fragment {
 
     ImageView image;
     TextView nameInput;
+    Spinner ownerSpinner;
     TextView imageInput;
+    ImageView callButton;
     FloatingActionButton saveButton;
     Spinner breedSpinner;
     Spinner colorSpinner;
     Spinner sexSpinner;
     TextView grainAmountInput;
     Spinner grainTypeSpinner;
+    TextView waterAmountInput;
     Spinner hayTypeSpinner;
+    TextView hayAmountInput;
     TextView medicalInput;
     TextView stallInput;
     TextView otherInput;
     TextView riderInput;
-    TextView ownerButton;
     List<CheckBox> day;
     List<CheckBox> night;
 
@@ -85,7 +85,7 @@ public class HorseDetails extends Fragment {
         initializeSpinnerOptions();
         initializeAllFieldValues();
         disableFieldsIfUserDoesNotHavePriveleges();
-        Log.v("ONE", "LOADED TEH FRAGMENTS");
+        initializeCallButton();
         getActivity().getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
     }
@@ -93,18 +93,21 @@ public class HorseDetails extends Fragment {
         image = (ImageView) v.findViewById(R.id.horse_detail_picture);
         nameInput = (TextView) v.findViewById(R.id.horse_detail_name);
         imageInput = (TextView) v.findViewById(R.id.horse_detail_picture_url);
+        callButton = (ImageView) v.findViewById(R.id.horse_detail_call_owner);
+        ownerSpinner = (Spinner) v.findViewById(R.id.horse_detail_owner_spinner);
         saveButton = (FloatingActionButton) v.findViewById(R.id.horse_detail_save_button);
         breedSpinner = (Spinner) v.findViewById(R.id.horse_detail_breed_spinner);
         colorSpinner = (Spinner) v.findViewById(R.id.horse_detail_color_spinner);
         sexSpinner = (Spinner) v.findViewById(R.id.horse_detail_sex_spinner);
         grainAmountInput = (TextView) v.findViewById(R.id.horse_detail_grain_amount);
         grainTypeSpinner = (Spinner) v.findViewById(R.id.horse_detail_grain_type_spinner);
+        waterAmountInput = (TextView) v.findViewById(R.id.horse_detail_water_amount);
         hayTypeSpinner = (Spinner) v.findViewById(R.id.horse_detail_hay_spinner);
+        hayAmountInput = (TextView) v.findViewById(R.id.horse_detail_hay_amount);
         medicalInput = (TextView) v.findViewById(R.id.horse_detail_medical);
         stallInput = (TextView) v.findViewById(R.id.horse_detail_stall_number);
         otherInput = (TextView) v.findViewById(R.id.horse_detail_notes);
         riderInput = (TextView) v.findViewById(R.id.horse_detail_rider);
-        ownerButton = (TextView) v.findViewById(R.id.horse_detail_owner_button);
         day = new ArrayList<CheckBox>(7);
         night = new ArrayList<CheckBox>(7);
         day.add((CheckBox) v.findViewById(R.id.Day_Sun));
@@ -125,15 +128,19 @@ public class HorseDetails extends Fragment {
     private void initializeSpinnerOptions(){
         List<ArrayAdapter<String>> adapters = getAdaptersForAllSpinners();
         setSpinnerAdapters(adapters);
+
     }
     private List<ArrayAdapter<String>> getAdaptersForAllSpinners(){
         List<List<String>> allOptions = getOptionsForAllFields();
-        List<ArrayAdapter<String>> adapters = new ArrayList<>(5);
+        List<ArrayAdapter<String>> adapters = new ArrayList<>(6);
         for (List<String> options: allOptions){
-            ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, options);
+            ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item_2, options);
             newAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             adapters.add(newAdapter);
         }
+        ArrayAdapter<String> ownerSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item, allOptions.get(5));
+        ownerSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapters.set(5, ownerSpinnerAdapter);
         return adapters;
     }
     private List<List<String>> getOptionsForAllFields(){
@@ -143,35 +150,48 @@ public class HorseDetails extends Fragment {
         resources.add(application.getGrainOptions());
         resources.add(application.getHayOptions());
         resources.add(application.getSexOptions());
+        resources.add(application.getAllUserNames());
         return resources;
     }
     private void setSpinnerAdapters(List<ArrayAdapter<String>> adapters){
         breedSpinner.setAdapter(adapters.get(0));
         colorSpinner.setAdapter(adapters.get(1));
-        sexSpinner.setAdapter(adapters.get(2));
-        grainTypeSpinner.setAdapter(adapters.get(3));
-        hayTypeSpinner.setAdapter(adapters.get(4));
+        sexSpinner.setAdapter(adapters.get(4));
+        grainTypeSpinner.setAdapter(adapters.get(2));
+        hayTypeSpinner.setAdapter(adapters.get(3));
+        ownerSpinner.setAdapter(adapters.get(5));
     }
     private void initializeAllFieldValues(){
         if(!horse.getPicture().equals(null)){
             try {
                 Picasso.with(getActivity().getApplicationContext()).load(horse.getPicture()).into(image);
-            }catch (Exception e){}
+            }catch (Exception e){
+                imageInput.setText("Paste Image URL");
             }
+        }else{
+            imageInput.setText("paste image url here");
+        }
         setSpinnerValue(breedSpinner, horse.getBreed());
         setSpinnerValue(colorSpinner, horse.getColor());
         setSpinnerValue(grainTypeSpinner, horse.getGrainType());
         setSpinnerValue(hayTypeSpinner, horse.getHay());
         setSpinnerValue(sexSpinner, horse.getSex());
+        User owner = application.getUser(horse.getOwner());
+        String ownerName = owner.getFirstName() + " " + owner.getLastName();
+        setSpinnerValue(ownerSpinner, ownerName);
         nameInput.setText(horse.getName());
-        imageInput.setText(horse.getPicture());
+        if (horse.getPicture().matches(" ") || horse.getPicture().matches("")){
+            imageInput.setText("Paste Image URL");
+        }else{
+            imageInput.setText(horse.getPicture());
+        }
         grainAmountInput.setText(horse.getGrainAmount());
         medicalInput.setText(horse.getMedicationInstructions());
         stallInput.setText(horse.getStallNumber());
         otherInput.setText(horse.getNotes());
         riderInput.setText(horse.getPermittedRiders());
-        User owner = application.getUser(horse.getOwner());
-        ownerButton.setText(owner.getFirstName() + " " + owner.getLastName());
+        waterAmountInput.setText(horse.getWaterAmount());
+        hayAmountInput.setText(horse.getHayAmount());
         //check boxes
         int index = 0;
         for (char status: horse.getInOutDay().toCharArray()){
@@ -205,7 +225,7 @@ public class HorseDetails extends Fragment {
 
     private void disableFieldsIfUserDoesNotHavePriveleges(){
         if (userIsOwnerOfHorse() || userIsAdministrator() || userIsEmployee()){
-            //leave everything enabled
+            initializeSaveButtonAction();
         }else{
             disableEditableFields();
         }
@@ -231,6 +251,7 @@ public class HorseDetails extends Fragment {
         return false;
     }
     private void disableEditableFields(){
+        ownerSpinner.setEnabled(false);
         nameInput.setEnabled(false);
         imageInput.setEnabled(false);
         saveButton.setVisibility(v.GONE);
@@ -244,6 +265,8 @@ public class HorseDetails extends Fragment {
         stallInput.setEnabled(false);
         otherInput.setEnabled(false);
         riderInput.setEnabled(false);
+        hayAmountInput.setEnabled(false);
+        waterAmountInput.setEnabled(false);
         for (CheckBox cb: day){
             cb.setEnabled(false);
         }
@@ -251,5 +274,153 @@ public class HorseDetails extends Fragment {
             cb.setEnabled(false);
         }
 
+    }
+    private void initializeSaveButtonAction(){
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            saveHorse();
+            }
+        });
+    }
+
+    private void saveHorse(){
+        Horse inputValues = getInputValues();
+        //if any changes occured
+        if (!inputValues.equals(horse)){
+            if (restrictedChangeOccurred(inputValues)){
+                showDialog("Warning!", "Some changes might take up to 24 hours to take effect.  Please call an employee in the case of an emergency.", false);
+            }
+            if (ownerChangeOccurred(inputValues) && !userIsAdministrator()){
+                showDialog("Admin Permission Required", "A request has been sent to an administrator to change the owner of this horse.", false);
+                buildChange(inputValues.getOwner());
+                inputValues.setOwner(horse.getOwner());
+            }
+            DataFetcher df = new DataFetcher();
+            df.updateObject(inputValues);
+            horse = inputValues;
+            initializeAllFieldValues();
+            application.updateHorse(horse);
+        }
+    }
+    private Horse getInputValues(){
+        Horse h = new Horse();
+        //non-changing values
+        h.setKey(horse.key());
+        h.setLastRevisionDate(horse.getLastRevisionDate());
+        //non-critical values
+        h.setBreed(breedSpinner.getSelectedItem().toString());
+        h.setPicture(imageInput.getText().toString());
+        h.setColor(colorSpinner.getSelectedItem().toString());
+        h.setName(nameInput.getText().toString());
+        h.setNotes(otherInput.getText().toString());
+        h.setSex(sexSpinner.getSelectedItem().toString());
+        h.setPermittedRiders(riderInput.getText().toString());
+        //critical values
+        h.setGrainAmount(grainAmountInput.getText().toString());
+        h.setGrainType(grainTypeSpinner.getSelectedItem().toString());
+        h.setHay(hayTypeSpinner.getSelectedItem().toString());
+        h.setMedicationInstructions(medicalInput.getText().toString());
+        h.setStallNumber(stallInput.getText().toString());
+
+        String dayInOut = "";
+        for (CheckBox cb: day){
+            if (cb.isChecked()){
+                dayInOut += "1";
+            }else{
+                dayInOut += "0";
+            }
+        }
+        String nightInOut = "";
+        for (CheckBox cb: night){
+            if (cb.isChecked()){
+                nightInOut += "1";
+            }else{
+                nightInOut += "0";
+            }
+        }
+        h.setInOutDay(dayInOut);
+        h.setInOutNight(nightInOut);
+        h.setWaterAmount(waterAmountInput.getText().toString());
+        h.setHayAmount(hayAmountInput.getText().toString());
+
+        //administrative changes
+        h.setOwner(application.getUserByName(ownerSpinner.getSelectedItem().toString()));
+        return h;
+    }
+    private boolean restrictedChangeOccurred(Horse h){
+        h.setGrainAmount(grainAmountInput.getText().toString());
+        h.setGrainType(grainTypeSpinner.getSelectedItem().toString());
+        h.setHay(hayTypeSpinner.getSelectedItem().toString());
+        h.setMedicationInstructions(medicalInput.getText().toString());
+        h.setStallNumber(stallInput.getText().toString());
+        if (!h.getGrainAmount().matches(horse.getGrainAmount())){
+            return true;
+        }
+        if (!h.getGrainType().matches(horse.getGrainType())){
+            return true;
+        }
+        if (!h.getHay().matches(horse.getHay())){
+            return true;
+        }
+        if (!h.getHayAmount().matches(horse.getHayAmount())){
+            return true;
+        }
+        if (!h.getMedicationInstructions().matches(horse.getMedicationInstructions())){
+            return true;
+        }
+        if (!h.getStallNumber().matches(horse.getStallNumber())){
+            return true;
+        }
+        if (!h.getInOutDay().matches(horse.getInOutDay())){
+            return true;
+        }
+        if (!h.getInOutNight().matches(horse.getInOutNight())){
+            return true;
+        }
+        return false;
+    }
+    private boolean ownerChangeOccurred(Horse h){
+        if (!h.getOwner().matches(horse.getOwner())){
+            return true;
+        }
+        return false;
+    }
+
+
+    private void buildChange(String newOwner){
+        Change change = new Change();
+        change.setKey(application.getUser().key() + "-horse-owner");
+        change.setOldValue(horse.getOwner());
+        change.setNewValue(newOwner);
+        change.setObjectKey(horse.key());
+        DataFetcher dc = new DataFetcher();
+        dc.updateObject(change);
+    }
+    private void showDialog(String title, String text, final boolean shouldExit){
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(text);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (shouldExit){
+                            //goToMainActivity();
+                        }
+                    }
+                });
+        alertDialog.show();
+    }
+    private void initializeCallButton(){
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+
+                intent.setData(Uri.parse("tel:" + application.getContact(horse.getOwner()).getPrimaryPhone()));
+                getContext().startActivity(intent);
+            }
+        });
     }
 }

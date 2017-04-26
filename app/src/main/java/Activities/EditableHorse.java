@@ -335,7 +335,7 @@ public class EditableHorse extends AppCompatActivity implements View.OnClickList
         Calendar date = Calendar.getInstance();
         SimpleDateFormat dfN = new SimpleDateFormat("yyMdd");
         String todayNum = dfN.format(date.getTime());
-        newHorseData.setChangesMade(todayNum);
+        newHorseData.setLastRevisionDate(todayNum);
 
         Integer[] dayList = {0,0,0,0,0,0,0};
         Integer[] nightList = {0,0,0,0,0,0,0};

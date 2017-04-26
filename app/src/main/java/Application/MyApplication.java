@@ -57,7 +57,7 @@ public class MyApplication extends Application {
         }
         return sexOptions;
     }
-    public List<String> getLimitedNameOptions(){
+    public List<String> getLimitedHorseNameOptions(){
         List<String> nameOptions = new ArrayList<String>();
         for (Horse horse: allHorses){
             if(!nameOptions.contains(horse.getName())){
@@ -86,9 +86,25 @@ public class MyApplication extends Application {
         }
         return options;
     }
+    public String getUserByName(String input){
+        for (User user: allUsers){
+            String name = user.getFirstName() + " " + user.getLastName();
+            if (name.matches(input)){
+                return user.key();
+            }
+        }
+        return allUsers.get(0).key();
+    }
     //do this with names
     //name them "getLimited____Options"
 
+    public List<String> getAllUserNames(){
+        List<String> names = new ArrayList<String>();
+        for(User user: allUsers){
+            names.add(user.getFirstName() + " " + user.getLastName());
+        }
+        return names;
+    }
     public void updateUser(User inputUser){
         if (user.key().matches(inputUser.key())){
             user = inputUser;

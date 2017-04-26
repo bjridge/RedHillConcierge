@@ -1,6 +1,5 @@
 package ListAdapters;
 
-import android.content.Intent;
 import android.util.Log;
 import android.widget.BaseExpandableListAdapter;
 
@@ -11,18 +10,16 @@ import android.widget.BaseExpandableListAdapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
+import Application.MyApplication;
 import DataControllers.Horse;
 
 public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
@@ -31,19 +28,14 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
     List<List<Horse>> horseLists;
     List<String> horseListTitles;
 
-    public MyHorsesExpandableListAdapter(Context context, List<Horse> myHorses, List<Horse> sharedHorses, List<Horse> horses) {
+    public MyHorsesExpandableListAdapter(Context context, List<Horse> sharedHorses, List<Horse> horses) {
         this.context = context;
-        log("adapter: initializing");
         this.horseLists = new ArrayList<List<Horse>>();
-        horseLists.add(myHorses);
         horseLists.add(sharedHorses);
         horseLists.add(horses);
-        log("adapter: horse lists added");
         this.horseListTitles = new ArrayList<String>();
         horseListTitles.add("My Horses");
-        horseListTitles.add("Horses Shared With Me");
         horseListTitles.add("All Horses");
-        log("adapter: horse list titles added");
     }
 
     @Override
@@ -76,6 +68,8 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         horseDescription.setText(horse.getColor() + " " + horse.getBreed());
         horseSex.setText(horse.getSex());
 
+        //we only need to display those dates if the user is an admin or employee or owns the horse
+
         Calendar date = Calendar.getInstance();
         SimpleDateFormat dfN = new SimpleDateFormat("yyMdd");
         String todayNum = dfN.format(date.getTime());
@@ -83,7 +77,8 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         SimpleDateFormat df = new SimpleDateFormat("MMM-dd");
         String today = df.format(date.getTime());
 
-        if((Integer.parseInt(horse.getChangesMade())+2)> Integer.parseInt(todayNum)){
+
+        if((Integer.parseInt(horse.getLastRevisionDate())+2)> Integer.parseInt(todayNum)){
             dateChangesMade.setText("Changed: " + today);
             dateChangesMade.setVisibility(View.VISIBLE);
         }else{

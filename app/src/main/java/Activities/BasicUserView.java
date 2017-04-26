@@ -266,7 +266,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             case R.id.camera_button:
                 Horse test = new Horse();
                 test.setBreed("Friesian");
-                test.setChangesMade("17423");
+                test.setLastRevisionDate("17423");
                 test.setColor("Black");
                 test.setGrainType("2");
                 test.setGrainType("Soybeans");
@@ -309,8 +309,8 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private Fragment[] initializeFragments(){
         fragments = new Fragment[4];
         fragments[0] = new HomeTab();
-        fragments[1] = new SearchTab();
-        fragments[2] = new ExpandableHorseLists();
+        fragments[1] = new ExpandableHorseLists();
+        fragments[2] = new SearchTab();
         fragments[3] = new EventsTab();
         return fragments;
     }
@@ -341,7 +341,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                         title = "Search";
                         break;
                     case 3:
-                        title = "Today";
+                        title = "Calendar";
                         break;
                     default:
                         title = "Calendar";

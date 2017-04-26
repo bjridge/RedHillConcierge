@@ -1,6 +1,5 @@
 package Activities.Fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import Activities.EditableHorse;
 import Activities.HorseTabs;
 import Application.MyApplication;
 import DataControllers.Horse;
@@ -31,7 +28,7 @@ import DataControllers.Permission;
 import DataControllers.User;
 import ListAdapters.HorseListAdapter;
 
-public class SearchTab extends Fragment {
+public class SearchTab extends Fragment implements AdapterView.OnItemSelectedListener {
 
     MyApplication application;
 
@@ -72,7 +69,7 @@ public class SearchTab extends Fragment {
         initializeDataResources();
         initializeSpinnerValues();
         setInitialSpinnerValuesToAny();
-        setSearchButtonListener();
+        initializeSearchListener();
         //addOnClickListener();
     }
     private void initializeViewResources(){
@@ -108,7 +105,7 @@ public class SearchTab extends Fragment {
         List<String> breedOptions = application.getLimitedBreedOptions();
         List<String> colorOptions = application.getLimitedColorOptions();
         List<String> sexOptions = application.getLimitedSexOptions();
-        List<String> names = application.getLimitedNameOptions();
+        List<String> names = application.getLimitedHorseNameOptions();
         List<String> stallNumbers = application.getLimitedStalls();
         List<String> ownerNames = application.getLimitedOwners();
         List<List<String>> options = new ArrayList<List<String>>();
@@ -159,7 +156,7 @@ public class SearchTab extends Fragment {
     private void setAdapterOptions(ArrayAdapter<String>[] adapters, List<List<String>> options){
         int adapterIndex = 0;
         for(List<String> eachList: options){
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item_2, eachList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, eachList);
             adapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
             adapters[adapterIndex] = adapter;
             adapterIndex++;
@@ -190,43 +187,44 @@ public class SearchTab extends Fragment {
         }
         return index;
     }
-    private void setSearchButtonListener(){
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Horse> results = new ArrayList<Horse>();
-                results.addAll(horses);
-                String breedInput = getSelection(breedSpinner);
-                String colorInput = getSelection(colorSpinner);
-                String sexInput = getSelection(sexSpinner);
-                String stallInput = getSelection(stallSpinner);
-                String nameInput = getSelection(nameSpinner);
-                String ownerInput = getSelection(ownerSpinner);
+    private void initializeSearchListener(){
+        nameSpinner.setOnItemSelectedListener(this);
+        sexSpinner.setOnItemSelectedListener(this);
+        stallSpinner.setOnItemSelectedListener(this);
+        breedSpinner.setOnItemSelectedListener(this);
+        colorSpinner.setOnItemSelectedListener(this);
+        ownerSpinner.setOnItemSelectedListener(this);
+    }
+    private void getResults(){
+        List<Horse> results = new ArrayList<Horse>();
+        results.addAll(horses);
+        String breedInput = getSelection(breedSpinner);
+        String colorInput = getSelection(colorSpinner);
+        String sexInput = getSelection(sexSpinner);
+        String stallInput = getSelection(stallSpinner);
+        String nameInput = getSelection(nameSpinner);
+        String ownerInput = getSelection(ownerSpinner);
 
+        if (!breedInput.matches("<Any>")){
+            results = filterHorseList(results, "breed", breedInput);
+        }
+        if (!colorInput.matches("<Any>")){
+            results = filterHorseList(results, "color", colorInput);
+        }
+        if (!sexInput.matches("<Any>")){
+            results = filterHorseList(results, "sex", sexInput);
+        }
+        if (!stallInput.matches("<Any>")){
+            results = filterHorseList(results, "stall", stallInput);
+        }
+        if (!nameInput.matches("<Any>")){
+            results = filterHorseList(results, "name", nameInput);
+        }
 
-
-                if (!breedInput.matches("<Any>")){
-                    results = filterHorseList(results, "breed", breedInput);
-                }
-                if (!colorInput.matches("<Any>")){
-                    results = filterHorseList(results, "color", colorInput);
-                }
-                if (!sexInput.matches("<Any>")){
-                    results = filterHorseList(results, "sex", sexInput);
-                }
-                if (!stallInput.matches("<Any>")){
-                    results = filterHorseList(results, "stall", stallInput);
-                }
-                if (!nameInput.matches("<Any>")){
-                    results = filterHorseList(results, "name", nameInput);
-                }
-
-                if (!ownerInput.matches("<Any>")){
-                    results = filterHorseList(results, "owner", ownerInput);
-                }
-                goToSearchResults(results);
-            }
-        });
+        if (!ownerInput.matches("<Any>")){
+            results = filterHorseList(results, "owner", ownerInput);
+        }
+        goToSearchResults(results);
     }
     private List<Horse> filterHorseList(List<Horse> results, String field, String expectedValue){
         List<Horse> newResults = new ArrayList<Horse>();
@@ -259,16 +257,13 @@ public class SearchTab extends Fragment {
         }
         return newResults;
     }
-
     private String getSelection(Spinner spinner){
         return spinner.getSelectedItem().toString();
     }
     private void goToSearchResults(List<Horse> results){
         if (results.size() == 0){
-            showDialog("No Results Found", "");
             results = new ArrayList<Horse>();
             displayResults(results);
-
         }else{
             Collections.sort(results, new Comparator<Horse>() {
                 @Override
@@ -280,22 +275,10 @@ public class SearchTab extends Fragment {
             displayResults(results);
         }
     }
-    private void showDialog(String title, String text){
-        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(text);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-
     private void displayResults(List<Horse> results){
         HorseListAdapter adapter = new HorseListAdapter(getActivity().getApplicationContext(), results);
         displayedHorses.setAdapter(adapter);
+        displayedHorses.setEmptyView(getView().findViewById(R.id.empty));
         addOnClickListener(results);
     }
 
@@ -311,5 +294,24 @@ public class SearchTab extends Fragment {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        getResults();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        initializeDataResources();
+        initializeSpinnerValues();
+        setInitialSpinnerValuesToAny();
+        initializeSearchListener();
     }
 }
