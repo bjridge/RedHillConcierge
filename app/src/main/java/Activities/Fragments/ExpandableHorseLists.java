@@ -183,6 +183,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
         newHorse.setName(name);
         DataFetcher df = new DataFetcher();
         df.addHorse(newHorse);
+        application.addHorse(newHorse);
         buildToast("Horse (" + name + ") has been added to Red Hill Concierge");
     }
     private void buildToast(String message){

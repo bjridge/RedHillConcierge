@@ -60,6 +60,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 //logic resources
     MyApplication application;
     DataFetcher data;
+    boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +144,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             goToNewUserFlow();
         }else{
             application.setUser(resultingUser);
+            if (resultingUser.getType().matches("Administrator")){
+                isAdmin = true;
+            }else{
+                isAdmin = false;
+            }
             loadData();
         }
     }
@@ -201,11 +207,12 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbarTitle = (TextView) findViewById(R.id.main_toolbar_title);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        drawables = new int[4];
+        drawables = new int[5];
         drawables[0] = R.drawable.selector__home_tab_icon;
         drawables[1] = R.drawable.selector__my_horses_tab_icon;
         drawables[2] = R.drawable.selector__search_tab_icon;
         drawables[3] = R.drawable.selector__events_tab_icon;
+        drawables[4] = R.drawable.selector__users_tab_icon;
     }
     private void initializeButtonActions(){
         cameraButton.setOnClickListener(this);
@@ -227,11 +234,15 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         viewPager.setAdapter(adapter);
     }
     private Fragment[] initializeFragments(){
-        fragments = new Fragment[4];
+        int tabCount = isAdmin ? 5 : 4;
+        fragments = new Fragment[tabCount];
         fragments[0] = new HomeTab();
         fragments[1] = new ExpandableHorseLists();
         fragments[2] = new SearchTab();
         fragments[3] = new EventsTab();
+        if(isAdmin){
+            fragments[4] = new UsersTab();
+        }
         return fragments;
     }
     private void initializeTabMonitor(){
@@ -255,7 +266,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                         title = "Calendar";
                         break;
                     default:
-                        title = "Calendar";
+                        title = "(Admin) Users View";
                         break;
                 }
                 toolbarTitle.setText(title);
@@ -274,16 +285,15 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         });
     }
     private void addTabIcons(){
-
-        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
+        int tabCount = isAdmin ? 5 : 4;
+        for (int tabNumber = 0; tabNumber < tabCount; tabNumber++){
             View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
-
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
             tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
         }
     }
     private void addAdminFunctionalities(){
-        //adapter.addFragment(new SearchTab());
+        adapter.addFragment(new UsersTab(), "Users");
     }
     private void stopLoadingIcon(){
         loadingIcon.setVisibility(View.GONE);

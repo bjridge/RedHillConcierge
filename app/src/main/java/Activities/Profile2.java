@@ -75,6 +75,9 @@ public class Profile2 extends AppCompatActivity {
                 setupCallFunction();
                 logOutButton.setVisibility(View.GONE);
             }else{
+                if (userDoesNotOwnProfile()){
+                    logOutButton.setVisibility(View.GONE);
+                }
                 setupSaveFunction();
                 if (!userDoesNotOwnProfile()){
                     setupLogOutFunction();
@@ -257,19 +260,12 @@ public class Profile2 extends AppCompatActivity {
         User inputUserValues = getInputUserValues();
         if (!user.equals(inputUserValues)){
             resetRestrictedChanges(inputUserValues);
-            setUserValues();
         }
         commitChanges(inputUserValues);
+        setUserValues();
     }
     private void resetRestrictedChanges(User inputUserValues){
-        if (user.getType() == null){
-            alert("null type on input");
-            return;
-        }
         if (!user.getType().matches(inputUserValues.getType())){
-            if (inputUserValues.getType() == null){
-                Log.v("IMPORTANT5", "USER TYPE IS NULL");
-            }
             if (userIsNotAdministrator()){
                 showDialog("Admin Permission Required", "A request has been sent to an admin to update your user type.", false);
                 inputUserValues.setType(user.getType());
@@ -302,7 +298,10 @@ public class Profile2 extends AppCompatActivity {
     }
     private void commitChanges(User newUserValues){
         this.user = newUserValues;
-        application.setUser(user);
+        if (!userDoesNotOwnProfile()){
+            application.setUser(user);
+        }
+        application.updateUser(user);
         DataFetcher data = new DataFetcher();
         data.updateObject(newUserValues);
         if (isNewUser){

@@ -132,6 +132,20 @@ public class MyApplication extends Application {
         return user;
     }
 
+    public void updateUser(User updateUser){
+        int index = 0;
+        for (User eachUser: allUsers){
+            if (user.key().matches(updateUser.key())){
+                allUsers.set(index, updateUser);
+                return;
+            }
+            index++;
+        }
+    }
+    public void addHorse(Horse horse){
+        allHorses.add(horse);
+    }
+
 
 
     public boolean loadingIsComplete(){

@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
@@ -25,6 +27,7 @@ public class HorseTabs extends AppCompatActivity {
     ViewPager horseTabs;
     TabLayout tabs;
     HorseTabPagerAdapter tabAdapter;
+    ImageButton backButton;
 
     List<Horse> horses;
     Horse selectedHorse;
@@ -48,7 +51,13 @@ public class HorseTabs extends AppCompatActivity {
                 new HorseTabPagerAdapter(getSupportFragmentManager());
         horseTabs.setAdapter(tabAdapter);
         tabs.setupWithViewPager(horseTabs);
-
+        backButton = (ImageButton) findViewById(R.id.horse_tabs_back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     private void getResourcesFromIntent(){
         MyApplication application = (MyApplication) getApplication();

@@ -40,6 +40,10 @@ public class UsersTab extends Fragment implements AdapterView.OnItemClickListene
         super.onActivityCreated(savedInstanceState);
         application = (MyApplication) getActivity().getApplication();
         displayedUsers = (ListView) getView().findViewById(R.id.users_list);
+        initializeValues();
+
+    }
+    private void initializeValues() {
         names = application.getAllUserNames();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, names);
         displayedUsers.setAdapter(adapter);
@@ -54,5 +58,11 @@ public class UsersTab extends Fragment implements AdapterView.OnItemClickListene
         Intent i = new Intent(getContext(), Profile2.class);
         i.putExtra("user", user);
         startActivity(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initializeValues();
     }
 }
