@@ -15,6 +15,7 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import java.util.List;
 
 import Activities.Profile;
+import Activities.Profile2;
 import Application.MyApplication;
 import DataControllers.User;
 
@@ -51,7 +52,7 @@ public class UsersTab extends Fragment implements AdapterView.OnItemClickListene
         String name = names.get(position);
         String userID = application.getUserByName(name);
         User user = application.getUser(userID);
-        Intent i = new Intent(getContext(), Profile.class);
+        Intent i = new Intent(getContext(), Profile2.class);
         i.putExtra("user", user);
         startActivity(i);
     }

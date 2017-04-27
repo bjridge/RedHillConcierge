@@ -248,7 +248,7 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
                     break;
                 default:
                     User user = application.getUser(horse.getOwner());
-                    currentHorseValue = user.getFirstName() + " " + user.getLastName();
+                    currentHorseValue = user.getName();
                     break;
             }
             if (currentHorseValue.matches(expectedValue)){

@@ -169,10 +169,8 @@ public class HorseDetails extends Fragment {
             try {
                 Picasso.with(getActivity().getApplicationContext()).load(horse.getPicture()).into(image);
             }catch (Exception e){
-                imageInput.setText("Paste Image URL");
             }
         }else{
-            imageInput.setText("paste image url here");
         }
         setSpinnerValue(breedSpinner, horse.getBreed());
         setSpinnerValue(colorSpinner, horse.getColor());
@@ -180,14 +178,12 @@ public class HorseDetails extends Fragment {
         setSpinnerValue(hayTypeSpinner, horse.getHay());
         setSpinnerValue(sexSpinner, horse.getSex());
         User owner = application.getUser(horse.getOwner());
-        String ownerName = owner.getFirstName() + " " + owner.getLastName();
+        String ownerName = owner.getName();
         setSpinnerValue(ownerSpinner, ownerName);
         nameInput.setText(horse.getName());
-        if (horse.getPicture().matches(" ") || horse.getPicture().matches("")){
-            imageInput.setText("Paste Image URL");
-        }else{
+
             imageInput.setText(horse.getPicture());
-        }
+
         grainAmountInput.setText(horse.getGrainAmount());
         medicalInput.setText(horse.getMedicationInstructions());
         stallInput.setText(horse.getStallNumber());
@@ -427,7 +423,7 @@ public class HorseDetails extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
 
-                intent.setData(Uri.parse("tel:" + application.getContact(horse.getOwner()).getPrimaryPhone()));
+                //intent.setData(Uri.parse("tel:" + application.getContact(horse.getOwner()).getPrimaryPhone()));
                 getContext().startActivity(intent);
             }
         });

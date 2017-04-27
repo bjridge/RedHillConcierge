@@ -32,7 +32,6 @@ import Activities.Fragments.ExpandableHorseLists;
 import Activities.Fragments.SearchTab;
 import Activities.Fragments.UsersTab;
 import Application.MyApplication;
-import DataControllers.Contact;
 import DataControllers.DataFetcher;
 import DataControllers.DatabaseObject;
 import DataControllers.Horse;
@@ -40,6 +39,7 @@ import DataControllers.Permission;
 import DataControllers.User;
 
 import static android.view.View.GONE;
+import static java.security.AccessController.getContext;
 
 public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,47 +65,39 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__basic_user);
         initializeResources();
-        loadData();
-
-
-
-
-
-
-
-
     }
     private void initializeResources(){
         application = (MyApplication) this.getApplication();
         data = new DataFetcher();
-    }
-    private void loadData(){
-        loadAllHorses();
-        loadAllPermissions();
-        loadAllResources();
-        loadAllContacts();
-        loadAllUsers();
+        Intent i = getIntent();
+        User partialUser = (User) i.getSerializableExtra("user");
+        application.setUser(partialUser);
+        loadUser();
     }
 
+
+
+
+    private void loadUser(){
+        Task<DatabaseObject> getUserTask = data.getObject("user", application.getUser().key());
+        MyTask fetchUserListener = new MyTask("getUser");
+        getUserTask.addOnCompleteListener(fetchUserListener);
+    }
+
+    private void loadData(){
+        loadAllHorses();
+        loadAllResources();
+        loadAllUsers();
+    }
     private void loadAllHorses(){
         Task<List<DatabaseObject>> getHorsesTask = data.getAll("horse");
         MyTask fetchHorsesListener = new MyTask("getAllHorses");
         getHorsesTask.addOnCompleteListener(fetchHorsesListener);
     }
-    private void loadAllPermissions(){
-        Task<List<DatabaseObject>> getPermissionsTask = data.getAll("permission");
-        MyTask fetchPermissionsListener = new MyTask("getAllPermissions");
-        getPermissionsTask.addOnCompleteListener(fetchPermissionsListener);
-    }
     private void loadAllResources(){
         Task<List<List<String>>> getResourcesTask = data.getResources();
         MyTask fetchResourcesListener = new MyTask("getAllResources");
         getResourcesTask.addOnCompleteListener(fetchResourcesListener);
-    }
-    private void loadAllContacts(){
-        Task<List<DatabaseObject>> getContactsTask = data.getAll("contact");
-        MyTask fetchAllContactsTask = new MyTask("getAllContacts");
-        getContactsTask.addOnCompleteListener(fetchAllContactsTask);
     }
     private void loadAllUsers(){
         Task<List<DatabaseObject>> getUsersTask = data.getAll("user");
@@ -121,25 +113,20 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         public void onComplete(@NonNull Task task){
             log("task completed: " + purpose);
             switch(purpose){
+                case "getUser":
+                    tryGetUserFromTask(task.getResult());
+                    break;
                 case "getAllHorses":
                     getAllHorsesFromTask(task.getResult());
-                    for (Horse horse: application.getAllHorses()){
-                        //horse.setLastRevisionDate("2017-04-22");
-                        //data.updateObject(horse);
-                    }
-                    break;
-                case "getAllPermissions":
-                    getAllPermissionsFromTask(task.getResult());
+//                    for(Horse horse: application.getAllHorses()){
+//                        horse.setPicture("");
+//                        data.updateObject(horse);
+//                    }
                     break;
                 case "getAllResources":
-                    log("get all resources completed");
                     getAllResourcesFromTask(task.getResult());
                     break;
-                case "getAllContacts":
-                    getAllContactsFromTask(task.getResult());
-                    break;
                 case "getAllUsers":
-                    log("called get all users");
                     getAllUsersFromTask(task.getResult());
                     break;
                 default:
@@ -147,6 +134,22 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             }
             checkForCompletion();
         }
+    }
+    private void tryGetUserFromTask(Object result){
+        User resultingUser = (User) result;
+        if (resultingUser == null){
+            Toast.makeText(application, "the user we got was null", Toast.LENGTH_SHORT).show();
+            goToNewUserFlow();
+        }else{
+            application.setUser(resultingUser);
+            loadData();
+        }
+    }
+    private void goToNewUserFlow(){
+        Intent i = new Intent(getApplicationContext(), Profile2.class);
+        i.putExtra("user", application.getUser());
+        i.putExtra("isNewUser", "true");
+        startActivityForResult(i, 0);
     }
     private void getAllHorsesFromTask(Object result){
         List<DatabaseObject> allHorseObjects  = (List<DatabaseObject>) result;
@@ -157,28 +160,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         }
         application.setAllHorses(newHorses);
     }
-    private void getAllPermissionsFromTask(Object result){
-        List<DatabaseObject> permissionObjects  = (List<DatabaseObject>) result;
-        List<Permission> permissions = new ArrayList<Permission>();
-        for (DatabaseObject permissionObject: permissionObjects){
-            Permission permission = (Permission) permissionObject;
-            permissions.add(permission);
-        }
-        application.setAllPermissions(permissions);
-    }
     private void getAllResourcesFromTask(Object result){
         List<List<String>> returnedResources = (List<List<String>>) result;
         log("about to set all resources");
         application.setResources(returnedResources);
-    }
-    private void getAllContactsFromTask(Object result){
-        List<DatabaseObject> contactObjects = (List<DatabaseObject>) result;
-        List<Contact> contacts = new ArrayList<Contact>();
-        for (DatabaseObject contactObject: contactObjects){
-            Contact contact = (Contact) contactObject;
-            contacts.add(contact);
-        }
-        application.setAllContacts(contacts);
     }
     private void getAllUsersFromTask(Object result){
         log("about to get users from results");
@@ -191,46 +176,19 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         }
        application.setAllUsers(users);
     }
-
     private void checkForCompletion(){
+        log("checking for completion");
         if (application.loadingIsComplete()){
+            completeInitialization();
             log("completed loading");
-            Contact contact = application.getContact(application.getUser().key());
-            if (contact == null){
-                //user does not exist; go to profile!
-                sendNewUserToProfile();
-            }else{
-                application.setContact(contact);
-                log("contact set");
-                User user = application.getUser(contact.key());
-                log("user gotten");
-                application.setUser(user);
-                completeInitialization();
-            }
         }
     }
-
-
-    private void sendNewUserToProfile(){
-        Intent intent = new Intent(getApplicationContext(), Profile.class);
-        intent.putExtra("user", application.getUser());
-        startActivityForResult(intent, 0);
-    }
-
-
     private void completeInitialization(){
         initializeViewObjects();
         initializeButtonActions();
         initializeTabNavigation();
         initializeTabMonitor();
         stopLoadingIcon();
-    }
-
-
-    private void navigateTo(Class destination){
-        Context context = getApplicationContext();
-        Intent i = new Intent(context, destination);
-        startActivityForResult(i, 1);
     }
 
     private void initializeViewObjects(){
@@ -259,7 +217,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                 Context context = getApplicationContext();
                 Intent i = new Intent(context, Profile.class);
                 i.putExtra("user", application.getUser());
-                i.putExtra("contact", application.getContact());
                 startActivityForResult(i, 1);
                 break;
             case R.id.camera_button:
@@ -304,20 +261,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
     private Fragment[] initializeFragments(){
         fragments = new Fragment[4];
-        fragments[0] = new UsersTab();
+        fragments[0] = new HomeTab();
         fragments[1] = new ExpandableHorseLists();
         fragments[2] = new SearchTab();
         fragments[3] = new EventsTab();
         return fragments;
-    }
-    private void addTabIcons(){
-
-        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
-            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
-
-            homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
-            tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
-        }
     }
     private void initializeTabMonitor(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -358,6 +306,16 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+    private void addTabIcons(){
+
+        for (int tabNumber = 0; tabNumber < 4; tabNumber++){
+            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
+
+            homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
+            tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
+        }
+    }
+
     private void stopLoadingIcon(){
         loadingIcon.setVisibility(View.GONE);
     }
@@ -370,15 +328,12 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         try {
             super.onActivityResult(requestCode, resultCode, data);
 
-                if (resultCode == 0){
-                    //profile view returning
-                    User returnedUser = (User) data.getSerializableExtra("user");
-                    Contact returnedContact = (Contact) data.getSerializableExtra("contact");
 
-//                    user = returnedUser;
-//                    contact = returnedContact;
+                if (resultCode == 0){
+                    //new user created
+                    loadData();
                 }else if (resultCode == 1){
-                    //horse detail view returning
+                    //old user returning
 
                 }
 
@@ -399,7 +354,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
             viewPager.setOffscreenPageLimit(4);
-
         }
 
         @Override

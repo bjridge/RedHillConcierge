@@ -186,34 +186,13 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
     private void goToApp(FirebaseUser user){
         Context context = getApplicationContext();
+        User appUser = new User();
+        appUser.setKey(user.getUid());
+        appUser.setName(user.getDisplayName());
+        appUser.setImage(user.getPhotoUrl().toString());
         Intent i = new Intent(context, BasicUserView.class);
-        User appUser = buildAppUser(user);
-        Contact appUserContact = buildAppUserContact(user);
-        MyApplication application = (MyApplication) this.getApplication();
-        application.setUser(appUser);
-        application.setContact(appUserContact);
+        i.putExtra("user", appUser);
         startActivity(i);
-    }
-    private User buildAppUser(FirebaseUser firebaseUser){
-        String userId = firebaseUser.getUid();
-        String firebaseName = firebaseUser.getDisplayName();
-        String[] firstAndLastName = firebaseName.split(" ");
-        String firstName = firstAndLastName[0];
-        String lastName = firstAndLastName[1];
-        User appUser = new User(userId);
-        appUser.setFirstName(firstName);
-        appUser.setLastName(lastName);
-        appUser.setType("incomplete");
-        return appUser;
-    }
-    private Contact buildAppUserContact(FirebaseUser firebaseUser){
-        String userId = firebaseUser.getUid();
-        String profilePictureUrl = firebaseUser.getPhotoUrl().toString();
-        String userName = firebaseUser.getDisplayName();
-        Contact contact = new Contact(userId);
-        contact.setPhoto(profilePictureUrl);
-        contact.setName(userName);
-        return contact;
     }
 
     @Override

@@ -2,9 +2,14 @@ package DataControllers;
 
 public class User extends DatabaseObject {
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String type;
+    private String address;
+    private String primaryPhone;
+    private String secondaryPhone;
+    private String image;
+
+
 
 
     public User(){
@@ -18,49 +23,63 @@ public class User extends DatabaseObject {
 
         User user = (User) o;
 
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null)
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (type != null ? !type.equals(user.type) : user.type != null) return false;
+        if (address != null ? !address.equals(user.address) : user.address != null) return false;
+        if (primaryPhone != null ? !primaryPhone.equals(user.primaryPhone) : user.primaryPhone != null)
             return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null)
+        if (secondaryPhone != null ? !secondaryPhone.equals(user.secondaryPhone) : user.secondaryPhone != null)
             return false;
-        return type != null ? type.equals(user.type) : user.type == null;
+        return image != null ? image.equals(user.image) : user.image == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (primaryPhone != null ? primaryPhone.hashCode() : 0);
+        result = 31 * result + (secondaryPhone != null ? secondaryPhone.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 
-    public User(String id){
-        setKey(id);
+    //automatically generated getters and setters
+    public String getName() {
+        return name;
     }
-
-
-    public String name(){
-        return firstName + " " + lastName;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public String getFirstName(){
-        return firstName;
-    }
-    public void setFirstName(String firstName){
-        this.firstName = firstName;
-    }
-    public String getLastName(){
-        return lastName;
-    }
-    public void setLastName(String lastName){
-        this.lastName = lastName;
-    }
-    public String getType(){
+    public String getType() {
         return type;
     }
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
-
-
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getPrimaryPhone() {
+        return primaryPhone;
+    }
+    public void setPrimaryPhone(String primaryPhone) {
+        this.primaryPhone = primaryPhone;
+    }
+    public String getSecondaryPhone() {
+        return secondaryPhone;
+    }
+    public void setSecondaryPhone(String secondaryPhone) {
+        this.secondaryPhone = secondaryPhone;
+    }
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

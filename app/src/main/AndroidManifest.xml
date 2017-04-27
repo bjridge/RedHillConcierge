@@ -21,12 +21,10 @@
         </activity>
         <activity android:name="Activities.BasicUserView" android:screenOrientation="portrait"
             />
-        <activity android:name="Activities.AdministratorView" android:screenOrientation="portrait"/>
+        <activity android:name="Activities.Profile2" android:screenOrientation="portrait"/>
         <activity android:name="Activities.Profile"
             android:windowSoftInputMode="stateHidden"
             ></activity>
-        <activity android:name="Activities.EditableHorse"
-            android:noHistory="true" android:screenOrientation="portrait"/>
         <activity android:name="Activities.HorseTabs" android:screenOrientation="portrait">
             <uses-permission android:name="android.permission.CALL_PHONE" />
 
