@@ -7,7 +7,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/add_horse_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="bottom|right"

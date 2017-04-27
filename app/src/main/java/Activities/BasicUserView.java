@@ -30,6 +30,7 @@ import Activities.Fragments.EventsTab;
 import Activities.Fragments.HomeTab;
 import Activities.Fragments.ExpandableHorseLists;
 import Activities.Fragments.SearchTab;
+import Activities.Fragments.UsersTab;
 import Application.MyApplication;
 import DataControllers.Contact;
 import DataControllers.DataFetcher;
@@ -122,6 +123,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             switch(purpose){
                 case "getAllHorses":
                     getAllHorsesFromTask(task.getResult());
+                    for (Horse horse: application.getAllHorses()){
+                        //horse.setLastRevisionDate("2017-04-22");
+                        //data.updateObject(horse);
+                    }
                     break;
                 case "getAllPermissions":
                     getAllPermissionsFromTask(task.getResult());
@@ -299,7 +304,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
     private Fragment[] initializeFragments(){
         fragments = new Fragment[4];
-        fragments[0] = new HomeTab();
+        fragments[0] = new UsersTab();
         fragments[1] = new ExpandableHorseLists();
         fragments[2] = new SearchTab();
         fragments[3] = new EventsTab();

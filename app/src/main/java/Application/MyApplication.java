@@ -3,7 +3,9 @@ package Application;
 import android.app.Application;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +31,13 @@ public class MyApplication extends Application {
     List<String> hayOptions;
     List<String> sexOptions;
     List<String> nameOptions;
+
+    public String getCurrentDateString(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar currentDate = Calendar.getInstance();
+        String currentDateString = format.format(currentDate.getTime());
+        return currentDateString;
+    }
 
     public List<String> getLimitedBreedOptions(){
         List<String> breedOptions = new ArrayList<String>();

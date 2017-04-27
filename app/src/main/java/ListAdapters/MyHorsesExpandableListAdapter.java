@@ -74,11 +74,12 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
             if (days <= 2){
                     dateChangesMade.setText("Changed: " + readableFormat.format(lastRevisionDate));
                     dateChangesMade.setVisibility(View.VISIBLE);
-
+                    Log.v("HORSECHECK", "HORSE " + horse.getName() + " was revised recently");
             }else{
                 dateChangesMade.setVisibility(View.GONE);
             }
         }catch (Exception e){
+            Log.v("HORSECHECK", "GOT STUCK ON " + horse.getName());
         }
 
         return convertView;

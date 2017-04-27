@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import Application.MyApplication;
@@ -293,16 +295,18 @@ public class HorseDetails extends Fragment {
                 if (!userIsAdministrator()){
                     showDialog("Warning!", "Some changes might take up to 24 hours to take effect.  Please call an employee in the case of an emergency.", false);
                 }
+                inputValues.setLastRevisionDate(application.getCurrentDateString());
             }
             if (ownerChangeOccurred(inputValues) && !userIsAdministrator()){
                 showDialog("Admin Permission Required", "A request has been sent to an administrator to change the owner of this horse.", false);
                 buildChange(inputValues.getOwner());
                 inputValues.setOwner(horse.getOwner());
             }
+
             DataFetcher df = new DataFetcher();
             df.updateObject(inputValues);
             Toast.makeText(getActivity(), "Horse updated",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             horse = inputValues;
             initializeAllFieldValues();
             application.updateHorse(horse);

@@ -163,7 +163,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     private void checkUser(){
         String loggedInUser = application.getUser().key();
 
-        if(!loggedInUser.equals(user.key())){
+        if(!loggedInUser.equals(user.key()) ){
             logOffButton.setVisibility(View.GONE);
             nextButton.setVisibility(View.GONE);
             pictureInput.setVisibility(View.GONE);

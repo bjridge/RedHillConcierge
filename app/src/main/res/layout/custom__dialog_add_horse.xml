@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dialog_background"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Horse"
+        android:textSize="25dp"
+        android:textColor="@color/accent"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/accent"/>
+
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The horse named below will be assigned to the selected owner, and can be edited by an owner or administrator at a later date."
+        android:textSize="18dp"
+        android:layout_margin="10dp"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/dialog_horse_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10"
+        android:hint="New Horse Name"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/colorDarkBackgroundSecondary"
+        android:textColor="@color/white" />
+
+    <Spinner
+        android:id="@+id/dialog_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dialog_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/my___dialog_button_ripple"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="Cancel"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:clickable="true"
+            android:backgroundTint="@color/dialog_background"/>
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorDivider"/>
+
+        <TextView
+            android:id="@+id/dialog_add"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/my___dialog_button_ripple"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="Add Horse"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:clickable="true"
+            android:backgroundTint="@color/dialog_background"/>
+    </LinearLayout>
+
+</LinearLayout>

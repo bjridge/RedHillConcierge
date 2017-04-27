@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="top"
+                        android:layout_marginTop="200dp"
+                        android:background="@color/headerOne"
+                        android:elevation="5dp"
+                        android:orientation="vertical"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp">
+
+
+                        <EditText
+                            android:id="@+id/user_profile_name_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:minWidth="50dp"
+                            android:text="Example Name"
+                            android:textColor="@color/white"
+                            android:textSize="25dp" />
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/user_profile_street_address"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="Street Address"
+                                android:inputType="textPostalAddress"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/colorDarkBackgroundSecondary"
+                                android:textSize="17dp" />
+
+                            <EditText
+                                android:id="@+id/user_profile_city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:hint="City"
+                                android:inputType="textPersonName"
+                                android:minWidth="50dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/colorDarkBackgroundSecondary"
+                                android:textSize="17dp" />
+
+                            <Spinner
+                                android:id="@+id/user_profile_state_spinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:minWidth="50dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editText6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="textPostalAddress" />
+
+                        <EditText
+                            android:id="@+id/editText5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="phone" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/user_profile_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/background__authentication" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/user_profile_call_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="top|right"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="175dp"
+                    android:clickable="true"
+                    android:elevation="11dp"
+                    android:tint="@color/body"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_call_white" />
+
+            </android.support.design.widget.CoordinatorLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
