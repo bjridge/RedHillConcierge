@@ -301,7 +301,9 @@ public class Profile2 extends AppCompatActivity {
         if (!userDoesNotOwnProfile()){
             application.setUser(user);
         }
-        application.updateUser(user);
+        if (!isNewUser){
+            application.updateUser(user);
+        }
         DataFetcher data = new DataFetcher();
         data.updateObject(newUserValues);
         if (isNewUser){

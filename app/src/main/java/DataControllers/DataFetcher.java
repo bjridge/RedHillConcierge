@@ -111,12 +111,6 @@ public class DataFetcher {
     public void updateObject(DatabaseObject object){
         writeToDatabase(object);
     }
-
-
-
-
-
-
     public Task<DatabaseObject> getObject(final String objectType, String key){
         DatabaseReference objectReference = db.getReference("objects/" + objectType + "/" + key);
         final TaskCompletionSource<DatabaseObject> taskOutput = new TaskCompletionSource<>();
@@ -144,7 +138,6 @@ public class DataFetcher {
         });
         return taskOutput.getTask();
     }
-
     public Task<List<List<String>>> getResources(){
         log("about to try to get resources");
         DatabaseReference ref = db.getReference("resorces");
@@ -176,12 +169,6 @@ public class DataFetcher {
 
         return taskOutput.getTask();
     }
-
-
-
-
-
-
 
     private void log(String message){
         Log.v("TESTING", message);

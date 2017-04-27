@@ -85,7 +85,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         MyTask fetchUserListener = new MyTask("getUser");
         getUserTask.addOnCompleteListener(fetchUserListener);
     }
-
     private void loadData(){
         loadAllHorses();
         loadAllResources();
@@ -120,10 +119,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
                     break;
                 case "getAllHorses":
                     getAllHorsesFromTask(task.getResult());
-//                    for(Horse horse: application.getAllHorses()){
-//                        horse.setPicture("");
-//                        data.updateObject(horse);
-//                    }
                     break;
                 case "getAllResources":
                     getAllResourcesFromTask(task.getResult());
@@ -143,6 +138,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             Toast.makeText(application, "the user we got was null", Toast.LENGTH_SHORT).show();
             goToNewUserFlow();
         }else{
+            Log.v("IMPORTANT7", "USER WAS NOT NULL...");
             application.setUser(resultingUser);
             if (resultingUser.getType().matches("Administrator")){
                 isAdmin = true;
@@ -291,9 +287,6 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
             tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
         }
-    }
-    private void addAdminFunctionalities(){
-        adapter.addFragment(new UsersTab(), "Users");
     }
     private void stopLoadingIcon(){
         loadingIcon.setVisibility(View.GONE);
