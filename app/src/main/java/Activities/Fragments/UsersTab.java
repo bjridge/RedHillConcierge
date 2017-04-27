@@ -14,7 +14,6 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.util.List;
 
-import Activities.Profile;
 import Activities.Profile2;
 import Application.MyApplication;
 import DataControllers.User;

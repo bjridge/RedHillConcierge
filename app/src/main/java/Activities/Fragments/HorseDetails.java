@@ -423,7 +423,7 @@ public class HorseDetails extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
 
-                //intent.setData(Uri.parse("tel:" + application.getContact(horse.getOwner()).getPrimaryPhone()));
+                intent.setData(Uri.parse("tel:" + application.getUser().getPrimaryPhone()));
                 getContext().startActivity(intent);
             }
         });

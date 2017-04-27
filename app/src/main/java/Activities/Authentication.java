@@ -19,6 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -166,9 +168,9 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                     goToApp(user);
                 } else {
 
-
                     Toast.makeText(Authentication.this, "Signed Out",
-                            Toast.LENGTH_SHORT).show();                }
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         };
         return listener;
@@ -192,6 +194,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         appUser.setImage(user.getPhotoUrl().toString());
         Intent i = new Intent(context, BasicUserView.class);
         i.putExtra("user", appUser);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
     }
 
@@ -211,4 +214,5 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
             firebaseAuthenticationStatus.removeAuthStateListener(firebaseAuthenticationStatusListener);
         }
     }
+
 }

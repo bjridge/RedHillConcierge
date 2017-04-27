@@ -10,12 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +33,8 @@ import DataControllers.DataFetcher;
 import DataControllers.User;
 
 public class Profile2 extends AppCompatActivity {
+    GoogleApiClient mGoogleApiClient;
+    FirebaseAuth mAuth;
 
     MyApplication application;
     User user;
@@ -40,6 +49,7 @@ public class Profile2 extends AppCompatActivity {
     EditText primaryPhoneInput;
     EditText secondaryPhoneInput;
     EditText imageInput;
+    Button logOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +67,18 @@ public class Profile2 extends AppCompatActivity {
             setNewUserValues();
             callButton.setVisibility(View.GONE);
             setupSaveFunction();
+            logOutButton.setVisibility(View.GONE);
         }else{
             setUserValues();
             if (userIsNotAdministrator() && userDoesNotOwnProfile()){
                 disableEditing();
                 setupCallFunction();
+                logOutButton.setVisibility(View.GONE);
             }else{
-                callButton.setVisibility(View.GONE);
                 setupSaveFunction();
+                if (!userDoesNotOwnProfile()){
+                    setupLogOutFunction();
+                }
             }
         }
     }
@@ -80,6 +94,7 @@ public class Profile2 extends AppCompatActivity {
         primaryPhoneInput = (EditText) findViewById(R.id.user_profile_primary_phone_input);
         secondaryPhoneInput = (EditText) findViewById(R.id.user_profile_secondary_phone_input);
         imageInput = (EditText) findViewById(R.id.user_profile_image_input);
+        logOutButton = (Button) findViewById(R.id.user_profile_log_out_button);
     }
     private void initializeAdapters(){
         String[] userTypeOptions = {"Basic User","Employee","Administrator"};
@@ -109,9 +124,11 @@ public class Profile2 extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
                         if (shouldExit){
+
                             exitActivity();
+                        }else{
+
                         }
                     }
                 });
@@ -237,10 +254,10 @@ public class Profile2 extends AppCompatActivity {
         return newUserValues;
     }
     private void handleChanges(){
-        User originalUser = application.getUser();
         User inputUserValues = getInputUserValues();
         if (!user.equals(inputUserValues)){
             resetRestrictedChanges(inputUserValues);
+            setUserValues();
         }
         commitChanges(inputUserValues);
     }
@@ -267,6 +284,22 @@ public class Profile2 extends AppCompatActivity {
             }
         }
     }
+    private void setupLogOutFunction(){
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+                Intent i = new Intent(getApplicationContext(), Authentication.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+        });
+    }
+    private void logout(){
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+        mAuth.signOut();
+    }
     private void commitChanges(User newUserValues){
         this.user = newUserValues;
         application.setUser(user);
@@ -275,7 +308,7 @@ public class Profile2 extends AppCompatActivity {
         if (isNewUser){
             showDialog("Thank You!", "You are officially registered with Red Hill Concierge!  Click 'okay' to continue to the app.", true);
         }else if (userIsNotAdministrator()){
-            exitActivity();
+            //exitActivity();
         }else{
             alert("User Information Saved");
         }
@@ -288,5 +321,22 @@ public class Profile2 extends AppCompatActivity {
             setResult(1, intent);
         }
         finish();
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+
+        mAuth = FirebaseAuth.getInstance();
+
+        super.onStart();
     }
 }

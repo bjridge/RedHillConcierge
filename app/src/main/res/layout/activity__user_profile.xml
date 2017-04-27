@@ -22,7 +22,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusableInTouchMode="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -141,7 +142,17 @@
 
                         android:ems="10"
                         android:hint="facebook.com/some_url"
-                        android:inputType="textWebEditText|phone" />
+                        android:selectAllOnFocus="true"
+                        android:inputType="text" />
+
+                    <Button
+                        android:id="@+id/user_profile_log_out_button"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Log Out"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="30dp"/>
 
                 </LinearLayout>
 
