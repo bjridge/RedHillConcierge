@@ -54,14 +54,6 @@
     </android.support.design.widget.TabLayout>
 
     <ImageButton
-        android:id="@+id/camera_button"
-        android:layout_width="@dimen/toolbar_height"
-        android:layout_height="@dimen/toolbar_height"
-        app:srcCompat="@drawable/ic_camera"
-        android:background="@drawable/my__ripple_light_accent"
-        />
-
-    <ImageButton
         android:id="@+id/profile_button"
         android:layout_width="@dimen/toolbar_height"
         android:layout_height="@dimen/toolbar_height"
