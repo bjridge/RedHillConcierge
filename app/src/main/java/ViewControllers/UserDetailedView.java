@@ -109,6 +109,8 @@ public class UserDetailedView extends AppCompatActivity {
             isNewUser = true;
         }
     }
+
+
     private void showNewUserDialog(){
         String dialogTitle = "Welcome to Red Hill Concierge!";
         String dialogText = "It looks like this is your first time using Red Hill Concierge with this account.  We just need a few things from you so other users can contact you in the case of an emergency.";

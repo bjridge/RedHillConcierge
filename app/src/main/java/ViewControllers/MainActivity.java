@@ -72,9 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadUser();
     }
 
-
-
-
+//load all data to the application
     private void loadUser(){
         Task<FirebaseObject> getUserTask = data.getObject("user", application.getUser().key());
         MyTask fetchUserListener = new MyTask("getUser");
@@ -181,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+//put data into the view
     private void completeInitialization(){
         initializeViewObjects();
         initializeButtonActions();
@@ -309,8 +308,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -346,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
+//setup actions and onClick events
     @Override
     public void onClick(View v) {
         switch (v.getId()){

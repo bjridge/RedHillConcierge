@@ -30,6 +30,7 @@ public class MyApplication extends Application {
         return currentDateString;
     }
 
+//populates dropdown menus
     public List<String> getLimitedBreedOptions(){
         List<String> breedOptions = new ArrayList<String>();
         for (Horse horse: allHorses){
@@ -86,17 +87,6 @@ public class MyApplication extends Application {
         }
         return options;
     }
-
-    public String getUserByName(String input){
-        for (User user: allUsers){
-            String name = user.getName();
-            if (name.matches(input)){
-                return user.key();
-            }
-        }
-        return allUsers.get(0).key();
-    }
-
     public List<String> getAllUserNames(){
         List<String> names = new ArrayList<String>();
         for(User user: allUsers){
@@ -105,6 +95,18 @@ public class MyApplication extends Application {
             }
         }
         return names;
+    }
+
+
+//gets and sets specific user/horse information
+    public String getUserByName(String input){
+        for (User user: allUsers){
+            String name = user.getName();
+            if (name.matches(input)){
+                return user.key();
+            }
+        }
+        return allUsers.get(0).key();
     }
     public void updateHorse(Horse inputHorse) {
         int index = 0;
@@ -117,8 +119,6 @@ public class MyApplication extends Application {
         }
         allHorses.add(inputHorse);
     }
-
-
     public User getUser(String key){
         for (User eachUser: allUsers){
             if (eachUser.key().matches(key)){
@@ -127,7 +127,6 @@ public class MyApplication extends Application {
         }
         return user;
     }
-
     public void updateUser(User updateUser){
         int index = 0;
         for (User eachUser: allUsers){
@@ -142,8 +141,7 @@ public class MyApplication extends Application {
         allHorses.add(horse);
     }
 
-
-
+//getters and setters
     public boolean loadingIsComplete(){
         if (breedOptions == null){
             return false;
