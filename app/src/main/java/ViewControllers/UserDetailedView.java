@@ -1,4 +1,4 @@
-package Activities;
+package ViewControllers;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,19 +19,14 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+import Model.MyApplication;
+import Model.FirebaseDatabaseConnector;
+import Model.Objects.User;
 
-import Application.MyApplication;
-import DataControllers.DataFetcher;
-import DataControllers.User;
-
-public class Profile2 extends AppCompatActivity {
+public class UserDetailedView extends AppCompatActivity {
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth mAuth;
 
@@ -54,7 +48,7 @@ public class Profile2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__user_profile);
+        setContentView(R.layout.view__user_detailed_view);
         application = (MyApplication) getApplication();
 
         initializeViewResources();
@@ -101,7 +95,7 @@ public class Profile2 extends AppCompatActivity {
     }
     private void initializeAdapters(){
         String[] userTypeOptions = {"Basic User","Employee","Administrator"};
-        ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom__spinner_white_small, userTypeOptions);
+        ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom__spinner_item__white_small, userTypeOptions);
         newAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(newAdapter);
     }
@@ -121,7 +115,7 @@ public class Profile2 extends AppCompatActivity {
         showDialog(dialogTitle, dialogText, false);
     }
     private void showDialog(String title, String text, final boolean shouldExit){
-        AlertDialog alertDialog = new AlertDialog.Builder(Profile2.this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(UserDetailedView.this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(text);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -285,7 +279,7 @@ public class Profile2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logout();
-                Intent i = new Intent(getApplicationContext(), Authentication.class);
+                Intent i = new Intent(getApplicationContext(), Login.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
@@ -304,7 +298,7 @@ public class Profile2 extends AppCompatActivity {
         if (!isNewUser){
             application.updateUser(user);
         }
-        DataFetcher data = new DataFetcher();
+        FirebaseDatabaseConnector data = new FirebaseDatabaseConnector();
         data.updateObject(newUserValues);
         if (isNewUser){
             showDialog("Thank You!", "You are officially registered with Red Hill Concierge!  Click 'okay' to continue to the app.", true);

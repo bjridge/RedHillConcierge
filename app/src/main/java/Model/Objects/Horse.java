@@ -1,9 +1,9 @@
-package DataControllers;
+package Model.Objects;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-public class Horse extends DatabaseObject{
+public class Horse extends FirebaseObject {
 
     //added comment to test pushing
     private String breed = " ";

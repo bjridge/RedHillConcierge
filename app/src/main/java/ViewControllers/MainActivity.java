@@ -1,4 +1,4 @@
-package Activities;
+package ViewControllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,22 +26,18 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import Activities.Fragments.EventsTab;
-import Activities.Fragments.HomeTab;
-import Activities.Fragments.ExpandableHorseLists;
-import Activities.Fragments.SearchTab;
-import Activities.Fragments.UsersTab;
-import Application.MyApplication;
-import DataControllers.DataFetcher;
-import DataControllers.DatabaseObject;
-import DataControllers.Horse;
-import DataControllers.Permission;
-import DataControllers.User;
+import ViewControllers.TabViewControllers.CalendarTab;
+import ViewControllers.TabViewControllers.HomeTab;
+import ViewControllers.TabViewControllers.HorseListsTab;
+import ViewControllers.TabViewControllers.SearchTab;
+import ViewControllers.TabViewControllers.UserListTab;
+import Model.MyApplication;
+import Model.FirebaseDatabaseConnector;
+import Model.Objects.FirebaseObject;
+import Model.Objects.Horse;
+import Model.Objects.User;
 
-import static android.view.View.GONE;
-import static java.security.AccessController.getContext;
-
-public class BasicUserView extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 //view resources
     private CoordinatorLayout layout;
@@ -58,18 +54,18 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 //logic resources
     MyApplication application;
-    DataFetcher data;
+    FirebaseDatabaseConnector data;
     boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__basic_user);
+        setContentView(R.layout.view__main_activity);
         initializeResources();
     }
     private void initializeResources(){
         application = (MyApplication) this.getApplication();
-        data = new DataFetcher();
+        data = new FirebaseDatabaseConnector();
         Intent i = getIntent();
         User partialUser = (User) i.getSerializableExtra("user");
         application.setUser(partialUser);
@@ -80,7 +76,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
     private void loadUser(){
-        Task<DatabaseObject> getUserTask = data.getObject("user", application.getUser().key());
+        Task<FirebaseObject> getUserTask = data.getObject("user", application.getUser().key());
         MyTask fetchUserListener = new MyTask("getUser");
         getUserTask.addOnCompleteListener(fetchUserListener);
     }
@@ -90,7 +86,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         loadAllUsers();
     }
     private void loadAllHorses(){
-        Task<List<DatabaseObject>> getHorsesTask = data.getAll("horse");
+        Task<List<FirebaseObject>> getHorsesTask = data.getAllObjects("horse");
         MyTask fetchHorsesListener = new MyTask("getAllHorses");
         getHorsesTask.addOnCompleteListener(fetchHorsesListener);
     }
@@ -100,7 +96,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         getResourcesTask.addOnCompleteListener(fetchResourcesListener);
     }
     private void loadAllUsers(){
-        Task<List<DatabaseObject>> getUsersTask = data.getAll("user");
+        Task<List<FirebaseObject>> getUsersTask = data.getAllObjects("user");
         MyTask fetchAllUsersTask = new MyTask("getAllUsers");
         getUsersTask.addOnCompleteListener(fetchAllUsersTask);
     }
@@ -147,15 +143,15 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         }
     }
     private void goToNewUserFlow(){
-        Intent i = new Intent(getApplicationContext(), Profile2.class);
+        Intent i = new Intent(getApplicationContext(), UserDetailedView.class);
         i.putExtra("user", application.getUser());
         i.putExtra("isNewUser", "true");
         startActivityForResult(i, 0);
     }
     private void getAllHorsesFromTask(Object result){
-        List<DatabaseObject> allHorseObjects  = (List<DatabaseObject>) result;
+        List<FirebaseObject> allHorseObjects  = (List<FirebaseObject>) result;
         List<Horse> newHorses = new ArrayList<Horse>();
-        for (DatabaseObject horseObject: allHorseObjects){
+        for (FirebaseObject horseObject: allHorseObjects){
             Horse horse = (Horse) horseObject;
             newHorses.add(horse);
         }
@@ -168,10 +164,10 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     }
     private void getAllUsersFromTask(Object result){
         log("about to get users from results");
-        List<DatabaseObject> userObjects = (List<DatabaseObject>) result;
+        List<FirebaseObject> userObjects = (List<FirebaseObject>) result;
         log("cast to results");
         List<User> users = new ArrayList<User>();
-        for (DatabaseObject userObject: userObjects){
+        for (FirebaseObject userObject: userObjects){
             User user = (User) userObject;
             users.add(user);
         }
@@ -229,11 +225,11 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         int tabCount = isAdmin ? 5 : 4;
         fragments = new Fragment[tabCount];
         fragments[0] = new HomeTab();
-        fragments[1] = new ExpandableHorseLists();
+        fragments[1] = new HorseListsTab();
         fragments[2] = new SearchTab();
-        fragments[3] = new EventsTab();
+        fragments[3] = new CalendarTab();
         if(isAdmin){
-            fragments[4] = new UsersTab();
+            fragments[4] = new UserListTab();
         }
         return fragments;
     }
@@ -279,7 +275,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
     private void addTabIcons(){
         int tabCount = isAdmin ? 5 : 4;
         for (int tabNumber = 0; tabNumber < tabCount; tabNumber++){
-            View homeTab = getLayoutInflater().inflate(R.layout.custom_tab_item, null);
+            View homeTab = getLayoutInflater().inflate(R.layout.custom__tab_item, null);
             homeTab.findViewById(R.id.icon).setBackgroundResource(drawables[tabNumber]);
             tabLayout.getTabAt(tabNumber).setCustomView(homeTab);
         }
@@ -307,7 +303,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
 
 
         } catch (Exception ex) {
-            Toast.makeText(BasicUserView.this, ex.toString(),
+            Toast.makeText(MainActivity.this, ex.toString(),
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -356,7 +352,7 @@ public class BasicUserView extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.profile_button:
                 Context context = getApplicationContext();
-                Intent i = new Intent(context, Profile2.class);
+                Intent i = new Intent(context, UserDetailedView.class);
                 i.putExtra("user", application.getUser());
                 startActivityForResult(i, 1);
                 break;

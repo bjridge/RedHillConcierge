@@ -1,4 +1,4 @@
-package Activities.Fragments;
+package ViewControllers.TabViewControllers;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,20 +20,18 @@ import android.widget.Toast;
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import Application.MyApplication;
-import DataControllers.Change;
-import DataControllers.DataFetcher;
-import DataControllers.Horse;
-import DataControllers.User;
+import Model.MyApplication;
+import Model.Objects.ProposedChange;
+import Model.FirebaseDatabaseConnector;
+import Model.Objects.Horse;
+import Model.Objects.User;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
-public class HorseDetails extends Fragment {
+public class HorseDetailedViewTab extends Fragment {
 
     MyApplication application;
 
@@ -62,8 +60,8 @@ public class HorseDetails extends Fragment {
     List<CheckBox> day;
     List<CheckBox> night;
 
-    public HorseDetails(){}
-    public HorseDetails forHorse(Horse horse){
+    public HorseDetailedViewTab(){}
+    public HorseDetailedViewTab forHorse(Horse horse){
         this.horse = horse;
         return this;
     }
@@ -76,7 +74,7 @@ public class HorseDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.tab__horse_details, container, false);
+        v = inflater.inflate(R.layout.tab__horse_detailed_view, container, false);
         return v;
     }
 
@@ -137,11 +135,11 @@ public class HorseDetails extends Fragment {
         List<List<String>> allOptions = getOptionsForAllFields();
         List<ArrayAdapter<String>> adapters = new ArrayList<>(6);
         for (List<String> options: allOptions){
-            ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item_2, options);
+            ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom__spinner_item__black, options);
             newAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             adapters.add(newAdapter);
         }
-        ArrayAdapter<String> ownerSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item, allOptions.get(5));
+        ArrayAdapter<String> ownerSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom__spinner_item__white, allOptions.get(5));
         ownerSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapters.set(5, ownerSpinnerAdapter);
         return adapters;
@@ -299,7 +297,7 @@ public class HorseDetails extends Fragment {
                 inputValues.setOwner(horse.getOwner());
             }
 
-            DataFetcher df = new DataFetcher();
+            FirebaseDatabaseConnector df = new FirebaseDatabaseConnector();
             df.updateObject(inputValues);
             Toast.makeText(getActivity(), "Horse updated",
                     Toast.LENGTH_SHORT).show();
@@ -394,12 +392,12 @@ public class HorseDetails extends Fragment {
 
 
     private void buildChange(String newOwner){
-        Change change = new Change();
+        ProposedChange change = new ProposedChange();
         change.setKey(application.getUser().key() + "-horse-owner");
         change.setOldValue(horse.getOwner());
         change.setNewValue(newOwner);
         change.setObjectKey(horse.key());
-        DataFetcher dc = new DataFetcher();
+        FirebaseDatabaseConnector dc = new FirebaseDatabaseConnector();
         dc.updateObject(change);
     }
     private void showDialog(String title, String text, final boolean shouldExit){

@@ -1,13 +1,11 @@
-package Activities.Fragments;
+package ViewControllers.TabViewControllers;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +23,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
-import Activities.HorseTabs;
-import Application.MyApplication;
-import DataControllers.DataFetcher;
-import DataControllers.Horse;
-import DataControllers.User;
-import ListAdapters.MyHorsesExpandableListAdapter;
+import ViewControllers.HorseDetailedViewTabs;
+import Model.MyApplication;
+import Model.FirebaseDatabaseConnector;
+import Model.Objects.Horse;
+import ListAdapters.ExpandableHorseListAdapter;
 
-public class ExpandableHorseLists extends Fragment implements ExpandableListView.OnChildClickListener, View.OnClickListener {
+public class HorseListsTab extends Fragment implements ExpandableListView.OnChildClickListener, View.OnClickListener {
 
     List<Horse> horses;
     List<Horse> myHorses;
@@ -43,13 +39,13 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
     MyApplication application;
 
     ExpandableListView horseLists;
-    MyHorsesExpandableListAdapter adapter;
+    ExpandableHorseListAdapter adapter;
 
 
     FloatingActionButton addHorseButton;
 
 
-    public ExpandableHorseLists() {}
+    public HorseListsTab() {}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +53,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tab__expandable_horse_lists, container, false);
+        return inflater.inflate(R.layout.tab__horse_lists, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -88,7 +84,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
     }
     private void initializeAdapter(){
         horseLists = (ExpandableListView) getView().findViewById(R.id.my_horses_list);
-        adapter = new MyHorsesExpandableListAdapter(getContext(), myHorses, horses);
+        adapter = new ExpandableHorseListAdapter(getContext(), myHorses, horses);
         horseLists.setAdapter(adapter);
         horseLists.expandGroup(0);
         horseLists.expandGroup(1);
@@ -128,7 +124,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
         Context context = getContext();
 
         ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) allHorseLists.get(groupPosition);
-        Intent i = new Intent(context, HorseTabs.class);
+        Intent i = new Intent(context, HorseDetailedViewTabs.class);
 
         i.putExtra("horses", selectedHorseList);
         i.putExtra("horse", selectedHorse);
@@ -141,7 +137,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
     public void onClick(View v) {
        final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.custom__dialog_add_horse);
+        dialog.setContentView(R.layout.custom__dialog_box__add_horse);
         dialog.setCancelable(true);
 
 //        // set the custom dialog components - text, image and button
@@ -150,7 +146,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
         final TextView cancelButton = (TextView) dialog.findViewById(R.id.dialog_cancel);
         final TextView addButton = (TextView) dialog.findViewById(R.id.dialog_add);
         List<String> allUserNames = application.getAllUserNames();
-        ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_item, allUserNames);
+        ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom__spinner_item__white, allUserNames);
         newAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userSpinner.setAdapter(newAdapter);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +177,7 @@ public class ExpandableHorseLists extends Fragment implements ExpandableListView
         Horse newHorse = new Horse();
         newHorse.setOwner(ownerID);
         newHorse.setName(name);
-        DataFetcher df = new DataFetcher();
+        FirebaseDatabaseConnector df = new FirebaseDatabaseConnector();
         df.addHorse(newHorse);
         application.addHorse(newHorse);
         buildToast("Horse (" + name + ") has been added to Red Hill Concierge");

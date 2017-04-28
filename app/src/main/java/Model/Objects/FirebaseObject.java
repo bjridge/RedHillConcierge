@@ -1,8 +1,8 @@
-package DataControllers;
+package Model.Objects;
 
 import java.io.Serializable;
 
-public class DatabaseObject implements Serializable {
+public class FirebaseObject implements Serializable {
     private String key = "empty object";
     public void setKey(String id){
         this.key = id;

@@ -1,7 +1,6 @@
 package ListAdapters;
 
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +17,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import DataControllers.Horse;
+import Model.Objects.Horse;
 
-public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableHorseListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     List<List<Horse>> horseLists;
     List<String> horseListTitles;
 
-    public MyHorsesExpandableListAdapter(Context context, List<Horse> sharedHorses, List<Horse> horses) {
+    public ExpandableHorseListAdapter(Context context, List<Horse> sharedHorses, List<Horse> horses) {
         this.context = context;
         this.horseLists = new ArrayList<List<Horse>>();
         horseLists.add(sharedHorses);
@@ -51,7 +50,7 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.custom_horse_list_item, null);
+            convertView = layoutInflater.inflate(R.layout.custom__list_item__horse_list, null);
         }
         TextView horseName = (TextView) convertView.findViewById(R.id.horse_name);
         TextView horseStall = (TextView) convertView.findViewById(R.id.horse_stall);
@@ -107,7 +106,7 @@ public class MyHorsesExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.custom_horse_list_header, null);
+            convertView = layoutInflater.inflate(R.layout.custom__expandable_list_header, null);
         }
         TextView listTitleTextView = (TextView) convertView
                 .findViewById(R.id.horse_list_name);

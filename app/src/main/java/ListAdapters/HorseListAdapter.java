@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.util.List;
 
-import DataControllers.Horse;
+import Model.Objects.Horse;
 
 public class HorseListAdapter extends BaseAdapter {
 
@@ -54,7 +53,7 @@ public class HorseListAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.custom_horse_list_item, null);
+            convertView = layoutInflater.inflate(R.layout.custom__list_item__horse_list, null);
         }
         TextView horseName = (TextView) convertView.findViewById(R.id.horse_name);
         TextView horseStall = (TextView) convertView.findViewById(R.id.horse_stall);

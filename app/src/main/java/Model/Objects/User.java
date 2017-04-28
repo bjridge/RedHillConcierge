@@ -1,6 +1,6 @@
-package DataControllers;
+package Model.Objects;
 
-public class User extends DatabaseObject {
+public class User extends FirebaseObject {
 
     private String name;
     private String type;

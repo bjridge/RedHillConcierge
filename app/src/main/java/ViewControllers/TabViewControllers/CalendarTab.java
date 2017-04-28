@@ -1,32 +1,20 @@
-package Activities.Fragments;
+package ViewControllers.TabViewControllers;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
 
-import DataControllers.Contact;
-import DataControllers.User;
-
-public class EventsTab extends Fragment{
+public class CalendarTab extends Fragment{
 
     private WebView web_view;
 
-    public EventsTab() {}
+    public CalendarTab() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +24,7 @@ public class EventsTab extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tab__events, container, false);
+        return inflater.inflate(R.layout.tab__calendar, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState){

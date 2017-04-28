@@ -1,4 +1,4 @@
-package Activities;
+package ViewControllers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,11 +16,11 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.util.List;
 
-import Activities.Fragments.HorseDetails;
-import Application.MyApplication;
-import DataControllers.Horse;
+import ViewControllers.TabViewControllers.HorseDetailedViewTab;
+import Model.MyApplication;
+import Model.Objects.Horse;
 
-public class HorseTabs extends AppCompatActivity {
+public class HorseDetailedViewTabs extends AppCompatActivity {
 
 
     ViewPager horseTabs;
@@ -35,7 +34,7 @@ public class HorseTabs extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__horse_tabs);
+        setContentView(R.layout.view__horse_detailed_view_tabs);
 
         getResourcesFromIntent();
         initializeViewObjects();
@@ -75,7 +74,7 @@ public class HorseTabs extends AppCompatActivity {
         final int white = getResources().getColor(R.color.white);
         final int accent = getResources().getColor(R.color.accent);
         for (int tabIndex = 0; tabIndex < horses.size(); tabIndex++){
-            View homeTab = getLayoutInflater().inflate(R.layout.custom__horse_tab_item, null);
+            View homeTab = getLayoutInflater().inflate(R.layout.custom__tab__horse_detailed_view_tabs, null);
             TextView nameInput = (TextView) homeTab.findViewById(R.id.horse_tab_name);
             TextView stallInput = (TextView) homeTab.findViewById(R.id.horse_tab_stall);
             nameInput.setText(horses.get(tabIndex).getName());
@@ -134,7 +133,7 @@ public class HorseTabs extends AppCompatActivity {
         }
         @Override
         public Fragment getItem(int i){
-            Fragment fragment = new HorseDetails().forHorse(horses.get(i));
+            Fragment fragment = new HorseDetailedViewTab().forHorse(horses.get(i));
             Bundle args = new Bundle();
             args.putSerializable("horse", horses.get(i));
             fragment.setArguments(args);

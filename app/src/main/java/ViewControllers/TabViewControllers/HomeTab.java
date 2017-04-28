@@ -1,4 +1,4 @@
-package Activities.Fragments;
+package ViewControllers.TabViewControllers;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge.R;
 
-import Application.MyApplication;
+import Model.MyApplication;
 
 public class HomeTab extends Fragment {
 

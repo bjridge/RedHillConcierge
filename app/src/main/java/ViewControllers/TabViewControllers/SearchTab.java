@@ -1,10 +1,8 @@
-package Activities.Fragments;
+package ViewControllers.TabViewControllers;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +19,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import Activities.HorseTabs;
-import Application.MyApplication;
-import DataControllers.Horse;
-import DataControllers.Permission;
-import DataControllers.User;
+import ViewControllers.HorseDetailedViewTabs;
+import Model.MyApplication;
+import Model.Objects.Horse;
+import Model.Objects.User;
 import ListAdapters.HorseListAdapter;
 
 public class SearchTab extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -42,8 +39,6 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
 
     List<Horse> horses;
     List<User> owners;
-    List<Permission> permissions;
-    User user;
 
     ListView displayedHorses;
 
@@ -156,8 +151,8 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
     private void setAdapterOptions(ArrayAdapter<String>[] adapters, List<List<String>> options){
         int adapterIndex = 0;
         for(List<String> eachList: options){
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom_spinner_item, eachList);
-            adapter.setDropDownViewResource(R.layout.custom_spinner_item_2);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.custom__spinner_item__white, eachList);
+            adapter.setDropDownViewResource(R.layout.custom__spinner_item__black);
             adapters[adapterIndex] = adapter;
             adapterIndex++;
         }
@@ -288,7 +283,7 @@ public class SearchTab extends Fragment implements AdapterView.OnItemSelectedLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Horse horse = results.get(position);
                 ArrayList<Horse> selectedHorseList = (ArrayList<Horse>) results;
-                Intent i = new Intent(getContext().getApplicationContext(), HorseTabs.class);
+                Intent i = new Intent(getContext().getApplicationContext(), HorseDetailedViewTabs.class);
                 i.putExtra("horses", selectedHorseList);
                 i.putExtra("horse", horse);
                 startActivity(i);

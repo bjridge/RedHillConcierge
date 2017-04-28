@@ -33,7 +33,7 @@ dependencies {
     //Firebase database
     compile 'com.google.firebase:firebase-database:10.2.0'
 
-    //Firebase Authentication and Google Sign-In
+    //Firebase Login and Google Sign-In
     compile 'com.google.firebase:firebase-auth:10.2.0'
     compile 'com.google.android.gms:play-services-auth:10.2.0'
 

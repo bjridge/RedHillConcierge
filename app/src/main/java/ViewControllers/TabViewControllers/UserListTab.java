@@ -1,4 +1,4 @@
-package Activities.Fragments;
+package ViewControllers.TabViewControllers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +14,17 @@ import com.ballstateuniversity.computerscience.redhillconcierge.redhillconcierge
 
 import java.util.List;
 
-import Activities.Profile2;
-import Application.MyApplication;
-import DataControllers.User;
+import ViewControllers.UserDetailedView;
+import Model.MyApplication;
+import Model.Objects.User;
 
-public class UsersTab extends Fragment implements AdapterView.OnItemClickListener{
+public class UserListTab extends Fragment implements AdapterView.OnItemClickListener{
 
     MyApplication application;
     List<String> names;
     ListView displayedUsers;
 
-    public UsersTab(){}
+    public UserListTab(){}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class UsersTab extends Fragment implements AdapterView.OnItemClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tab__users, container, false);
+        return inflater.inflate(R.layout.tab__user_list, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -55,7 +55,7 @@ public class UsersTab extends Fragment implements AdapterView.OnItemClickListene
         String name = names.get(position);
         String userID = application.getUserByName(name);
         User user = application.getUser(userID);
-        Intent i = new Intent(getContext(), Profile2.class);
+        Intent i = new Intent(getContext(), UserDetailedView.class);
         i.putExtra("user", user);
         startActivity(i);
     }

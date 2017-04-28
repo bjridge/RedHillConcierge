@@ -1,19 +1,15 @@
-package Application;
+package Model;
 
 import android.app.Application;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import DataControllers.Contact;
-import DataControllers.Horse;
-import DataControllers.Permission;
-import DataControllers.User;
+import Model.Objects.Horse;
+import Model.Objects.User;
 
 
 public class MyApplication extends Application {

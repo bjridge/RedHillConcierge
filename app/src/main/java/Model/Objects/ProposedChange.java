@@ -1,6 +1,6 @@
-package DataControllers;
+package Model.Objects;
 
-public class Change extends DatabaseObject {
+public class ProposedChange extends FirebaseObject {
 
     private String oldValue;
     private String newValue;
